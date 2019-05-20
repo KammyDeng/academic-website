@@ -8,6 +8,6 @@ navbar:
       href: Journal.html
     - text: "Links"
       href: Links.html
-    - text: "Tutorial"
-      href: Tutorial.html
+    - text: "Network analysis tutorial"
+      href: Network_analysis_tutorial.html
 output_dir: "docs"
