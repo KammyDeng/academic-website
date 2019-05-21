@@ -3,6 +3,7 @@ title: "Network analysis tutorial"
 author: "Jiaxin Deng"
 date: "2019/5/20"
 output:
+  pdf_document: default
   html_document: default
 ---
 
@@ -12,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # Brief introduction to network analysis
+
 
 A network is a set of nodes connected by a set of edges.
 
@@ -23,11 +25,17 @@ Several packages are used in the network analysis, including `network`, `statnet
 
 This package can create graphs to visualize the statistics in different layout modes based on different correlation matrices, such as polychoric correlation, partial correlation.
 
+
 # Example code
+
+Here is some example code to show how to conduct a network analysis.
+
 
 ## Estimating networks 
 
-Here is the following steps to conduct a network analysis using `qgraph`.
+### How to make a graph
+
+Here is the following steps to make a gragh using `qgraph`.
 
 Take `big5` data as an example. This is a dataset of the Big five personality traits assessed on 500 psychology students.
 
@@ -85,7 +93,7 @@ qgraph(cor(big5), groups=big5groups,palette="colorblind")
 ```
 
 
-More specifially, there are several optional graphical arguments to change the graph representation, such as `minizum` (to omit correlations not interested in), `borders`(to omit borders around the nodes), `vsize`(change the size of nodes) and `legend`(to control the legend placed on the right side).
+More specifically, there are several optional graphical arguments to change the graph representation, such as `minizum` (to omit correlations not interested in), `borders`(to omit borders around the nodes), `vsize`(to change the size of nodes) and `legend`(to control the legend placed on the right side).
 
 For example:
 
@@ -105,7 +113,9 @@ qgraph(cor(big5), groups=big5groups,layout="spring",minimum=0.35,vsize=3,legend=
 Finally, if you decide the representation of the graph, you can choose to use `ﬁletype`(pdf/jpg/tex etc.) to save your graph.
 
 
-After estimating the graph, you can calculate the centrality indices using `centrality_auto` to quantify the structural importance of each node in the network.
+### How to calculate the centrality indices
+
+After estimating the graph, you can calculate the centrality indices using `centralityPlot` to quantify the structural importance of each node in the network.
 
 Then, you will get this figure.
 
@@ -113,11 +123,12 @@ Then, you will get this figure.
 centralityPlot(qgraph)
 ```
 
+
 ## Estimating the accuracy of networks
 
 Like many psychometrics analysis, the accuracy of psychological network is also limited to sample size. The limited sample size might restrict the accuracy of the parameters and the interpretation of the network. Thus, it’s necessary and crucial to assess the accuracy of the network parameters and measures. 
 
-In order to estimate the accuracy of the networks estimation, three steps to evaluate the stability of the network routinely were conducted using `bootnet` package (Epskamp, Borsboom & Fried, 2018) <https://doi.org/10.3758/s13428-017-0862-1>
+In order to estimate the accuracy of the networks estimation, three steps to evaluate the stability of the network routinely were conducted using `bootnet` package [(Epskamp, Borsboom & Fried, 2018)](https://link.springer.com/article/10.3758/s13428-017-0862-1)
 
 In addition to use `qgraph` to create the graph, you can also use `estimateNetwork` to estimate the network structure as well.
 
