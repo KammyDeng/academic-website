@@ -9,5 +9,5 @@ navbar:
     - text: "Links"
       href: Links.html
     - text: "Network analysis tutorial"
-      href: Network_analysis_tutorial.html
+      href: tutorial.html
 output_dir: "docs"

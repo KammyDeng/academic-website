@@ -294,7 +294,7 @@ $(document).ready(function () {
   <a href="Links.html">Links</a>
 </li>
 <li>
-  <a href="Network_analysis_tutorial.html">Network analysis tutorial</a>
+  <a href="tutorial.html">Network analysis tutorial</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -315,18 +315,37 @@ $(document).ready(function () {
 </div>
 
 
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
+<div id="brief-introduction-to-network-analysis" class="section level2">
+<h2>Brief introduction to network analysis</h2>
+<p>A network is a set of nodes connected by a set of edges.</p>
+<p>Several packages are used in the network analysis, including <code>network</code>, <code>statnet</code>, <code>igraph</code> and <code>qgraph</code>.</p>
+<p><code>qgraph</code> was developed in the context of psychometrics approach by Dr. Sacha Epskamp and colleagues in 2012. For more details, please click this following link for the paper published in <em>Journal of Statistical Softare</em>:</p>
+<p><a href="https://www.jstatsoft.org/article/view/v048i04" class="uri">https://www.jstatsoft.org/article/view/v048i04</a></p>
+<p>This package can create graphs to visualize the statistics in different layout modes based on different correlation matrices, such as polychoric correlation, partial correlation.</p>
+</div>
+<div id="example-code" class="section level2">
+<h2>Example code</h2>
+<p>Here is the following steps to conduct a network analysis using <code>qgraph</code>.</p>
+<p>Take <code>big5</code> data as an example. This is a dataset of the Big five personality traits assessed on 500 psychology students.</p>
+<p>Firstly, <code>qgraph</code> package should be activated using <code>library()</code></p>
+<pre class="r"><code>library(qgraph)</code></pre>
+<p>And then, data need to be imported in the current R project.</p>
+<pre class="r"><code>data(big5)</code></pre>
+<p>To creat the graph is basically to use <code>qgraph()</code>, such as:</p>
+<pre class="r"><code>qgraph&lt;-qgraph(cor(big5))</code></pre>
+<p><img src="Network_analysis_tutorial_files/figure-html/cor%20big5-1.png" width="672" /></p>
+<p>But it should be noted that the input in the <code>qgraph()</code> can be a weight matrix or an edgelist.</p>
+<p>Thus, if you want to creat the association network, <code>cor()</code>/<code>cor_auto()</code> can be used to creat the matrix first.</p>
+<p>Also, you can use <code>groups</code> to indicate which nodes belong together, such as:</p>
+<pre class="r"><code>data(&quot;big5groups&quot;)
+qgraph(cor(big5), groups=big5groups)</code></pre>
+<p><img src="Network_analysis_tutorial_files/figure-html/groups%20big5-1.png" width="672" /></p>
+<p>Besides, you can use some additional arguments to customize your representing graph.</p>
+<p>you can use <code>layout</code> to change the representation, such as:</p>
+<pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout= &quot;spring&quot;)</code></pre>
+<p><img src="Network_analysis_tutorial_files/figure-html/layout%20big5-1.png" width="672" /></p>
+<pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout= &quot;circle&quot;)</code></pre>
+<p><img src="Network_analysis_tutorial_files/figure-html/layout2%20big5-1.png" width="672" /></p>
 </div>
 <div id="including-plots" class="section level2">
 <h2>Including Plots</h2>

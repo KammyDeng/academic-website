@@ -9,9 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Jiaxin Deng" />
 
 
-<title>Resources</title>
+<title>Network analysis tutorial</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -307,26 +308,50 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Resources</h1>
+<h1 class="title toc-ignore">Network analysis tutorial</h1>
+<h4 class="author">Jiaxin Deng</h4>
+<h4 class="date">2019/5/20</h4>
 
 </div>
 
 
-<div id="r-and-r-studio" class="section level3">
-<h3>R and R-Studio</h3>
-<p><a href="http://www.r-project.org">R</a> is a free open-source programming language that can be used for statistical analysis, data-simulation, graphing, and lots of other stuff. Another free program is <a href="http://www.rstudio.com">R-studio</a>, that provides a nice graphic interface for R. Download R first, then download R-studio. Both can run on PCs, Macs or Linux. Students will be learning R in the stats labs using the lab manual <a href=""></a>.</p>
+<div id="brief-introduction-to-network-analysis" class="section level2">
+<h2>Brief introduction to network analysis</h2>
+<p>A network is a set of nodes connected by a set of edges.</p>
+<p>Several packages are used in the network analysis, including <code>network</code>, <code>statnet</code>, <code>igraph</code> and <code>qgraph</code>.</p>
+<p><code>qgraph</code> was developed in the context of psychometrics approach by Dr. Sacha Epskamp and colleagues in 2012. For more details, please click this following link for the paper published in <em>Journal of Statistical Softare</em>:</p>
+<p><a href="https://www.jstatsoft.org/article/view/v048i04" class="uri">https://www.jstatsoft.org/article/view/v048i04</a></p>
+<p>This package can create graphs to visualize the statistics in different layout modes based on different correlation matrices, such as polychoric correlation, partial correlation.</p>
 </div>
-<div id="additional-r-resources" class="section level3">
-<h3>Additional R resources</h3>
-<ol style="list-style-type: decimal">
-<li>Google is great, Google your problem</li>
-<li><a href="https://stackoverflow.com">Stackoverflow</a> is great, google will often take you there because someone has already asked your question, and someone else has answered, usually many people have answered your question many ways.</li>
-<li>Danielle Navarro wrote a <a href="https://compcogscisydney.org/learning-statistics-with-r/">free Psych Stats textbook using R</a>, it’s worth checking out (some of our textbook are based on Danielle’s)</li>
-<li>I am currently writing another stats textbook (incorporating some of the above). You can read it while it’s being made right here <a href="https://crumplab.github.io/statistics/" class="uri">https://crumplab.github.io/statistics/</a>, also check out the lab manual for more specific things about doing various stats in R (also in draft right now) <a href="https://crumplab.github.io/statisticsLab/" class="uri">https://crumplab.github.io/statisticsLab/</a></li>
-<li>Daniell Navarro recently made this website for introducing R, it’s great, check it out (also made using this R markdown process): <a href="http://compcogscisydney.org/psyr/" class="uri">http://compcogscisydney.org/psyr/</a></li>
-<li>Check out my slightly older programming book that also introduces R <a href="https://crumplab.github.io/programmingforpsych/" class="uri">https://crumplab.github.io/programmingforpsych/</a></li>
-<li>This is the definitive guide for all things R Markdown (you will find this very useful as you get better at this skill): <a href="https://bookdown.org/yihui/rmarkdown/" class="uri">https://bookdown.org/yihui/rmarkdown/</a></li>
-</ol>
+<div id="example-code" class="section level2">
+<h2>Example code</h2>
+<p>Here is the following steps to conduct a network analysis using <code>qgraph</code>.</p>
+<p>Take <code>big5</code> data as an example. This is a dataset of the Big five personality traits assessed on 500 psychology students.</p>
+<p>Firstly, <code>qgraph</code> package should be activated using <code>library()</code></p>
+<pre class="r"><code>library(qgraph)</code></pre>
+<p>And then, data need to be imported in the current R project.</p>
+<pre class="r"><code>data(big5)</code></pre>
+<p>To creat the graph is basically to use <code>qgraph()</code>, such as:</p>
+<pre class="r"><code>qgraph&lt;-qgraph(cor(big5))</code></pre>
+<p><img src="tutorial_files/figure-html/cor%20big5-1.png" width="672" /></p>
+<p>But it should be noted that the input in the <code>qgraph()</code> can be a weight matrix or an edgelist.</p>
+<p>Thus, if you want to creat the association network, <code>cor()</code>/<code>cor_auto()</code> can be used to creat the matrix first.</p>
+<p>Also, you can use <code>groups</code> to indicate which nodes belong together, such as:</p>
+<pre class="r"><code>data(&quot;big5groups&quot;)
+qgraph(cor(big5), groups=big5groups)</code></pre>
+<p><img src="tutorial_files/figure-html/groups%20big5-1.png" width="672" /></p>
+<p>Besides, you can use some additional arguments to customize your representing graph.</p>
+<p>you can use <code>layout</code> to change the representation, such as:</p>
+<pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout= &quot;spring&quot;)</code></pre>
+<p><img src="tutorial_files/figure-html/layout%20big5-1.png" width="672" /></p>
+<pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout= &quot;circle&quot;)</code></pre>
+<p><img src="tutorial_files/figure-html/layout2%20big5-1.png" width="672" /></p>
+</div>
+<div id="including-plots" class="section level2">
+<h2>Including Plots</h2>
+<p>You can also embed plots, for example:</p>
+<p><img src="tutorial_files/figure-html/pressure-1.png" width="672" /></p>
+<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
 </div>
 
 
