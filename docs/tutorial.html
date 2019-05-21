@@ -315,16 +315,18 @@ $(document).ready(function () {
 </div>
 
 
-<div id="brief-introduction-to-network-analysis" class="section level2">
-<h2>Brief introduction to network analysis</h2>
+<div id="brief-introduction-to-network-analysis" class="section level1">
+<h1>Brief introduction to network analysis</h1>
 <p>A network is a set of nodes connected by a set of edges.</p>
 <p>Several packages are used in the network analysis, including <code>network</code>, <code>statnet</code>, <code>igraph</code> and <code>qgraph</code>.</p>
 <p><code>qgraph</code> was developed in the context of psychometrics approach by Dr. Sacha Epskamp and colleagues in 2012. For more details, please click this following link for the paper published in <em>Journal of Statistical Softare</em>:</p>
 <p><a href="https://www.jstatsoft.org/article/view/v048i04" class="uri">https://www.jstatsoft.org/article/view/v048i04</a></p>
 <p>This package can create graphs to visualize the statistics in different layout modes based on different correlation matrices, such as polychoric correlation, partial correlation.</p>
 </div>
-<div id="example-code" class="section level2">
-<h2>Example code</h2>
+<div id="example-code" class="section level1">
+<h1>Example code</h1>
+<div id="estimating-networks" class="section level2">
+<h2>Estimating networks</h2>
 <p>Here is the following steps to conduct a network analysis using <code>qgraph</code>.</p>
 <p>Take <code>big5</code> data as an example. This is a dataset of the Big five personality traits assessed on 500 psychology students.</p>
 <p>Firstly, <code>qgraph</code> package should be activated using <code>library()</code></p>
@@ -346,12 +348,86 @@ qgraph(cor(big5), groups=big5groups)</code></pre>
 <p><img src="tutorial_files/figure-html/layout%20big5-1.png" width="672" /></p>
 <pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout= &quot;circle&quot;)</code></pre>
 <p><img src="tutorial_files/figure-html/layout2%20big5-1.png" width="672" /></p>
+<p>Moreover, you can use <code>palette</code> and <code>theme</code> to change the colour of nodes.</p>
+<p>Notes: the palette used for colouring nodes when using <code>groups</code> argument.</p>
+<p>For example:</p>
+<pre class="r"><code>qgraph(cor(big5), groups=big5groups,palette=&quot;colorblind&quot;)</code></pre>
+<p><img src="tutorial_files/figure-html/pa%20big5-1.png" width="672" /></p>
+<p>More specifially, there are several optional graphical arguments to change the graph representation, such as <code>minizum</code> (to omit correlations not interested in), <code>borders</code>(to omit borders around the nodes), <code>vsize</code>(change the size of nodes) and <code>legend</code>(to control the legend placed on the right side).</p>
+<p>For example:</p>
+<pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout=&quot;spring&quot;,minimum=0.35,vsize=3,legend=TRUE,borders=FALSE)</code></pre>
+<p><img src="tutorial_files/figure-html/additional%20big5-1.png" width="672" /></p>
+<p>In addition, there are some options for correlation or covariance matrices to make the graph. You can use <code>graph</code> to change the type of graph.</p>
+<p>For example, if you want to plot a partial correlation network, you can use <code>graph=&quot;pcor</code> to make it.</p>
+<pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout=&quot;spring&quot;,minimum=0.35,vsize=3,legend=TRUE,borders=FALSE,graph=&quot;pcor&quot;)</code></pre>
+<p><img src="tutorial_files/figure-html/graph%20big5-1.png" width="672" /></p>
+<p>Finally, if you decide the representation of the graph, you can choose to use <code>ﬁletype</code>(pdf/jpg/tex etc.) to save your graph.</p>
+<p>After estimating the graph, you can calculate the centrality indices using <code>centrality_auto</code> to quantify the structural importance of each node in the network.</p>
+<p>Then, you will get this figure.</p>
+<pre><code>## Note: z-scores are shown on x-axis rather than raw centrality indices.</code></pre>
+<p><img src="tutorial_files/figure-html/centrality%20big5-1.png" width="672" /></p>
 </div>
-<div id="including-plots" class="section level2">
-<h2>Including Plots</h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="tutorial_files/figure-html/pressure-1.png" width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<div id="estimating-the-accuracy-of-networks" class="section level2">
+<h2>Estimating the accuracy of networks</h2>
+<p>Like many psychometrics analysis, the accuracy of psychological network is also limited to sample size. The limited sample size might restrict the accuracy of the parameters and the interpretation of the network. Thus, it’s necessary and crucial to assess the accuracy of the network parameters and measures.</p>
+<p>In order to estimate the accuracy of the networks estimation, three steps to evaluate the stability of the network routinely were conducted using <code>bootnet</code> package (Epskamp, Borsboom &amp; Fried, 2018) <a href="https://doi.org/10.3758/s13428-017-0862-1" class="uri">https://doi.org/10.3758/s13428-017-0862-1</a></p>
+<p>In addition to use <code>qgraph</code> to create the graph, you can also use <code>estimateNetwork</code> to estimate the network structure as well.</p>
+<p>To get the data:</p>
+<pre class="r"><code>library(psych)
+data(&quot;bfi&quot;)
+bfisub&lt;-bfi[1:100,1:25]</code></pre>
+<pre class="r"><code>library(bootnet)</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;ggplot2&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:psych&#39;:
+## 
+##     %+%, alpha</code></pre>
+<pre><code>## This is bootnet 1.2</code></pre>
+<pre><code>## For questions and issues, please see github.com/SachaEpskamp/bootnet.</code></pre>
+<pre class="r"><code>Network &lt;- estimateNetwork(bfisub, default = &quot;cor&quot;)</code></pre>
+<pre><code>## Estimating Network. Using package::function:
+##   - qgraph::cor_auto for correlation computation
+##     - using lavaan::lavCor
+##   - psych::corr.p for significance thresholding</code></pre>
+<pre><code>## Variables detected as ordinal: A1; A2; A3; A4; A5; C1; C2; C3; C4; C5; E1; E2; E3; E4; E5; N1; N2; N3; N4; N5; O1; O2; O3; O4; O5</code></pre>
+<pre class="r"><code>plot(Network, layout = &#39;spring&#39;)</code></pre>
+<p><img src="tutorial_files/figure-html/network-1.png" width="672" /></p>
+<p>Here is three steps to conduct the accuracy estimation.</p>
+<p>Firstly, the accuracy of edge-weights can be estimated by drawing bootstrapped CIs.</p>
+<pre class="r"><code>Results1 &lt;- bootnet(Network, nBoots = 1000, nCores = 8)</code></pre>
+<pre><code>## Note: bootnet will store only the following statistics:  edge, strength, outStrength, inStrength</code></pre>
+<pre><code>## Estimating sample network...</code></pre>
+<pre><code>## Estimating Network. Using package::function:
+##   - qgraph::cor_auto for correlation computation
+##     - using lavaan::lavCor
+##   - psych::corr.p for significance thresholding</code></pre>
+<pre><code>## Variables detected as ordinal: A1; A2; A3; A4; A5; C1; C2; C3; C4; C5; E1; E2; E3; E4; E5; N1; N2; N3; N4; N5; O1; O2; O3; O4; O5</code></pre>
+<pre><code>## Bootstrapping...</code></pre>
+<pre><code>## Computing statistics...</code></pre>
+<pre class="r"><code>plot(Results1, labels = FALSE, order = &quot;sample&quot;)</code></pre>
+<p><img src="tutorial_files/figure-html/edge-weight-1.png" width="672" /></p>
+<p>Secondly, the stability of centrality indices can be investigated after observation only portions of the data.</p>
+<pre class="r"><code>Results2 &lt;- bootnet(Network, nBoots = 1000, nCores = 8, type = &quot;case&quot;)</code></pre>
+<pre><code>## Note: bootnet will store only the following statistics:  edge, strength, outStrength, inStrength</code></pre>
+<pre><code>## Estimating sample network...</code></pre>
+<pre><code>## Estimating Network. Using package::function:
+##   - qgraph::cor_auto for correlation computation
+##     - using lavaan::lavCor
+##   - psych::corr.p for significance thresholding</code></pre>
+<pre><code>## Variables detected as ordinal: A1; A2; A3; A4; A5; C1; C2; C3; C4; C5; E1; E2; E3; E4; E5; N1; N2; N3; N4; N5; O1; O2; O3; O4; O5</code></pre>
+<pre><code>## Bootstrapping...</code></pre>
+<pre><code>## Computing statistics...</code></pre>
+<pre class="r"><code>plot(Results2)</code></pre>
+<p><img src="tutorial_files/figure-html/centrality-1.png" width="672" /></p>
+<p>Lastly, the bootstrapped differences between edge-weights and centrality indices to test whether these differ significantly from each other can be carried out.</p>
+<pre class="r"><code>plot(Results1, &quot;edge&quot;, plot = &quot;difference&quot;,onlyNonZero = TRUE, order = &quot;sample&quot;)</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
+<p><img src="tutorial_files/figure-html/diffedge-1.png" width="672" /></p>
+<pre class="r"><code>plot(Results1, &quot;strength&quot;, plot = &quot;difference&quot;)</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
+<p><img src="tutorial_files/figure-html/diffstrength-1.png" width="672" /></p>
+</div>
 </div>
 
 

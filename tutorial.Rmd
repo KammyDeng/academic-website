@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Brief introduction to network analysis
+# Brief introduction to network analysis
 
 A network is a set of nodes connected by a set of edges.
 
@@ -23,7 +23,9 @@ Several packages are used in the network analysis, including `network`, `statnet
 
 This package can create graphs to visualize the statistics in different layout modes based on different correlation matrices, such as polychoric correlation, partial correlation.
 
-## Example code
+# Example code
+
+## Estimating networks 
 
 Here is the following steps to conduct a network analysis using `qgraph`.
 
@@ -72,16 +74,93 @@ qgraph(cor(big5), groups=big5groups,layout= "spring")
 qgraph(cor(big5), groups=big5groups,layout= "circle")
 ```
 
+Moreover, you can use `palette` and `theme` to change the colour of nodes.
 
+Notes: the palette used for colouring nodes when using `groups` argument.
 
+For example:
 
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r pa big5}
+qgraph(cor(big5), groups=big5groups,palette="colorblind")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+More specifially, there are several optional graphical arguments to change the graph representation, such as `minizum` (to omit correlations not interested in), `borders`(to omit borders around the nodes), `vsize`(change the size of nodes) and `legend`(to control the legend placed on the right side).
+
+For example:
+
+```{r additional big5}
+qgraph(cor(big5), groups=big5groups,layout="spring",minimum=0.35,vsize=3,legend=TRUE,borders=FALSE)
+```
+
+
+In addition, there are some options for correlation or covariance matrices to make the graph. You can use `graph` to change the type of graph.
+
+For example, if you want to plot a partial correlation network, you can use `graph="pcor` to make it.
+
+```{r graph big5}
+qgraph(cor(big5), groups=big5groups,layout="spring",minimum=0.35,vsize=3,legend=TRUE,borders=FALSE,graph="pcor")
+```
+
+Finally, if you decide the representation of the graph, you can choose to use `ﬁletype`(pdf/jpg/tex etc.) to save your graph.
+
+
+After estimating the graph, you can calculate the centrality indices using `centrality_auto` to quantify the structural importance of each node in the network.
+
+Then, you will get this figure.
+
+```{r centrality big5,echo=FALSE}
+centralityPlot(qgraph)
+```
+
+## Estimating the accuracy of networks
+
+Like many psychometrics analysis, the accuracy of psychological network is also limited to sample size. The limited sample size might restrict the accuracy of the parameters and the interpretation of the network. Thus, it’s necessary and crucial to assess the accuracy of the network parameters and measures. 
+
+In order to estimate the accuracy of the networks estimation, three steps to evaluate the stability of the network routinely were conducted using `bootnet` package (Epskamp, Borsboom & Fried, 2018) <https://doi.org/10.3758/s13428-017-0862-1>
+
+In addition to use `qgraph` to create the graph, you can also use `estimateNetwork` to estimate the network structure as well.
+
+To get the data:
+
+```{r newdata}
+library(psych)
+data("bfi")
+bfisub<-bfi[1:100,1:25]
+```
+
+
+```{r network}
+library(bootnet)
+Network <- estimateNetwork(bfisub, default = "cor")
+plot(Network, layout = 'spring')
+```
+
+Here is three steps to conduct the accuracy estimation.
+
+Firstly, the accuracy of edge-weights can be estimated by drawing bootstrapped CIs. 
+
+```{r edge-weight}
+Results1 <- bootnet(Network, nBoots = 1000, nCores = 8)
+plot(Results1, labels = FALSE, order = "sample")
+```
+
+Secondly, the stability of centrality indices can be investigated after observation only portions of the data. 
+
+```{r centrality}
+Results2 <- bootnet(Network, nBoots = 1000, nCores = 8, type = "case")
+plot(Results2)
+```
+
+Lastly, the bootstrapped differences between edge-weights and centrality indices to test whether these differ significantly from each other can be carried out.
+
+```{r diffedge}
+plot(Results1, "edge", plot = "difference",onlyNonZero = TRUE, order = "sample")
+```
+
+```{r diffstrength}
+plot(Results1, "strength", plot = "difference")
+```
+
+
+
