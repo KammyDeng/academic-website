@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Jiaxin Deng" />
@@ -14,22 +14,36 @@
 
 <title>Network analysis tutorial</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -42,32 +56,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 
 
@@ -78,13 +68,8 @@ h6 {
   margin-left: auto;
   margin-right: auto;
 }
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -98,40 +83,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -159,7 +120,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -171,7 +132,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -181,11 +142,28 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.parent().addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -197,13 +175,12 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -211,16 +188,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -233,6 +203,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -244,18 +215,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -275,7 +234,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -294,7 +253,7 @@ $(document).ready(function () {
   <a href="Links.html">Links</a>
 </li>
 <li>
-  <a href="tutorial.html">Network analysis tutorial</a>
+  <a href="tutorial2.html">Network analysis tutorial</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -304,7 +263,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -318,121 +277,37 @@ $(document).ready(function () {
 <div id="brief-introduction-to-network-analysis" class="section level1">
 <h1>Brief introduction to network analysis</h1>
 <p>A network is a set of nodes connected by a set of edges.</p>
-<p>Several packages are used in the network analysis, including <code>network</code>, <code>statnet</code>, <code>igraph</code> and <code>qgraph</code>.</p>
-<p><code>qgraph</code> was developed in the context of psychometrics approach by Dr. Sacha Epskamp and colleagues in 2012. For more details, please click this following link for the paper published in <em>Journal of Statistical Softare</em>:</p>
-<p><a href="https://www.jstatsoft.org/article/view/v048i04" class="uri">https://www.jstatsoft.org/article/view/v048i04</a></p>
-<p>This package can create graphs to visualize the statistics in different layout modes based on different correlation matrices, such as polychoric correlation, partial correlation.</p>
+<p>Several packages are used in the network analysis, including
+<code>network</code>, <code>statnet</code>, <code>igraph</code> and
+<code>qgraph</code>.</p>
+<p><code>qgraph</code> was developed in the context of psychometrics
+approach by Dr. Sacha Epskamp and colleagues in 2012. For more details,
+please click this following link for the paper published in <em>Journal
+of Statistical Softare</em>:</p>
+<p><a href="https://www.jstatsoft.org/article/view/v048i04"
+class="uri">https://www.jstatsoft.org/article/view/v048i04</a></p>
+<p>This package can create graphs to visualize the statistics in
+different layout modes based on different correlation matrices, such as
+polychoric correlation, partial correlation.</p>
 </div>
 <div id="example-code" class="section level1">
 <h1>Example code</h1>
+<p>Here is some example code to show how to conduct a network
+analysis.</p>
 <div id="estimating-networks" class="section level2">
 <h2>Estimating networks</h2>
 <div id="how-to-make-a-graph" class="section level3">
 <h3>How to make a graph</h3>
-<p>Here is the following steps to conduct a network analysis using <code>qgraph</code>.</p>
-<p>Take <code>big5</code> data as an example. This is a dataset of the Big five personality traits assessed on 500 psychology students.</p>
-<p>Firstly, <code>qgraph</code> package should be activated using <code>library()</code></p>
+<p>Here is the following steps to make a gragh using
+<code>qgraph</code>.</p>
+<p>Take <code>big5</code> data as an example. This is a dataset of the
+Big five personality traits assessed on 500 psychology students.</p>
+<p>Firstly, <code>qgraph</code> package should be activated using
+<code>library()</code></p>
 <pre class="r"><code>library(qgraph)</code></pre>
 <p>And then, data need to be imported in the current R project.</p>
 <pre class="r"><code>data(big5)</code></pre>
-<p>To creat the graph is basically to use <code>qgraph()</code>, such as:</p>
-<pre class="r"><code>qgraph&lt;-qgraph(cor(big5))</code></pre>
-<p><img src="tutorial_files/figure-html/cor%20big5-1.png" width="672" /></p>
-<p>But it should be noted that the input in the <code>qgraph()</code> can be a weight matrix or an edgelist.</p>
-<p>Thus, if you want to creat the association network, <code>cor()</code>/<code>cor_auto()</code> can be used to creat the matrix first.</p>
-<p>Also, you can use <code>groups</code> to indicate which nodes belong together, such as:</p>
-<pre class="r"><code>data(&quot;big5groups&quot;)
-qgraph(cor(big5), groups=big5groups)</code></pre>
-<p><img src="tutorial_files/figure-html/groups%20big5-1.png" width="672" /></p>
-<p>Besides, you can use some additional arguments to customize your representing graph.</p>
-<p>you can use <code>layout</code> to change the representation, such as:</p>
-<pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout= &quot;spring&quot;)</code></pre>
-<p><img src="tutorial_files/figure-html/layout%20big5-1.png" width="672" /></p>
-<pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout= &quot;circle&quot;)</code></pre>
-<p><img src="tutorial_files/figure-html/layout2%20big5-1.png" width="672" /></p>
-<p>Moreover, you can use <code>palette</code> and <code>theme</code> to change the colour of nodes.</p>
-<p>Notes: the palette used for colouring nodes when using <code>groups</code> argument.</p>
-<p>For example:</p>
-<pre class="r"><code>qgraph(cor(big5), groups=big5groups,palette=&quot;colorblind&quot;)</code></pre>
-<p><img src="tutorial_files/figure-html/pa%20big5-1.png" width="672" /></p>
-<p>More specifially, there are several optional graphical arguments to change the graph representation, such as <code>minizum</code> (to omit correlations not interested in), <code>borders</code>(to omit borders around the nodes), <code>vsize</code>(to change the size of nodes) and <code>legend</code>(to control the legend placed on the right side).</p>
-<p>For example:</p>
-<pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout=&quot;spring&quot;,minimum=0.35,vsize=3,legend=TRUE,borders=FALSE)</code></pre>
-<p><img src="tutorial_files/figure-html/additional%20big5-1.png" width="672" /></p>
-<p>In addition, there are some options for correlation or covariance matrices to make the graph. You can use <code>graph</code> to change the type of graph.</p>
-<p>For example, if you want to plot a partial correlation network, you can use <code>graph=&quot;pcor</code> to make it.</p>
-<pre class="r"><code>qgraph(cor(big5), groups=big5groups,layout=&quot;spring&quot;,minimum=0.35,vsize=3,legend=TRUE,borders=FALSE,graph=&quot;pcor&quot;)</code></pre>
-<p><img src="tutorial_files/figure-html/graph%20big5-1.png" width="672" /></p>
-<p>Finally, if you decide the representation of the graph, you can choose to use <code>ﬁletype</code>(pdf/jpg/tex etc.) to save your graph.</p>
 </div>
-<div id="how-to-calculate-the-centrality-indices" class="section level3">
-<h3>How to calculate the centrality indices</h3>
-<p>After estimating the graph, you can calculate the centrality indices using <code>centralityPlot</code> to quantify the structural importance of each node in the network.</p>
-<p>Then, you will get this figure.</p>
-<pre><code>## Note: z-scores are shown on x-axis rather than raw centrality indices.</code></pre>
-<p><img src="tutorial_files/figure-html/centrality%20big5-1.png" width="672" /></p>
-</div>
-</div>
-<div id="estimating-the-accuracy-of-networks" class="section level2">
-<h2>Estimating the accuracy of networks</h2>
-<p>Like many psychometrics analysis, the accuracy of psychological network is also limited to sample size. The limited sample size might restrict the accuracy of the parameters and the interpretation of the network. Thus, it’s necessary and crucial to assess the accuracy of the network parameters and measures.</p>
-<p>In order to estimate the accuracy of the networks estimation, three steps to evaluate the stability of the network routinely were conducted using <code>bootnet</code> package <a href="https://doi.org/10.3758/s13428-017-0862-1%3E">(Epskamp, Borsboom &amp; Fried, 2018)</a></p>
-<p>In addition to use <code>qgraph</code> to create the graph, you can also use <code>estimateNetwork</code> to estimate the network structure as well.</p>
-<p>To get the data:</p>
-<pre class="r"><code>library(psych)
-data(&quot;bfi&quot;)
-bfisub&lt;-bfi[1:100,1:25]</code></pre>
-<pre class="r"><code>library(bootnet)</code></pre>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre><code>## 
-## Attaching package: &#39;ggplot2&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:psych&#39;:
-## 
-##     %+%, alpha</code></pre>
-<pre><code>## This is bootnet 1.2</code></pre>
-<pre><code>## For questions and issues, please see github.com/SachaEpskamp/bootnet.</code></pre>
-<pre class="r"><code>Network &lt;- estimateNetwork(bfisub, default = &quot;cor&quot;)</code></pre>
-<pre><code>## Estimating Network. Using package::function:
-##   - qgraph::cor_auto for correlation computation
-##     - using lavaan::lavCor
-##   - psych::corr.p for significance thresholding</code></pre>
-<pre><code>## Variables detected as ordinal: A1; A2; A3; A4; A5; C1; C2; C3; C4; C5; E1; E2; E3; E4; E5; N1; N2; N3; N4; N5; O1; O2; O3; O4; O5</code></pre>
-<pre class="r"><code>plot(Network, layout = &#39;spring&#39;)</code></pre>
-<p><img src="tutorial_files/figure-html/network-1.png" width="672" /></p>
-<p>Here is three steps to conduct the accuracy estimation.</p>
-<p>Firstly, the accuracy of edge-weights can be estimated by drawing bootstrapped CIs.</p>
-<pre class="r"><code>Results1 &lt;- bootnet(Network, nBoots = 1000, nCores = 8)</code></pre>
-<pre><code>## Note: bootnet will store only the following statistics:  edge, strength, outStrength, inStrength</code></pre>
-<pre><code>## Estimating sample network...</code></pre>
-<pre><code>## Estimating Network. Using package::function:
-##   - qgraph::cor_auto for correlation computation
-##     - using lavaan::lavCor
-##   - psych::corr.p for significance thresholding</code></pre>
-<pre><code>## Variables detected as ordinal: A1; A2; A3; A4; A5; C1; C2; C3; C4; C5; E1; E2; E3; E4; E5; N1; N2; N3; N4; N5; O1; O2; O3; O4; O5</code></pre>
-<pre><code>## Bootstrapping...</code></pre>
-<pre><code>## Computing statistics...</code></pre>
-<pre class="r"><code>plot(Results1, labels = FALSE, order = &quot;sample&quot;)</code></pre>
-<p><img src="tutorial_files/figure-html/edge-weight-1.png" width="672" /></p>
-<p>Secondly, the stability of centrality indices can be investigated after observation only portions of the data.</p>
-<pre class="r"><code>Results2 &lt;- bootnet(Network, nBoots = 1000, nCores = 8, type = &quot;case&quot;)</code></pre>
-<pre><code>## Note: bootnet will store only the following statistics:  edge, strength, outStrength, inStrength</code></pre>
-<pre><code>## Estimating sample network...</code></pre>
-<pre><code>## Estimating Network. Using package::function:
-##   - qgraph::cor_auto for correlation computation
-##     - using lavaan::lavCor
-##   - psych::corr.p for significance thresholding</code></pre>
-<pre><code>## Variables detected as ordinal: A1; A2; A3; A4; A5; C1; C2; C3; C4; C5; E1; E2; E3; E4; E5; N1; N2; N3; N4; N5; O1; O2; O3; O4; O5</code></pre>
-<pre><code>## Bootstrapping...</code></pre>
-<pre><code>## Computing statistics...</code></pre>
-<pre class="r"><code>plot(Results2)</code></pre>
-<p><img src="tutorial_files/figure-html/centrality-1.png" width="672" /></p>
-<p>Lastly, the bootstrapped differences between edge-weights and centrality indices to test whether these differ significantly from each other can be carried out.</p>
-<pre class="r"><code>plot(Results1, &quot;edge&quot;, plot = &quot;difference&quot;,onlyNonZero = TRUE, order = &quot;sample&quot;)</code></pre>
-<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
-<p><img src="tutorial_files/figure-html/diffedge-1.png" width="672" /></p>
-<pre class="r"><code>plot(Results1, &quot;strength&quot;, plot = &quot;difference&quot;)</code></pre>
-<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
-<p><img src="tutorial_files/figure-html/diffstrength-1.png" width="672" /></p>
 </div>
 </div>
 
@@ -445,7 +320,7 @@ bfisub&lt;-bfi[1:100,1:25]</code></pre>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -453,6 +328,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
