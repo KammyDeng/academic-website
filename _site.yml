@@ -1,18 +1,32 @@
-name: Jiaxin's site
+name: Jiaxin Deng
 navbar:
-  title: Jiaxin's site
+  title: Jiaxin Deng
   left:
   - text: Home
     href: index.html
-  - text: Journal
-    href: Journal.html
-  - text: Links
-    href: Links.html
-  - text: Network analysis tutorial
-    href: tutorial2.html
+  - text: Curriculum Vitae
+    href: Cv.html
+  - text: Publications
+    menu:
+    - text: Sort by Year
+      href: publications_year.html
+    - text: Sort by Topic
+      href: publications_topic.html
+  - text: Experiences
+    href: Experiences.html
+  - text: Tutorials
+    menu:
+    - text: Reliability Generalization
+      href: Tutorial_Reliability-Generalization.html
+    - text: Network Analysis
+      href: Tutorial_Network-analysis.html
+  right:
+  - href: https://github.com/KammyDeng
+    icon: fa-github
 output_dir: docs
 output:
   html_document:
     lib_dir: site_libs
     self_contained: no
+    theme: cerulean
 

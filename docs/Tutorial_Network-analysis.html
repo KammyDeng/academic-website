@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jiaxin Deng" />
+
+
+<title>Network Analysis Workshop</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Jiaxin Deng</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="CV.html">Curriculum Vitae</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Publications
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="publications_year.html">Sort by Year</a>
+    </li>
+    <li>
+      <a href="publications_topic.html">Sort by Topic</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Experiences.html">Experiences</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Tutorial_Reliability Generalization.html">Reliability Generalization</a>
+    </li>
+    <li>
+      <a href="Tutorial_Network analysis.html">Network Analysis</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/KammyDeng">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Network Analysis Workshop</h1>
+<h4 class="author">Jiaxin Deng</h4>
+<h4 class="date">2022/06/19</h4>
+
+</div>
+
+
+<p>———- 目录 ——————————————————————————————–<br />
+———- 1. 实例分析与技术实现：R语言 ————————————————————–<br />
+———- 2. R语言基本操作——————————————————————————<br />
+———- 3.
+实例操作1：Deng等人(2021)冷酷无情特质网络分析研究——————————–<br />
+———-实际操作练习1：使用example1演示数据进行练习——————————–<br />
+———- 4.
+实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究————————–<br />
+———-实际操作练习2：使用example2演示数据进行练习——————————–<br />
+———- 5. 总结——————————————————————————————<br />
+———- 6. 学习资源分享——————————————————————————–</p>
+<p>##1. 实例分析与技术实现：R语言
+网络分析在心理学领域的应用中，常用R语言作为主要的数据分析软件。</p>
+<p>常用的网络分析R包： <code>qgraph</code> (Epskamp et al., 2012),
+<code>bootnet</code> (Epskamp et al., 2018),
+<code>Network Comparison Test package</code> (NCT; van Borkulo et al.,
+2017), <code>EstimateGroupNetwork</code> (Costantini &amp; Epskamp,
+2017)</p>
+<p>##3. 实例操作1：Deng等人(2021)冷酷无情特质网络分析研究 ###简要介绍
+以下将以一项冷酷无情特质网络分析研究作为例子(Deng et al.,
+2021)具体介绍如何进行一项网络分析研究。<br />
+该研究以国内609名青少年犯人（样本一）和487名社区儿童（样本二）作为研究对象进行分析，使用了自我报告版冷酷无情特质问卷(the
+Inventory of Callous-Unemotional Traits; Frick, 2004)中文版(Wang et al.,
+2019)评估冷酷无情特质。<br />
+这里以样本一的冷酷无情特质问卷数据（部分截选）作为例子来展示。</p>
+<p>该问卷共24题包含三个分量表，分别是<strong>淡漠(Callousness)</strong>、<strong>冷酷(Uncaring)</strong>以及<strong>无情(Unemotional)</strong>，使用李克特4级计分。</p>
+<p>接下来展示如何使用<code>qgraph</code>和<code>bootnet</code>程序包对数据进行网络分析。</p>
+<p>###3.0.1 程序包的安装与运行
+首先需要先安装与运行程序包，具体命令如下所示：</p>
+<pre class="r"><code>library(readxl)#运行readxl程序包；若没安装，可用install.packages(&quot;readxl&quot;)进行安装
+library(qgraph)#运行qgraph程序包；若没安装，可用install.packages(&quot;qgraph&quot;)进行安装
+library(bootnet)#运行bootnet程序包；若没安装，可用install.packages(&quot;bootnet&quot;)进行安装
+library(NetworkComparisonTest)#运行NetworkComparisonTest程序包；若没安装，可用install.packages(&quot;NetworkComparisonTest&quot;)进行安装</code></pre>
+<p>###3.0.2 数据读取与导入
+由于所展示的例子所使用的数据并非来自程序包自带的数据集，因此需要先导入数据。
+由于数据文件为excel格式，因此使用<code>readxl</code>程序包用于数据读取与导入。具体命令如下：
+使用<code>read_excel()</code>函数读取数据，具体命令如下：</p>
+<pre class="r"><code>data1&lt;- read_excel(&quot;example1_data_c.xlsx&quot;)#演示数据
+data2&lt;- read_excel(&quot;example1_data_j.xlsx&quot;)#演示数据
+head(data1)</code></pre>
+<pre><code>## # A tibble: 6 × 24
+##   UE_ICU1 CA_ICU2 UC_ICU3 CA_ICU4 UC_ICU5 UE_ICU6 CA_ICU7 CA_ICU8 CA_ICU9
+##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1       2       2       2       2       2       2       1       2       4
+## 2       2       2       1       1       2       2       1       1       1
+## 3       2       2       2       1       2       1       1       2       1
+## 4       2       3       1       1       1       3       1       2       1
+## 5       3       1       3       1       2       3       4       4       3
+## 6       2       2       2       1       1       2       2       2       2
+## # ℹ 15 more variables: CA_ICU10 &lt;dbl&gt;, CA_ICU11 &lt;dbl&gt;, CA_ICU12 &lt;dbl&gt;,
+## #   UC_ICU13 &lt;dbl&gt;, UE_ICU14 &lt;dbl&gt;, UC_ICU15 &lt;dbl&gt;, UC_ICU16 &lt;dbl&gt;,
+## #   UC_ICU17 &lt;dbl&gt;, CA_ICU18 &lt;dbl&gt;, UE_ICU19 &lt;dbl&gt;, CA_ICU20 &lt;dbl&gt;,
+## #   CA_ICU21 &lt;dbl&gt;, UE_ICU22 &lt;dbl&gt;, UC_ICU23 &lt;dbl&gt;, UC_ICU24 &lt;dbl&gt;</code></pre>
+<p>###3.1.1 建立网络结构图
+当完成数据导入后，即可通过运行<code>qgraph</code>程序包进行网络分析。<br />
+正如上文所提及，可分为两个步骤：建立网络结构图和计算中心指标。<br />
+现在，先从建立网络图结构开始。建立网络结构图主要是程序包中<code>qgraph()</code>函数来实现，具体命令如下：</p>
+<pre class="r"><code>qgraph&lt;-qgraph(cor_auto(data1))#基于相关矩阵的网络结构图（题目没有分组）</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q1-1.png" width="672" /></p>
+<p>图中白色圆圈表示网络图中的节点，一共24个节点，对应ICU问卷的24个题目。这是一个基于相关矩阵的网络图。需要注意的是，<code>qgraph()</code>里面的参量可以是矩阵或者是边线列表。因此，在使用<code>qgraph()</code>建立网络结构图之前需要事前建立所需类型的矩阵或者列表，例如<code>cor_auto()</code>实现。</p>
+<p>如图所示，这是一个没有区分分量表的网络图。如果需要区分，可用<code>groups</code>
+来实现，即把设定不同节点归属于同一分量表或组别。<br />
+例如，对ICU问卷24个题目定义分组，定义每个题目所测量的内容，具体命令如下：</p>
+<pre class="r"><code>ICU24groups&lt;-c(&quot;Unemotional&quot;,&quot;Callousness&quot;,&quot;Uncaring&quot;,&quot;Callousness&quot;,
+               &quot;Uncaring&quot;,&quot;Unemotional&quot;,&quot;Callousness&quot;,
+               &quot;Callousness&quot;,&quot;Callousness&quot;,
+               &quot;Callousness&quot;,&quot;Callousness&quot;,&quot;Callousness&quot;,&quot;Uncaring&quot;,&quot;Unemotional&quot;,
+               &quot;Uncaring&quot;,&quot;Uncaring&quot;,&quot;Uncaring&quot;,&quot;Callousness&quot;,&quot;Unemotional&quot;,&quot;Callousness&quot;,
+               &quot;Callousness&quot;,&quot;Unemotional&quot;,&quot;Uncaring&quot;,&quot;Uncaring&quot;)</code></pre>
+<p>使用<code>groups</code>定义每个题目所对应的分量表后，即可实现分组情况下的网络结构图，具体命令如下：</p>
+<pre class="r"><code>qgraph(cor_auto(data1), groups= ICU24groups)#通过&quot;groups = &quot;设置分组,建立基于相关矩阵的网络图（分组）</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q3qgroup-1.png" width="672" /></p>
+<p>对比两个图，可以发现主要区别在于是否分组，在图中则体现在节点的位置和对应颜色上。如第二个图所示，左边是网络结构图，右边是网络结构图的图例。网络中节点共有3种颜色，从红色开始顺时针分别是红色、绿色、蓝色对应淡漠、冷酷以及无情。<br />
+除了节点之外，不同节点之间的边线呈现绿色和红色两种颜色。一般来说，绿色边线表示为正相关关系，红色边线表示负相关关系。例如，图中ICU15与ICU23呈现正相关关系。<br />
+除了可以设置分组之外，还可以通过其他参数设定网络结构图的格式。例如，使用<code>layout</code>
+来更改网络结构图的形状，具体命令如下：</p>
+<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups, layout= &quot;spring&quot;) #通过&quot;layout = &quot;设定spring格式</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q4group1-1.png" width="672" /></p>
+<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups, layout= &quot;circle&quot;)#通过&quot;layout = &quot;设定circle格式</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q5group1-1.png" width="672" /></p>
+<p>另外，还可以使用<code>"palette="</code>和<code>"theme="</code>改变节点的颜色。需要注意的是，<code>"palette="</code>需要配合<code>"groups="</code>一起使用。具体命令如下所示：</p>
+<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups,palette=&quot;colorblind&quot;,layout= &quot;spring&quot;)#通过&quot;palette = &quot;设定格式</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q6group1-1.png" width="672" /></p>
+<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups,palette=&quot;pastel&quot;,layout= &quot;spring&quot;)#通过&quot;palette = &quot;设定格式</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q6group2-1.png" width="672" /></p>
+<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups,palette=&quot;gray&quot;,layout= &quot;spring&quot;)#通过&quot;palette = &quot;设定格式</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q6group3-1.png" width="672" /></p>
+<pre class="r"><code>qgraph=qgraph(cor_auto(data1), groups=ICU24groups,layout= &quot;spring&quot;,negDashed=TRUE)#通过&quot;negDashed = &quot;设定格式</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q6group4-1.png" width="672" /></p>
+<pre class="r"><code>makeBW(qgraph)#plot in black and white mode</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q6group4-2.png" width="672" /></p>
+<p>除了更改网络结构图的整体格式之外，还可以根据需要调整某一方面的呈现内容和方式，例如节点大小、节点边界、边线颜色、根据边线权重决定是否呈现、图例位置及其大小等。这里列举了一些常见的参量可用于网络结构图的自定义设置。<br />
+<code>"minimum"</code>:根据节点之间的关联程度决定呈现的节点数量<br />
+<code>"borders"</code>:是否呈现节点的边线<br />
+<code>"vsize"</code>:改变节点的大小<br />
+<code>"legend"</code>:选择是否呈现图例及其控制图例位置</p>
+<p>当需要对网络结构图进行自定义设定时，可使用上述常见参量进行自定义设定，具体命令如下：</p>
+<pre class="r"><code>qgraph(cor_auto(data1),groups=ICU24groups, layout= &quot;spring&quot;,minimum=0.15,vsize=8,legend=TRUE,borders=TRUE,palette=&quot;colorblind&quot;)#基于相关矩阵的网络图（自定义格式）</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q7group3-1.png" width="672" /></p>
+<p>如有需要在图中加上标题，可用<code>title</code>加上标题。</p>
+<pre class="r"><code>qgraph(cor_auto(data1),groups=ICU24groups, layout= &quot;spring&quot;,minimum=0.15,vsize=8,legend=TRUE,borders=TRUE,palette=&quot;colorblind&quot;,title=&quot;ICU-24 item-level network&quot;)#基于相关矩阵的网络图（自定义格式）</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q8group3-1.png" width="672" /></p>
+<p>除了自定义网络图格式之外，还可以使用<code>"graph="</code>设定不同类型的矩阵，具体命令如下：</p>
+<pre class="r"><code>qgraph(cor_auto (data1), groups=ICU24groups, layout=&quot;spring&quot;, minimum=0.15,vsize=8,legend=TRUE,borders=TRUE,palette=&quot;colorblind&quot;,graph=&quot;pcor&quot;)#使用graph设定为偏相关矩阵</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q9group4-1.png" width="672" /></p>
+<p>根据两图所示，可以明显看到基于两种矩阵所建立的网络结构图在边线密集程度上是不同的，在基于偏相关矩阵网络中呈现的边线更少，表明用相关矩阵建立的网络结构图实际存在一些虚假关系，即一些节点之间的关系是通过第三个节点所建立起来，并非为两两直接相连的边线，因此没有呈现出来。</p>
+<p>除了上述设定以外，为读者了解每个节点对应的题目，可进行设定以展现题目。</p>
+<pre class="r"><code>Labels&lt;-colnames(data1)
+Names&lt;-c(&quot;Expresses feelings openly&quot;,&quot;Does not know right from wrong&quot;,
+         &quot;Concerned about school work&quot;,&quot;Does not care who is hurt&quot;,
+         &quot;Feels bad or guilty&quot;,&quot;Does not show emotions&quot;,&quot;Does not care about being on time&quot;,
+         &quot;Concerned about feelings of others&quot;,&quot;Does not care if in trouble&quot;,
+         &quot;Does not let feelings control&quot;,&quot;Does not care about doing well&quot;,
+         &quot;Seems very cold and uncaring&quot;,&quot;Easily admits to being wrong&quot;,
+         &quot;Easy to tell how I am feeling&quot;,&quot;Always tries the best&quot;,
+         &quot;Apologizes to persons&quot;,&quot;Tries not to hurt others feelings&quot;,
+         &quot;Shows no remorse&quot;,&quot;Expressive and emotional&quot;,
+         &quot;Does not put the time into things&quot;,&quot;Feelings of others unimportant&quot;,
+         &quot;Hides feelings from others&quot;,&quot;Work hard on everything&quot;,
+         &quot;Does things to make others feel good&quot;)
+q_cor_auto1&lt;-qgraph(cor_auto(data1),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
+                   legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.25,label.cex=1,height=5,width=5,
+                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2))</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/qlabel1-1.png" width="672" /></p>
+<pre class="r"><code>q_cor_auto2&lt;-qgraph(cor_auto(data2),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
+                   legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.25,label.cex=1,height=5,width=5,
+                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2))</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/qlabel2-1.png" width="672" /></p>
+<p>最后，当建立网络结构图后，可以通过设置参数把网络图保存下来，例如<code>filetype</code>用于设定文件类型以及文件所在路径，具体命令如下：</p>
+<pre class="r"><code>q_cor_auto1&lt;-qgraph(cor_auto(data1),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
+                   legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.25,label.cex=1,height=5,width=5,
+                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2),
+                   filetype=&quot;jpg&quot;,filename=&quot;q_cor_auto1&quot;)
+#这里使用&quot;filetype= jpg&quot;将文件格式设置为jpg格式图片，filename=&quot;q_cor_auto1&quot;将文件命名为q_cor_auto1，而height=5,width=10则是设置图片大小</code></pre>
+<pre class="r"><code>q_cor_auto2&lt;-qgraph(cor_auto(data2),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
+                   legend=TRUE,borders=FALSE,layout=&quot;spring&quot;,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.25,label.cex=1,height=5,width=5,
+                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2),
+                   filetype=&quot;jpg&quot;,filename=&quot;q_cor_auto2&quot;)#这里使用&quot;filetype= jpg&quot;将文件格式设置为jpg格式图片，filename=&quot;q_cor_auto1&quot;将文件命名为q_cor_auto1，而height=5,width=10则是设置图片大小</code></pre>
+<p>###3.1.2 网络推断分析：计算中心指标
+当建立网络结构图后，即可计算网络中节点的中心指标，以便了解网络中节点的重要程度。那么，如何计算中心指标呢？可以通过<code>centrality_auto</code>这个函数实现。如果想进一步得到可视化结果，可使用<code>centralityPlot</code>这个函数实现。计算中心指标及其可视化结果的具体命令如下所示：</p>
+<pre class="r"><code>#centrality_auto(q_cor_auto1)#计算中心指标
+centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),
+               scale = &quot;z-scores&quot;)#选取3个中心指标进行可视化呈现</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality1-1.png" width="672" /></p>
+<pre class="r"><code>centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;))#选取3个中心指标进行可视化呈现,默认原始分数呈现</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality1-2.png" width="672" /></p>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality2-1.png" width="672" /></p>
+<p>除此以外，还可以根据需要对纵轴节点顺序进行指定，使用<code>orderBy</code>实现。一般默认<strong>按字母排序</strong>，如果需要按节点某项中心指标排列可用<code>orderBy="Strength"</code>进行调整。</p>
+<pre class="r"><code>centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),
+               scale = &quot;z-scores&quot;,orderBy=&quot;Strength&quot;)#设定节点顺序</code></pre>
+<pre><code>## Note: z-scores are shown on x-axis rather than raw centrality indices.</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality3-1.png" width="672" /></p>
+<p>若需要把两样本的中心指标结果整合在一起对比呈现，则可用以下命令：</p>
+<pre class="r"><code>centralityPlot(list(Community= cor_auto(data1), Offender= cor_auto(data2)),
+               include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),scale = &quot;z-scores&quot;)</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality4-1.png" width="672" /></p>
+<p>上图展示了网络中所有节点在<strong>强度</strong>、<strong>紧密性</strong>以及<strong>中介性</strong>三个中心指标的可视化结果。如图所示，纵轴代表的是网络中所有节点，横坐标代表节点在三个中心指标上标准化结果。<br />
+例如，ICU21节点具有较高的强度、紧密性和中介性，表明该节点的中心性较高，即为网络结构中较为核心的节点。</p>
+<p>最后，同样地可以通过<code>pdf()</code>对结果进行保存。</p>
+<pre class="r"><code>pdf(&quot;Fig_centralityPlotcompair2.pdf&quot;, width=10, height=10)
+centralityPlot(list(Community= cor_auto(data1), Offender= cor_auto(data2)),
+               include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),scale = &quot;z-scores&quot;)
+dev.off()</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>###3.1.3 网络结构的准确性分析
+与其他统计分析方法类似，网络分析的准确性同样会受到样本量的影响。因此，在建立网络图后，需要对网络分析的准确性进行检验。网络分析的准确性检验分析主要是使用<code>bootnet</code>程序包(Epskamp,
+Borsboom &amp; Fried, 2018)来实现，包括三种方法的检验：<br />
+第一，计算边线的Bootstrap置信区间。<br />
+第二，检验节点在中心指标的稳定性。<br />
+第三，检验节点或者边线之间的差异。<br />
+接下来，将以data1作为例子具体介绍如何使用<code>bootnet</code>实现以上三种检验方法。<br />
+在进行准确性检验前，需要先建立网络。除了<code>qgraph</code>包以外，还可以使用<code>bootnet</code>包的<code>estimateNetwork</code>函数来进行网络分析估计。</p>
+<pre class="r"><code>Network &lt;- estimateNetwork(data1, default = &quot;cor&quot;) #data1为数据，这里用default = &quot;cor&quot;来设定矩阵类型为相关矩阵。另外，还可以使用default = &quot;pcor&quot;设定偏相关矩阵和default = &quot;glasso&quot;设定为自适应LASSO算法矩阵&quot;lasso&quot;等。
+plot(Network, layout = &#39;spring&#39;,groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
+                   legend=TRUE,borders=TRUE,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.25,label.cex=1,height=5,width=5,
+                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2))#建立网络图</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/network-1.png" width="672" /></p>
+<p>####(1) 计算边线的Bootstrap置信区间</p>
+<pre class="r"><code>Results1 &lt;- bootnet(Network, statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;,&quot;edge&quot;), nBoots = 1000, nCores = 5) #使用statistics=&quot;&quot;设定需要估计的统计量;
+#nBoots:bootstraps的数量
+#nCores:多核计算的数量
+plot(Results1, labels = FALSE, order = &quot;sample&quot;)#边线权重的Bootstrapped置信区间;order=sample用于设定边线权重从高到低排列(从正相关到负相关)</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/ci-1.png" width="960" /></p>
+<p>结果解读：如图所示，纵轴表示网络中的所有边线，横轴表示置信区间。图中包括两条不同颜色的线，对应原样本所估计的均值以及通过bootstrapping方法估计出来的均值，灰色部分则代表两种方法所对应的置信区间。一般来说，与传统的参数估计结果解释类似，不同边线权重的置信区间重叠代表这些边线权重的差异不显著。</p>
+<p>####(2) 检验节点或边线之间的差异</p>
+<pre class="r"><code>plot(Results1, &quot;strength&quot;, plot = &quot;difference&quot;)#分析节点在强度上的差异检验</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.051</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/diff1-1.png" width="1440" /></p>
+<pre class="r"><code>plot(Results1, &quot;closeness&quot;, plot = &quot;difference&quot;)#分析节点在紧密性上的差异检验</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/diff1-2.png" width="1440" /></p>
+<pre class="r"><code>plot(Results1, &quot;betweenness&quot;, plot = &quot;difference&quot;)#分析节点在中介性上的差异检验</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/diff1-3.png" width="1440" /></p>
+<pre class="r"><code>pdf(&quot;Fig_edgeweightdiff.pdf&quot;, width=50, height=50)
+plot(Results1, &quot;edge&quot;, plot = &quot;difference&quot;, onlyNonZero = TRUE, order = &quot;sample&quot;)#边线的差异检验；onlyNonZero用于设定不呈现权重为0的情况。</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
+<pre class="r"><code>#估计bootstrapped CI;基于非参数的自助法
+#bootstrapped CI越宽泛，越难解释边线的准确性
+dev.off()</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>上述两图分别为网络中所有边线和节点之间的差异检验结果。纵轴和横轴为网络中的边线或者节点。图中黑色方格表示两者之间存在显著性的差异，白色则表示两者之间并不显著，中间斜线表示的是边线或者节点具体值。如图中所示，与其他节点相比，节点ICU21、ICU20与其他节点存在更多显著性的差异。</p>
+<p>如仅分析任意某2个节点或者边线，可用<code>differenceTest()</code>对<code>measure</code>进行设定。</p>
+<pre class="r"><code>#for nodes
+differenceTest(Results1, &quot;CA_ICU2&quot;, &quot;CA_ICU12&quot;, &quot;strength&quot;)</code></pre>
+<pre><code>## Warning: `select_()` was deprecated in dplyr 0.7.0.
+## ℹ Please use `select()` instead.
+## ℹ The deprecated feature was likely used in the bootnet package.
+##   Please report the issue to the authors.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<pre><code>##       id1      id2  measure     lower    upper significant
+## 1 CA_ICU2 CA_ICU12 strength 0.3148676 3.164951        TRUE</code></pre>
+<pre class="r"><code>differenceTest(Results1, &quot;CA_ICU2&quot;, &quot;CA_ICU18&quot;, &quot;strength&quot;)</code></pre>
+<pre><code>##       id1      id2  measure      lower    upper significant
+## 1 CA_ICU2 CA_ICU18 strength -0.9523769 1.640938       FALSE</code></pre>
+<pre class="r"><code>#for edges
+differenceTest(Results1, &quot;CA_ICU2--CA_ICU18&quot;, &quot;CA_ICU2--CA_ICU12&quot;, &quot;edge&quot;)</code></pre>
+<pre><code>##                 id1               id2 measure      lower     upper significant
+## 1 CA_ICU2--CA_ICU18 CA_ICU2--CA_ICU12    edge -0.1966856 0.1244137       FALSE</code></pre>
+<p>####(3) 检验节点在中心指标的稳定性</p>
+<pre class="r"><code>Results2 &lt;- bootnet(Network, statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;), nBoots = 1000, nCores = 3, type = &quot;case&quot;) 
+
+#稳定性：去掉一些样本或节点后，网络结构的中心指标顺序仍然不变
+#type = &quot;case&quot;用于设定基于case-dropping subset 自助法
+
+plot(Results2 ,statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;))#节点在中心指标的稳定性</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/stability-1.png" width="480" /></p>
+<pre class="r"><code>corStability(Results2)#Compute CS-coefficients</code></pre>
+<pre><code>## === Correlation Stability Analysis === 
+## 
+## Sampling levels tested:
+##    nPerson Drop%   n
+## 1       61  74.9  81
+## 2       80  67.1 101
+## 3       99  59.3  95
+## 4      117  51.9  97
+## 5      136  44.0 111
+## 6      155  36.2 110
+## 7      174  28.4  93
+## 8      193  20.6 102
+## 9      212  12.8 102
+## 10     231   4.9 108
+## 
+## Maximum drop proportions to retain correlation of 0.7 in at least 95% of the samples:
+## 
+## betweenness: 0.128 
+##   - For more accuracy, run bootnet(..., caseMin = 0.049, caseMax = 0.206) 
+## 
+## closeness: 0.593 
+##   - For more accuracy, run bootnet(..., caseMin = 0.519, caseMax = 0.671) 
+## 
+## strength: 0.593 
+##   - For more accuracy, run bootnet(..., caseMin = 0.519, caseMax = 0.671) 
+## 
+## Accuracy can also be increased by increasing both &#39;nBoots&#39; and &#39;caseN&#39;.</code></pre>
+<pre class="r"><code>#CS(cor = 0.7) 表示在去掉最大比例时，在95%概率下原始中心指标和基于子集的网络中心指标之间的相关性为 0.7 或更高。
+#CS值不应低于0.25，在0.5以上较佳。</code></pre>
+<p>结果解读：如图所示，纵轴为原样本与样本量减少所估计结果的关联程度，横轴为样本数量。图中不同颜色的线表示节点在中心指标的具体值，不同颜色范围代表的是对应的置信区间。如图所示，随着样本量减少，中心指标的稳定性在逐步下降，尤其是中介性。</p>
+<p>###小结
+综上所述，通过比较分析两样本的网络结构以及各个节点的中心性指标，发现淡漠因子题目位于网络结构的中间位置。另外，无情因子题目则位于网络结构的边缘位置，并呈现与淡漠因子和冷酷因子的题目存在较少的关联。<strong>本研究得出如下结论：淡漠是青少年CU特质的核心特征。本研究发现拓展了国内青少年CU特质核心特征的理解，为干预与治疗青少年CU特质提供了更多的理论意义和临床价值。</strong></p>
+<p>##4. 实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究
+###简要介绍 以下将以一项儿童精神病态纵向网络分析研究作为例子(Wang et
+al.,
+unpublished)具体介绍如何进行一项纵向网络分析研究。与上面的例子不同，这一研究在研究设计上使用了<strong>纵向研究方法</strong>，探讨的是网络结构在时间维度上的稳定性问题，即<strong>网络结构是否会随着时间推移而发生变化</strong>。</p>
+<p>除此以外，本研究仅比较单一样本的纵向网络结构。即便存在一些不同，但是这两项研究的研究思路基本是一致的，只是基于不同视角的网络结构比较，上面的例子是基于不同特征的样本进行比较，而<strong>本研究则是基于同一样本在不同时间截点上的比较</strong>。</p>
+<p>这一研究以<strong>广东省某小学268名学生为被试</strong>，使用儿童问题行为问卷(the
+Child Problematic Traits Inventory)中文版(Wang et al.,
+2018)为测量工具探索儿童精神病态的网络结构。</p>
+<p>该测量工具共28题包含三个分量表，分别是<strong>冷酷无情(Callous-unemotional,
+CU)</strong>、<strong>夸大欺骗(Grandiose-deceitful,
+GD)</strong>、<strong>冲动和刺激寻求(Impulsive-Need for Stimulation,
+INS)</strong>，题目均采用李克特4级计分方式。</p>
+<p>本研究在2016年至2019年每间隔一年收集一次数据，共收集<strong>4次数据</strong>，数据分析的基本思路是分别对每个时间点的数据进行分析，然后再对比每个时间点上的网络结构结果进行分析。</p>
+<p>接下来展示如何使用程序包对数据进行网络分析(选取部分数据）。</p>
+<p>首先，与上面的实例操作一样，需要先进行程序包的安装与运行以及数据读取和导入。这两部分内容与上文类似，在此不再赘述，直接从网络分析的步骤开始。</p>
+<p>####4.0导入数据</p>
+<pre class="r"><code>Data1&lt;- read_excel(&quot;example2_Data1_t1.xlsx&quot;)#演示数据
+Data2&lt;- read_excel(&quot;example2_Data2_t2.xlsx&quot;)#演示数据
+Data3&lt;- read_excel(&quot;example2_Data3_t3.xlsx&quot;)#演示数据
+Data4&lt;- read_excel(&quot;example2_Data4_t4.xlsx&quot;)#演示数据</code></pre>
+<p>###4.1.1 建立网络结构图
+基本分析思路为先分别对每个时间点所收集的数据进行网络估计，然后再输出网络结构图。具体的分析语句如下所示：</p>
+<pre class="r"><code>Network1&lt;-bootnet::estimateNetwork(Data1,default = &quot;cor&quot;)#Time 1的网络估计
+Network2&lt;-bootnet::estimateNetwork(Data2,default = &quot;cor&quot;)#Time 2的网络估计
+Network3&lt;-bootnet::estimateNetwork(Data3,default = &quot;cor&quot;)#Time 3的网络估计
+Network4&lt;-bootnet::estimateNetwork(Data4,default = &quot;cor&quot;)#Time 4的网络估计</code></pre>
+<pre class="r"><code>groups&lt;-c(&quot;INS&quot;,&quot;CU&quot;,&quot;INS&quot;,&quot;CU&quot;,&quot;GD&quot;,&quot;INS&quot;,&quot;GD&quot;,
+          &quot;CU&quot;,&quot;GD&quot;,&quot;INS&quot;,&quot;CU&quot;,&quot;INS&quot;,&quot;CU&quot;,&quot;INS&quot;,
+          &quot;GD&quot;,&quot;INS&quot;,&quot;CU&quot;,&quot;GD&quot;,&quot;INS&quot;,&quot;CU&quot;,&quot;GD&quot;,
+          &quot;CU&quot;,&quot;INS&quot;,&quot;GD&quot;,&quot;CU&quot;,&quot;GD&quot;,&quot;CU&quot;,&quot;INS&quot;)
+Labels&lt;-colnames(Data1)
+Names&lt;-c(&quot;Likes change and that things happen all the time&quot;,
+         &quot;Seldom expresses sympathy for others&quot;,
+         &quot;Often has difficulties with awaiting his/her turn&quot;,
+         &quot;Usually does not seem to share others?? joy and sorrow&quot;,
+         &quot;Lies often to avoid problems&quot;,
+         &quot;Seems to do certain things just for the thrill of it&quot;,
+         &quot;Seems to see himself/herself as superior compared to others&quot;,
+         &quot;Never seems to have bad conscience for things that he/she has done&quot;,
+         &quot;Often lies to get what he/she wants&quot;,
+         &quot;Provides himself/herself with different things very fast and eagerly&quot;,
+         &quot;Often seems to be completely indifferent when other children are upset&quot;,
+         &quot;Often does things without thinking ahead&quot;,
+         &quot;Does not become upset when others are being hurt&quot;,
+         &quot;Often consumes things immediately rather than saving them&quot;,
+         &quot;Seems to lie more than other children of the same age&quot;,
+         &quot;Seems to have a great need for change and excitement&quot;,
+         &quot;Seldom remorseful when he/she has done something not allowed&quot;,
+         &quot;Is often superior and arrogant toward others&quot;,
+         &quot;Does not like waiting&quot;,
+         &quot;Often does not seem to care about what other people feel and think&quot;,
+         &quot;To get people to do what he/she wants, he/she often finds it efficient to con them&quot;,
+         &quot;Sometimes seems to completely lack the capability to feel guilt and remorse&quot;,
+         &quot;Seems to get bored quickly&quot;,
+         &quot;Thinks that he/she is better than everyone at almost everything&quot;,
+         &quot;Never expresses feelings of guilt when he/she has done something not allowed&quot;,
+         &quot;To frequently lie seems to be completely normal for him/her&quot;,
+         &quot;Does not express guilt and remorse to the same extent as other children of the same age&quot;,
+         &quot;Quickly gets tired of things and wants new things to happen all the time&quot;)</code></pre>
+<p>为了方便不同网络结构的比较，这里使用了<code>qgraph</code>程序包中的<code>averageLayout</code>用于统一格式。</p>
+<pre class="r"><code>L &lt;- averageLayout(Network1,Network2,Network3,Network4)#将网络设置为统一格式用于比较</code></pre>
+<p>输出统一格式下网络结构图的语句如下所示：</p>
+<pre class="r"><code>Network1G &lt;- plot(Network1, layout = L,title=&quot;Time 1&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1)#输出Time 1的网络结构图</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/layout2-1.png" width="672" /></p>
+<pre class="r"><code>Network2G&lt;- plot(Network2, layout = L,title=&quot;Time 2&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 2的网络结构图</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/layout2-2.png" width="672" /></p>
+<pre class="r"><code>Network3G &lt;- plot(Network3, layout = L,title=&quot;Time 3&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 3的网络结构图</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/layout2-3.png" width="672" /></p>
+<pre class="r"><code>Network4G &lt;- plot(Network4, layout = L,title=&quot;Time 4&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 4的网络结构图</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/layout2-4.png" width="672" /></p>
+<p>结果解读:<br />
+1.橙色节点为CU特质题目，蓝色节点为夸大欺骗题目，绿色节点为冲动和刺激寻求题目。<br />
+2.据图所示，发现CPTI网络结构在四个时间点的结果比较一致，表明该网络结构具有一定的稳定性。<br />
+3.CPTI网络结构具有这样的特点：<br />
+部分题目在网络中的位置具有明显区别，例如第20、25和27题位于CU特质题目聚类中较为中心的位置，第15和21题位于夸大欺骗题目聚类中较为中心的位置，而第1、7和24题则位于整个网络结构中较为外围的位置。</p>
+<p>在调整确定好格式后，可使用<code>pdf()</code>或<code>jpg()</code>直接保存文件。</p>
+<pre class="r"><code>pdf(&quot;Fig_averagelayoutgraph_T1-T4.pdf&quot;, width=10, height=10)
+par(mfrow=c(2,2))
+Network1G &lt;- plot(Network1, layout = L,title=&quot;Time 1&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1)#输出Time 1的网络结构图
+Network2G&lt;- plot(Network2, layout = L,title=&quot;Time 2&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 2的网络结构图
+Network3G &lt;- plot(Network3, layout = L,title=&quot;Time 3&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 3的网络结构图
+Network4G &lt;- plot(Network4, layout = L,title=&quot;Time 4&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 4的网络结构图
+dev.off()</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>###4.1.2 计算中心指标
+基本分析思路为先分别计算每个时间点网络结构中节点的中心指标，然后输出中心指标比较的可视化结果。具体的分析语句如下所示：</p>
+<pre class="r"><code>centralityPlot(list(Time1=cor_auto(Data1),
+                    Time2 = cor_auto(Data2), Time3=cor_auto(Data3),
+                    Time4 = cor_auto(Data4)),
+               include=c(&quot;Strength&quot;,&quot;Closeness&quot;),orderBy=&quot;Strength&quot;)</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/longitudinalcentrality1-1.png" width="672" /></p>
+<pre class="r"><code>pdf(&quot;Fig_centralityPlot_combined_T1-T4.pdf&quot;, width=10, height=10)
+centralityPlot(list(Time1=cor_auto(Data1),
+                    Time2 = cor_auto(Data2), Time3=cor_auto(Data3),
+                    Time4 = cor_auto(Data4)),
+               include=c(&quot;Strength&quot;,&quot;Closeness&quot;),orderBy=&quot;Strength&quot;,scale = &quot;z-scores&quot;)
+dev.off()</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>结果解读：<br />
+如图所示，发现CPTI题目在四个时间点上的中心指标结果较为一致，其中第15、20、21、25、27题具有较高的中心指标，表明这些题目位于网络结构中较为中心的位置，与上图的网络结构图结果一致。</p>
+<p>###4.1.3 网络分析的准确性检验
+基本分析思路为分别对使用每个时间点所收集的数据进行估计的网络结构进行准确性分析。具体操作内容与上文例子类似，在此不再赘述。</p>
+<p>###小结
+综上所述，通过比较基于不同时间点的网络结构以及各个节点的中心性指标，发现CPTI纵向网络结构具有一定的稳定性，其中一些题目位于较为中心的位置，例如:<br />
+(1) 第15题“与同龄人相比，他/她更经常撒谎。”<br />
+(2) 第20题“他/她大多数时候看起来并不在乎别人的感受和想法。”<br />
+(3) 第21题“他/她认为通过欺骗他人来达到目的是有效的。”<br />
+(4) 第25题“他/她做了不被允许的事时并没有表现出内疚。”<br />
+(5) 第27题“他/她不会表现出和同龄人同样程度的内疚。”</p>
+<p>综上这些发现表明<strong>缺乏懊悔感、不关心他人感受以及欺骗位于儿童精神病态网络结构中的核心位置，说明这些特征为儿童精神病态的核心特征</strong>。因此，本研究发现拓展了国内儿童精神病态核心特征及其稳定性的理解，为针对儿童精神病态的干预与治疗提供了更多的理论意义和临床价值。</p>
+<p>###4.1.4 网络分析的比较检验(Network Comparison Test)
+这部分主要是使用上述演示数据说明使用<code>NetworkComparisonTest</code>进行比较检验分析，选取Data1和Data2作为例子进行操作说明。</p>
+<pre class="r"><code>compare_12 &lt;- NCT(Data1,Data2, binary.data=FALSE, paired = TRUE,test.edges=TRUE, edges=&#39;all&#39;, progressbar=TRUE,test.centrality = TRUE,centrality = &quot;strength&quot;)#paired:TRUE of FALSE to indicate whether the samples are dependent or not</code></pre>
+<pre><code>## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |=                                                                     |   1%
+  |                                                                            
+  |=                                                                     |   2%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |===                                                                   |   4%
+  |                                                                            
+  |====                                                                  |   5%
+  |                                                                            
+  |====                                                                  |   6%
+  |                                                                            
+  |=====                                                                 |   7%
+  |                                                                            
+  |======                                                                |   8%
+  |                                                                            
+  |======                                                                |   9%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |========                                                              |  11%
+  |                                                                            
+  |========                                                              |  12%
+  |                                                                            
+  |=========                                                             |  13%
+  |                                                                            
+  |==========                                                            |  14%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |===========                                                           |  16%
+  |                                                                            
+  |============                                                          |  17%
+  |                                                                            
+  |=============                                                         |  18%
+  |                                                                            
+  |=============                                                         |  19%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |===============                                                       |  21%
+  |                                                                            
+  |===============                                                       |  22%
+  |                                                                            
+  |================                                                      |  23%
+  |                                                                            
+  |=================                                                     |  24%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |==================                                                    |  26%
+  |                                                                            
+  |===================                                                   |  27%
+  |                                                                            
+  |====================                                                  |  28%
+  |                                                                            
+  |====================                                                  |  29%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |======================                                                |  31%
+  |                                                                            
+  |======================                                                |  32%
+  |                                                                            
+  |=======================                                               |  33%
+  |                                                                            
+  |========================                                              |  34%
+  |                                                                            
+  |========================                                              |  35%
+  |                                                                            
+  |=========================                                             |  36%
+  |                                                                            
+  |==========================                                            |  37%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |===========================                                           |  39%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |=============================                                         |  41%
+  |                                                                            
+  |=============================                                         |  42%
+  |                                                                            
+  |==============================                                        |  43%
+  |                                                                            
+  |===============================                                       |  44%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |================================                                      |  46%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |==================================                                    |  48%
+  |                                                                            
+  |==================================                                    |  49%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |====================================                                  |  51%
+  |                                                                            
+  |====================================                                  |  52%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |======================================                                |  54%
+  |                                                                            
+  |======================================                                |  55%
+  |                                                                            
+  |=======================================                               |  56%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |=========================================                             |  58%
+  |                                                                            
+  |=========================================                             |  59%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |===========================================                           |  61%
+  |                                                                            
+  |===========================================                           |  62%
+  |                                                                            
+  |============================================                          |  63%
+  |                                                                            
+  |=============================================                         |  64%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |==============================================                        |  66%
+  |                                                                            
+  |===============================================                       |  67%
+  |                                                                            
+  |================================================                      |  68%
+  |                                                                            
+  |================================================                      |  69%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |==================================================                    |  71%
+  |                                                                            
+  |==================================================                    |  72%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |====================================================                  |  74%
+  |                                                                            
+  |====================================================                  |  75%
+  |                                                                            
+  |=====================================================                 |  76%
+  |                                                                            
+  |======================================================                |  77%
+  |                                                                            
+  |=======================================================               |  78%
+  |                                                                            
+  |=======================================================               |  79%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |=========================================================             |  81%
+  |                                                                            
+  |=========================================================             |  82%
+  |                                                                            
+  |==========================================================            |  83%
+  |                                                                            
+  |===========================================================           |  84%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |============================================================          |  86%
+  |                                                                            
+  |=============================================================         |  87%
+  |                                                                            
+  |==============================================================        |  88%
+  |                                                                            
+  |==============================================================        |  89%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |================================================================      |  91%
+  |                                                                            
+  |================================================================      |  92%
+  |                                                                            
+  |=================================================================     |  93%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |==================================================================    |  95%
+  |                                                                            
+  |===================================================================   |  96%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |===================================================================== |  98%
+  |                                                                            
+  |===================================================================== |  99%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<pre class="r"><code>#compare_12_p.adj &lt;- NCT(Data1,Data2, binary.data=FALSE, paired = TRUE,test.edges=TRUE, edges=&#39;all&#39;,p.adjust.methods=&quot;bonferroni&quot;, progressbar=TRUE,test.centrality = TRUE,centrality = &quot;strength&quot;)</code></pre>
+<p>####(1) NCT topology: network structure invariance test</p>
+<pre class="r"><code>compare_12$nwinv.pval#查看整个网络在边线权重是否存在显著性差异：P值</code></pre>
+<pre><code>## [1] 0.76</code></pre>
+<p>####(2) invariant global strength</p>
+<pre class="r"><code>compare_12$glstrinv.pval##查看网络在整体强度上是否存在显著性差异：P值</code></pre>
+<pre><code>## [1] 0.7</code></pre>
+<p>####(3) global strength value estimation</p>
+<pre class="r"><code>compare_12$glstrinv.sep #查看两个网络在整体强度上的具体值</code></pre>
+<pre><code>## [1] 12.56604 12.71591</code></pre>
+<p>####(4) quantification of differences: count significantly different
+edges</p>
+<pre class="r"><code>compare_12$einv.pvals###查看网络在边线权重上置换检验是否存在显著性差异：P值</code></pre>
+<pre><code>##       Var1   Var2 p-value
+## 29  CPTI01 CPTI02    1.00
+## 57  CPTI01 CPTI03    0.67
+## 58  CPTI02 CPTI03    0.10
+## 85  CPTI01 CPTI04    1.00
+## 86  CPTI02 CPTI04    0.15
+## 87  CPTI03 CPTI04    0.02
+## 113 CPTI01 CPTI05    0.30
+## 114 CPTI02 CPTI05    1.00
+## 115 CPTI03 CPTI05    0.42
+## 116 CPTI04 CPTI05    1.00
+## 141 CPTI01 CPTI06    0.94
+## 142 CPTI02 CPTI06    1.00
+## 143 CPTI03 CPTI06    0.68
+## 144 CPTI04 CPTI06    1.00
+## 145 CPTI05 CPTI06    1.00
+## 169 CPTI01 CPTI07    0.93
+## 170 CPTI02 CPTI07    1.00
+## 171 CPTI03 CPTI07    1.00
+## 172 CPTI04 CPTI07    0.03
+## 173 CPTI05 CPTI07    1.00
+## 174 CPTI06 CPTI07    0.13
+## 197 CPTI01 CPTI08    1.00
+## 198 CPTI02 CPTI08    0.28
+## 199 CPTI03 CPTI08    0.66
+## 200 CPTI04 CPTI08    0.91
+## 201 CPTI05 CPTI08    0.31
+## 202 CPTI06 CPTI08    0.13
+## 203 CPTI07 CPTI08    0.75
+## 225 CPTI01 CPTI09    0.53
+## 226 CPTI02 CPTI09    1.00
+## 227 CPTI03 CPTI09    1.00
+## 228 CPTI04 CPTI09    1.00
+## 229 CPTI05 CPTI09    0.75
+## 230 CPTI06 CPTI09    0.13
+## 231 CPTI07 CPTI09    0.00
+## 232 CPTI08 CPTI09    0.01
+## 253 CPTI01 CPTI10    0.63
+## 254 CPTI02 CPTI10    0.02
+## 255 CPTI03 CPTI10    0.77
+## 256 CPTI04 CPTI10    1.00
+## 257 CPTI05 CPTI10    1.00
+## 258 CPTI06 CPTI10    0.50
+## 259 CPTI07 CPTI10    0.33
+## 260 CPTI08 CPTI10    1.00
+## 261 CPTI09 CPTI10    0.09
+## 281 CPTI01 CPTI11    1.00
+## 282 CPTI02 CPTI11    0.45
+## 283 CPTI03 CPTI11    1.00
+## 284 CPTI04 CPTI11    1.00
+## 285 CPTI05 CPTI11    1.00
+## 286 CPTI06 CPTI11    1.00
+## 287 CPTI07 CPTI11    1.00
+## 288 CPTI08 CPTI11    1.00
+## 289 CPTI09 CPTI11    1.00
+## 290 CPTI10 CPTI11    1.00
+## 309 CPTI01 CPTI12    1.00
+## 310 CPTI02 CPTI12    1.00
+## 311 CPTI03 CPTI12    0.07
+## 312 CPTI04 CPTI12    0.81
+## 313 CPTI05 CPTI12    0.36
+## 314 CPTI06 CPTI12    0.31
+## 315 CPTI07 CPTI12    1.00
+## 316 CPTI08 CPTI12    0.14
+## 317 CPTI09 CPTI12    0.58
+## 318 CPTI10 CPTI12    0.03
+## 319 CPTI11 CPTI12    0.45
+## 337 CPTI01 CPTI13    1.00
+## 338 CPTI02 CPTI13    0.20
+## 339 CPTI03 CPTI13    1.00
+## 340 CPTI04 CPTI13    0.00
+## 341 CPTI05 CPTI13    1.00
+## 342 CPTI06 CPTI13    1.00
+## 343 CPTI07 CPTI13    1.00
+## 344 CPTI08 CPTI13    0.09
+## 345 CPTI09 CPTI13    1.00
+## 346 CPTI10 CPTI13    1.00
+## 347 CPTI11 CPTI13    0.32
+## 348 CPTI12 CPTI13    0.99
+## 365 CPTI01 CPTI14    1.00
+## 366 CPTI02 CPTI14    1.00
+## 367 CPTI03 CPTI14    1.00
+## 368 CPTI04 CPTI14    1.00
+## 369 CPTI05 CPTI14    1.00
+## 370 CPTI06 CPTI14    0.29
+## 371 CPTI07 CPTI14    1.00
+## 372 CPTI08 CPTI14    1.00
+## 373 CPTI09 CPTI14    1.00
+## 374 CPTI10 CPTI14    0.76
+## 375 CPTI11 CPTI14    1.00
+## 376 CPTI12 CPTI14    0.90
+## 377 CPTI13 CPTI14    1.00
+## 393 CPTI01 CPTI15    1.00
+## 394 CPTI02 CPTI15    1.00
+## 395 CPTI03 CPTI15    1.00
+## 396 CPTI04 CPTI15    1.00
+## 397 CPTI05 CPTI15    0.44
+## 398 CPTI06 CPTI15    1.00
+## 399 CPTI07 CPTI15    0.09
+## 400 CPTI08 CPTI15    0.80
+## 401 CPTI09 CPTI15    0.24
+## 402 CPTI10 CPTI15    0.30
+## 403 CPTI11 CPTI15    0.00
+## 404 CPTI12 CPTI15    0.19
+## 405 CPTI13 CPTI15    1.00
+## 406 CPTI14 CPTI15    0.54
+## 421 CPTI01 CPTI16    0.02
+## 422 CPTI02 CPTI16    1.00
+## 423 CPTI03 CPTI16    1.00
+## 424 CPTI04 CPTI16    1.00
+## 425 CPTI05 CPTI16    1.00
+## 426 CPTI06 CPTI16    0.37
+## 427 CPTI07 CPTI16    0.59
+## 428 CPTI08 CPTI16    1.00
+## 429 CPTI09 CPTI16    0.01
+## 430 CPTI10 CPTI16    0.29
+## 431 CPTI11 CPTI16    0.16
+## 432 CPTI12 CPTI16    0.64
+## 433 CPTI13 CPTI16    1.00
+## 434 CPTI14 CPTI16    0.85
+## 435 CPTI15 CPTI16    0.33
+## 449 CPTI01 CPTI17    1.00
+## 450 CPTI02 CPTI17    0.10
+## 451 CPTI03 CPTI17    1.00
+## 452 CPTI04 CPTI17    0.38
+## 453 CPTI05 CPTI17    0.80
+## 454 CPTI06 CPTI17    0.51
+## 455 CPTI07 CPTI17    1.00
+## 456 CPTI08 CPTI17    0.92
+## 457 CPTI09 CPTI17    0.04
+## 458 CPTI10 CPTI17    0.15
+## 459 CPTI11 CPTI17    1.00
+## 460 CPTI12 CPTI17    0.20
+## 461 CPTI13 CPTI17    0.94
+## 462 CPTI14 CPTI17    0.97
+## 463 CPTI15 CPTI17    0.33
+## 464 CPTI16 CPTI17    0.46
+## 477 CPTI01 CPTI18    0.84
+## 478 CPTI02 CPTI18    0.68
+## 479 CPTI03 CPTI18    1.00
+## 480 CPTI04 CPTI18    0.45
+## 481 CPTI05 CPTI18    1.00
+## 482 CPTI06 CPTI18    1.00
+## 483 CPTI07 CPTI18    0.01
+## 484 CPTI08 CPTI18    0.79
+## 485 CPTI09 CPTI18    1.00
+## 486 CPTI10 CPTI18    1.00
+## 487 CPTI11 CPTI18    0.37
+## 488 CPTI12 CPTI18    0.15
+## 489 CPTI13 CPTI18    0.17
+## 490 CPTI14 CPTI18    1.00
+## 491 CPTI15 CPTI18    0.35
+## 492 CPTI16 CPTI18    0.04
+## 493 CPTI17 CPTI18    0.49
+## 505 CPTI01 CPTI19    1.00
+## 506 CPTI02 CPTI19    1.00
+## 507 CPTI03 CPTI19    0.22
+## 508 CPTI04 CPTI19    0.29
+## 509 CPTI05 CPTI19    1.00
+## 510 CPTI06 CPTI19    0.87
+## 511 CPTI07 CPTI19    1.00
+## 512 CPTI08 CPTI19    0.01
+## 513 CPTI09 CPTI19    1.00
+## 514 CPTI10 CPTI19    0.29
+## 515 CPTI11 CPTI19    1.00
+## 516 CPTI12 CPTI19    0.57
+## 517 CPTI13 CPTI19    1.00
+## 518 CPTI14 CPTI19    0.14
+## 519 CPTI15 CPTI19    1.00
+## 520 CPTI16 CPTI19    0.90
+## 521 CPTI17 CPTI19    0.59
+## 522 CPTI18 CPTI19    1.00
+## 533 CPTI01 CPTI20    1.00
+## 534 CPTI02 CPTI20    0.02
+## 535 CPTI03 CPTI20    0.23
+## 536 CPTI04 CPTI20    0.47
+## 537 CPTI05 CPTI20    1.00
+## 538 CPTI06 CPTI20    1.00
+## 539 CPTI07 CPTI20    1.00
+## 540 CPTI08 CPTI20    1.00
+## 541 CPTI09 CPTI20    1.00
+## 542 CPTI10 CPTI20    0.05
+## 543 CPTI11 CPTI20    0.67
+## 544 CPTI12 CPTI20    0.55
+## 545 CPTI13 CPTI20    1.00
+## 546 CPTI14 CPTI20    0.65
+## 547 CPTI15 CPTI20    1.00
+## 548 CPTI16 CPTI20    0.63
+## 549 CPTI17 CPTI20    0.33
+## 550 CPTI18 CPTI20    0.64
+## 551 CPTI19 CPTI20    0.83
+## 561 CPTI01 CPTI21    1.00
+## 562 CPTI02 CPTI21    1.00
+## 563 CPTI03 CPTI21    1.00
+## 564 CPTI04 CPTI21    0.56
+## 565 CPTI05 CPTI21    0.29
+## 566 CPTI06 CPTI21    1.00
+## 567 CPTI07 CPTI21    1.00
+## 568 CPTI08 CPTI21    0.27
+## 569 CPTI09 CPTI21    0.19
+## 570 CPTI10 CPTI21    0.17
+## 571 CPTI11 CPTI21    1.00
+## 572 CPTI12 CPTI21    0.92
+## 573 CPTI13 CPTI21    0.36
+## 574 CPTI14 CPTI21    1.00
+## 575 CPTI15 CPTI21    0.14
+## 576 CPTI16 CPTI21    0.11
+## 577 CPTI17 CPTI21    1.00
+## 578 CPTI18 CPTI21    0.52
+## 579 CPTI19 CPTI21    1.00
+## 580 CPTI20 CPTI21    0.00
+## 589 CPTI01 CPTI22    1.00
+## 590 CPTI02 CPTI22    1.00
+## 591 CPTI03 CPTI22    1.00
+## 592 CPTI04 CPTI22    0.38
+## 593 CPTI05 CPTI22    1.00
+## 594 CPTI06 CPTI22    1.00
+## 595 CPTI07 CPTI22    1.00
+## 596 CPTI08 CPTI22    0.10
+## 597 CPTI09 CPTI22    1.00
+## 598 CPTI10 CPTI22    1.00
+## 599 CPTI11 CPTI22    1.00
+## 600 CPTI12 CPTI22    0.81
+## 601 CPTI13 CPTI22    0.38
+## 602 CPTI14 CPTI22    1.00
+## 603 CPTI15 CPTI22    0.13
+## 604 CPTI16 CPTI22    0.29
+## 605 CPTI17 CPTI22    0.24
+## 606 CPTI18 CPTI22    0.57
+## 607 CPTI19 CPTI22    1.00
+## 608 CPTI20 CPTI22    0.31
+## 609 CPTI21 CPTI22    0.04
+## 617 CPTI01 CPTI23    1.00
+## 618 CPTI02 CPTI23    0.31
+## 619 CPTI03 CPTI23    0.37
+## 620 CPTI04 CPTI23    0.60
+## 621 CPTI05 CPTI23    0.44
+## 622 CPTI06 CPTI23    0.02
+## 623 CPTI07 CPTI23    0.85
+## 624 CPTI08 CPTI23    0.09
+## 625 CPTI09 CPTI23    1.00
+## 626 CPTI10 CPTI23    0.38
+## 627 CPTI11 CPTI23    0.05
+## 628 CPTI12 CPTI23    0.62
+## 629 CPTI13 CPTI23    0.32
+## 630 CPTI14 CPTI23    0.00
+## 631 CPTI15 CPTI23    1.00
+## 632 CPTI16 CPTI23    1.00
+## 633 CPTI17 CPTI23    0.08
+## 634 CPTI18 CPTI23    1.00
+## 635 CPTI19 CPTI23    0.03
+## 636 CPTI20 CPTI23    0.94
+## 637 CPTI21 CPTI23    0.37
+## 638 CPTI22 CPTI23    0.81
+## 645 CPTI01 CPTI24    1.00
+## 646 CPTI02 CPTI24    1.00
+## 647 CPTI03 CPTI24    1.00
+## 648 CPTI04 CPTI24    1.00
+## 649 CPTI05 CPTI24    0.01
+## 650 CPTI06 CPTI24    1.00
+## 651 CPTI07 CPTI24    0.85
+## 652 CPTI08 CPTI24    0.68
+## 653 CPTI09 CPTI24    1.00
+## 654 CPTI10 CPTI24    0.78
+## 655 CPTI11 CPTI24    0.11
+## 656 CPTI12 CPTI24    1.00
+## 657 CPTI13 CPTI24    1.00
+## 658 CPTI14 CPTI24    1.00
+## 659 CPTI15 CPTI24    1.00
+## 660 CPTI16 CPTI24    1.00
+## 661 CPTI17 CPTI24    1.00
+## 662 CPTI18 CPTI24    0.72
+## 663 CPTI19 CPTI24    0.92
+## 664 CPTI20 CPTI24    1.00
+## 665 CPTI21 CPTI24    0.16
+## 666 CPTI22 CPTI24    0.19
+## 667 CPTI23 CPTI24    0.17
+## 673 CPTI01 CPTI25    0.02
+## 674 CPTI02 CPTI25    1.00
+## 675 CPTI03 CPTI25    0.02
+## 676 CPTI04 CPTI25    0.87
+## 677 CPTI05 CPTI25    0.05
+## 678 CPTI06 CPTI25    0.19
+## 679 CPTI07 CPTI25    1.00
+## 680 CPTI08 CPTI25    0.60
+## 681 CPTI09 CPTI25    1.00
+## 682 CPTI10 CPTI25    1.00
+## 683 CPTI11 CPTI25    1.00
+## 684 CPTI12 CPTI25    1.00
+## 685 CPTI13 CPTI25    0.05
+## 686 CPTI14 CPTI25    0.88
+## 687 CPTI15 CPTI25    0.78
+## 688 CPTI16 CPTI25    0.09
+## 689 CPTI17 CPTI25    0.58
+## 690 CPTI18 CPTI25    1.00
+## 691 CPTI19 CPTI25    1.00
+## 692 CPTI20 CPTI25    0.46
+## 693 CPTI21 CPTI25    0.46
+## 694 CPTI22 CPTI25    0.62
+## 695 CPTI23 CPTI25    0.52
+## 696 CPTI24 CPTI25    0.13
+## 701 CPTI01 CPTI26    1.00
+## 702 CPTI02 CPTI26    1.00
+## 703 CPTI03 CPTI26    1.00
+## 704 CPTI04 CPTI26    0.26
+## 705 CPTI05 CPTI26    0.97
+## 706 CPTI06 CPTI26    1.00
+## 707 CPTI07 CPTI26    1.00
+## 708 CPTI08 CPTI26    0.02
+## 709 CPTI09 CPTI26    0.02
+## 710 CPTI10 CPTI26    1.00
+## 711 CPTI11 CPTI26    1.00
+## 712 CPTI12 CPTI26    1.00
+## 713 CPTI13 CPTI26    1.00
+## 714 CPTI14 CPTI26    1.00
+## 715 CPTI15 CPTI26    0.28
+## 716 CPTI16 CPTI26    1.00
+## 717 CPTI17 CPTI26    1.00
+## 718 CPTI18 CPTI26    0.10
+## 719 CPTI19 CPTI26    1.00
+## 720 CPTI20 CPTI26    1.00
+## 721 CPTI21 CPTI26    0.18
+## 722 CPTI22 CPTI26    1.00
+## 723 CPTI23 CPTI26    0.28
+## 724 CPTI24 CPTI26    1.00
+## 725 CPTI25 CPTI26    0.19
+## 729 CPTI01 CPTI27    1.00
+## 730 CPTI02 CPTI27    1.00
+## 731 CPTI03 CPTI27    1.00
+## 732 CPTI04 CPTI27    0.00
+## 733 CPTI05 CPTI27    1.00
+## 734 CPTI06 CPTI27    1.00
+## 735 CPTI07 CPTI27    0.07
+## 736 CPTI08 CPTI27    0.40
+## 737 CPTI09 CPTI27    1.00
+## 738 CPTI10 CPTI27    1.00
+## 739 CPTI11 CPTI27    0.35
+## 740 CPTI12 CPTI27    1.00
+## 741 CPTI13 CPTI27    0.51
+## 742 CPTI14 CPTI27    0.41
+## 743 CPTI15 CPTI27    0.35
+## 744 CPTI16 CPTI27    1.00
+## 745 CPTI17 CPTI27    0.72
+## 746 CPTI18 CPTI27    0.56
+## 747 CPTI19 CPTI27    1.00
+## 748 CPTI20 CPTI27    0.74
+## 749 CPTI21 CPTI27    0.55
+## 750 CPTI22 CPTI27    0.55
+## 751 CPTI23 CPTI27    0.78
+## 752 CPTI24 CPTI27    0.25
+## 753 CPTI25 CPTI27    0.11
+## 754 CPTI26 CPTI27    0.94
+## 757 CPTI01 CPTI28    0.29
+## 758 CPTI02 CPTI28    1.00
+## 759 CPTI03 CPTI28    0.13
+## 760 CPTI04 CPTI28    1.00
+## 761 CPTI05 CPTI28    1.00
+## 762 CPTI06 CPTI28    0.65
+## 763 CPTI07 CPTI28    1.00
+## 764 CPTI08 CPTI28    0.09
+## 765 CPTI09 CPTI28    0.06
+## 766 CPTI10 CPTI28    0.82
+## 767 CPTI11 CPTI28    0.08
+## 768 CPTI12 CPTI28    0.66
+## 769 CPTI13 CPTI28    1.00
+## 770 CPTI14 CPTI28    0.73
+## 771 CPTI15 CPTI28    1.00
+## 772 CPTI16 CPTI28    0.67
+## 773 CPTI17 CPTI28    1.00
+## 774 CPTI18 CPTI28    0.00
+## 775 CPTI19 CPTI28    0.23
+## 776 CPTI20 CPTI28    0.40
+## 777 CPTI21 CPTI28    1.00
+## 778 CPTI22 CPTI28    1.00
+## 779 CPTI23 CPTI28    0.26
+## 780 CPTI24 CPTI28    0.29
+## 781 CPTI25 CPTI28    0.76
+## 782 CPTI26 CPTI28    1.00
+## 783 CPTI27 CPTI28    0.26</code></pre>
+<pre class="r"><code>sum(compare_12$einv.pvals$&quot;p-value&quot; &lt; 0.05) #查看P值小于.05的数量</code></pre>
+<pre><code>## [1] 27</code></pre>
+<p>####(5) differences in centralities: p-value</p>
+<pre class="r"><code>compare_12$diffcen.pval#查看网络在中心指标强度上置换检验是否存在显著性差异：P值</code></pre>
+<pre><code>##        strength
+## CPTI01     0.89
+## CPTI02     0.60
+## CPTI03     0.86
+## CPTI04     0.43
+## CPTI05     0.75
+## CPTI06     0.47
+## CPTI07     0.53
+## CPTI08     0.94
+## CPTI09     0.94
+## CPTI10     0.51
+## CPTI11     0.64
+## CPTI12     0.58
+## CPTI13     0.23
+## CPTI14     0.60
+## CPTI15     0.93
+## CPTI16     0.58
+## CPTI17     0.30
+## CPTI18     0.12
+## CPTI19     0.35
+## CPTI20     0.09
+## CPTI21     0.09
+## CPTI22     0.23
+## CPTI23     0.81
+## CPTI24     0.80
+## CPTI25     0.05
+## CPTI26     0.86
+## CPTI27     0.20
+## CPTI28     0.55</code></pre>
+<pre class="r"><code>sum(compare_12$diffcen.pval&lt; 0.05)#查看P值小于.05的数量</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>结果解读：说明Data1和Data2所构建的网络之间基本一致。</p>
+<p>##5. 总结
+综上，通过两项研究实例具体展示如何通过使用R语言进行一项网络分析，具体使用以下R包来实现统计分析：<code>qgraph</code>，<code>bootnet</code>,<code>NetworkComparisonTest</code>,包括网络结构的估计、中心指标的计算、网络分析准确性分析以及网络分析的比较检验。<br />
+作为一种新取向，网络分析在临床心理学领域为理解精神障碍和症状之间关系提供了新的视角。纵然已有一些研究成果，但目前处于初步发展阶段，需要更多研究对这种方法进行探索与验证以保证其在心理学领域的推广性。</p>
+<p>##6. 学习资源分享 #####a.CRAN R包 documentation
+由于开发者会对R包进行更新，具体语句以对应版本的手册说明为准。</p>
+<pre class="r"><code>help(package=&quot;qgraph&quot;)#查阅手册
+??qgraph
+??bootnet
+??NetworkComparisonTest</code></pre>
+<p>#####b.参考书籍 <a
+href="https://doi.org/10.4324/9781003111238">Isvoranu, A.-M., Epskamp,
+S., Waldorp, L.J., &amp; Borsboom, D. (Eds.). (2022). <em>Network
+Psychometrics with R: A Guide for Behavioral and Social Scientists (1st
+ed.)</em>. Routledge.</a></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

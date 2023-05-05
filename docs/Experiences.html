@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Experiences</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Jiaxin Deng</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="CV.html">Curriculum Vitae</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Publications
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="publications_year.html">Sort by Year</a>
+    </li>
+    <li>
+      <a href="publications_topic.html">Sort by Topic</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Experiences.html">Experiences</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Tutorial_Reliability-Generalization.html">Reliability Generalization</a>
+    </li>
+    <li>
+      <a href="Tutorial_Network-analysis.html">Network Analysis</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/KammyDeng">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Experiences</h1>
+
+</div>
+
+
+<div id="education" class="section level3">
+<h3>Education</h3>
+<div id="master-of-education" class="section level4">
+<h4>Master of Education</h4>
+<ul>
+<li>Guangzhou University, 2016 Sep-2020 Jun</li>
+<li>Specialization: Applied Psychology</li>
+<li>Master thesis: Developmental trajectories of callous-unemotional
+traits: Longitudinal associations with parenting stress and parenting
+behaviours in Chinese community children</li>
+<li>Supervisor: Dr. Mengcheng Wang</li>
+</ul>
+</div>
+<div id="bachelor-of-science" class="section level4">
+<h4>Bachelor of Science</h4>
+<ul>
+<li>Guangzhou University, 2012 Sep-2016 Jun</li>
+<li>Specialization: Psychology</li>
+<li>Bachelor thesis: The relationship between psychopathy and the
+five-factor model</li>
+<li>Supervisor: Dr. Mengcheng Wang</li>
+</ul>
+</div>
+</div>
+<div id="honors-and-academic-awards" class="section level3">
+<h3>Honors and Academic Awards</h3>
+<ul>
+<li>Outstanding student of Guangdong Province in 2020 (Apr 2020)</li>
+<li>Outstanding graduates of Guangzhou University in 2020 (May
+2020)</li>
+<li>The National Scholarship in 2019 (Nov 2019)</li>
+<li>Scholarship for abroad as a joint graduate student (Jun 2018)</li>
+<li>Second prize scholarship of School of Education at Guangzhou
+University (Oct 2018)</li>
+<li>The National Scholarship in 2017 (Nov 2017)</li>
+<li>First prize scholarship of School of Education at Guangzhou
+University (Oct 2017)</li>
+<li>Second prize scholarship of School of Education at Guangzhou
+University (Oct 2016)</li>
+<li>Second prize of essay activity of Psychology Sub-forum of Graduate
+Academic Forum of Guangzhou University (Dec 2016)</li>
+</ul>
+</div>
+<div id="research-experience" class="section level3">
+<h3>Research Experience</h3>
+<div id="research-fellow-jul-2022-current" class="section level4">
+<h4>Research fellow, Jul 2022-current</h4>
+<ul>
+<li>The Centre for Psychometric and Latent Variable modeling, Guangzhou
+University, Guangzhou, China</li>
+<li>Principle Investigator: Dr. Mengcheng Wang<br />
+</li>
+<li>Participation in data analysis and report writing about risk
+assessment in recidivism
+<ul>
+<li>Applying machine learning algorithms (e.g., random forest, support
+vector machines) and network analysis</li>
+</ul></li>
+<li>Working on manuscript drafting and revision</li>
+</ul>
+</div>
+<div id="visiting-student-dec-2018-dec-2019" class="section level4">
+<h4>Visiting student, Dec 2018-Dec 2019</h4>
+<ul>
+<li>Psychophysiology Lab at Brooklyn College, CUNY, New York, NY,
+USA.<br />
+</li>
+<li>Principle Investigator: Dr. Yu Gao</li>
+</ul>
+</div>
+<div id="research-assistant-may-2015--apr-2021" class="section level4">
+<h4>Research assistant, May 2015- Apr 2021</h4>
+<ul>
+<li>The Centre for Psychometric and Latent Variable Modeling, Guangzhou
+University, Guangzhou, China</li>
+<li>Principle Investigator: Dr. Mengcheng Wang</li>
+<li>Responsibilities: Data collection and analysis, Manuscript and
+research report writing.</li>
+<li>Main Contributed Projects
+<ul>
+<li>July 2020-Mar 2021: Risk assessment in psychiatric prisoners,
+Guangdong, China.</li>
+<li>May 2015-Nov 2020: A follow-up study on the influence of parenting
+behaviours on callous unemotional traits in community children,
+Guangdong, China.</li>
+<li>Apr 2016-Apr 2017: Development assessment tools about study burden
+and physical-mental development of comprehensive evaluation of primary
+and middle school education quality in Chongqing, China.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="conferences-and-presentations" class="section level3">
+<h3>Conferences and Presentations</h3>
+<ol style="list-style-type: decimal">
+<li><strong>Deng, J.</strong>, Wang, M., Shou, Y., Gao, Y., Allen, J.
+&amp; Hawes, D. (Apr 2023). Cross-cultural Network Analysis of
+Callous-Unemotional Traits in Four International Youth Samples. Oral
+presentation at the meeting of Guangzhou Psychological Association.
+Guangzhou University, Guangzhou, China.</li>
+<li><strong>Deng, J.</strong>, Wang, M., Gao, Y. &amp; Shou, Y. (May
+2019). Parenting Behaviors and Child Psychopathy: A Regression Mixture
+Analysis. Poster presented at the 8th biennial meeting of the Society
+for the Scientific Study of Psychopathy. Las Vegas, USA.</li>
+<li><strong>Deng, J.</strong>, Zhang, X., Gao, Y., Wang, M. &amp; Shou,
+Y. (Nov 2017). The Utility of Limited Prosocial Emotion: Meta-analysis
+and reliability generalization of the Inventory of Callous Unemotional
+Traits. Oral presentation at Guangzhou-Hong Kong Graduate Forum 2017.
+Guangzhou University, Guangzhou, China.</li>
+<li><strong>Deng, J.</strong>, Zhang, X., Gao, Y., Wang, M. &amp; Shou,
+Y. (Nov 2017). The Utility of Limited Prosocial Emotion: Meta-analysis
+and reliability generalization of the Inventory of Callous Unemotional
+Traits. Oral presentation at the 20th National Psychology Conference.
+Southwest University, Chongqing, China.</li>
+<li><strong>Deng, J.</strong> &amp; Wang, M. (Jul 2017). The relations
+between psychopathy and the Five-Factor Model. Oral presentation at
+International Postgraduate Roundtable and Research Forum cum Summer
+School 2017. The Education University of Hong Kong, Hong Kong,
+China.</li>
+</ol>
+</div>
+<div id="workshops-presentations" class="section level3">
+<h3>Workshops Presentations</h3>
+<ol style="list-style-type: decimal">
+<li><strong>Deng, J.</strong> (2023). Meta-analysis and Reliability
+Generalization Workshop. 22 Mar, Guangdong University of Technology,
+Guangzhou, China.</li>
+<li><strong>Deng, J.</strong> (2023). Network psychometrics Workshop. 9
+Mar, Virtual.</li>
+<li>Wang, M-C., <strong>Deng, J.</strong> (2022). Network psychometrics
+Workshop. 19 June, Virtual.</li>
+<li>Wang, M-C., <strong>Deng, J.</strong> (2022). Reliability
+Generalization Workshop. 16 July, Changsha, China.</li>
+</ol>
+</div>
+<div id="work-experience" class="section level3">
+<h3>Work Experience</h3>
+<div id="data-analyst-in-educational-assessment-apr-2021-june-2022"
+class="section level4">
+<h4>Data Analyst in Educational Assessment, Apr 2021-June 2022</h4>
+<ul>
+<li>Jingwei Reading Technology Co., Ltd, Beijing, China</li>
+<li>Analyzing data and interpreting results using statistics techniques
+especially psychometric testing</li>
+</ul>
+</div>
+<div id="psychology-teacher-internship-sep-2015-dec-2015"
+class="section level4">
+<h4>Psychology teacher (Internship), Sep 2015-Dec 2015</h4>
+<ul>
+<li>Guangzhou Tianhe Middle School, Guangzhou, China</li>
+<li>Supervisor: Yang Yang, B.S. (Psychology teacher)</li>
+</ul>
+</div>
+<div id="social-worker-internship-may-2015-aug-2015"
+class="section level4">
+<h4>Social worker (Internship), May 2015-Aug 2015</h4>
+<ul>
+<li>Guangzhou QiChuang Social Work Service Centre, Guangzhou,
+China.</li>
+<li>Supervisor: Wang Jing, B.S. (Senior social worker)</li>
+</ul>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

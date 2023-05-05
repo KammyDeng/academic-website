@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jiaxin Deng" />
+
+
+<title>Reliability Generalization Workshop</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Jiaxin Deng</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="CV.html">Curriculum Vitae</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Publications
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="publications_year.html">Sort by Year</a>
+    </li>
+    <li>
+      <a href="publications_topic.html">Sort by Topic</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Experiences.html">Experiences</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Tutorial_Reliability Generalization.html">Reliability Generalization</a>
+    </li>
+    <li>
+      <a href="Tutorial_Network-analysis.html">Network Analysis</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/KammyDeng">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Reliability Generalization Workshop</h1>
+<h4 class="author">Jiaxin Deng</h4>
+<h4 class="date">2022/7/16</h4>
+
+</div>
+
+
+<p>———- 目录 ——————————————————————————————–<br />
+———- 1. 实例分析与技术实现：R语言 ————————————————————–<br />
+———- 2. R语言基本操作——————————————————————————<br />
+———- 3.
+实例操作：Deng等人(2019)冷酷无情特质问卷信度概化分析研究———————–<br />
+———-实际操作练习：使用演示数据进行练习——————————————————-<br />
+———- 4. 总结——————————————————————————————<br />
+———- 5. 学习资源分享——————————————————————————–</p>
+<p>##1. 实例分析与技术实现：R语言
+信度概化或者元分析在心理学领域的应用中，常用R语言作为主要的数据分析软件。</p>
+<p>常用的元分析R包：<code>metafor</code> (Viechtbauer, 2010),
+<code>metaSEM</code> (Cheung, 2015)等等。</p>
+<p>具体详见Polanin等人(2017)文章，该文归纳了当前可用于元分析的R包，共63个，并对其使用功能等方面进行比较并提供使用建议。</p>
+<p>Polanin, J. R., Hennessy, E. A., &amp; Tanner-Smith, E. E. (2017). A
+Review of Meta-Analysis Packages in R. <em>Journal of Educational and
+Behavioral Statistics</em>, <em>42</em>, 206–242.</p>
+<p>其中，<code>metafor</code>由荷兰马斯特里赫特大学Wolfgang
+Viechtbauer教授进行编写和开发，是目前应用最为广泛的程序包之一，与其他程序包相比，其基本涵盖了元分析统计分析过程，包括:计算效应值、调节分析、发表偏倚分析以及用多水平模型处理嵌套的因变量效应值等。</p>
+<p>目前不少RG研究选用<code>metafor</code>包作为统计分析的工具，例如：</p>
+<p>[1] Blázquez-Rincón, D., Durán, J. I., &amp; Botella, J. (2022). The
+fear of COVID-19 scale: a reliability generalization meta-analysis.
+<em>Assessment</em>, <em>29</em>, 940–948.</p>
+<p>[2] Rubio-Aparicio, M., Núñez-Núñez, R. M., Sánchez-Meca, J.,
+López-Pina, J. A., Marín-Martínez, F., &amp; López-López, J. A. (2020).
+The Padua Inventory–Washington State University Revision of obsessions
+and compulsions: A reliability generalization meta-analysis. <em>Journal
+of Personality Assessment</em>, <em>102</em>, 113–123.</p>
+<p>[3] Vicent, M., Rubio-Aparicio, M., Sánchez-Meca, J., &amp;
+Gonzálvez, C. (2019). A reliability generalization meta-analysis of the
+child and adolescent perfectionism scale. <em>Journal of Affective
+Disorders</em>, <em>245</em>, 533–544.</p>
+<p>[4] Piqueras, J. A., Martín-Vivar, M., Sandin, B., San Luis, C.,
+&amp; Pineda, D. (2017). The Revised Child Anxiety and Depression Scale:
+A systematic review and reliability generalization meta-analysis.
+<em>Journal of affective disorders</em>, <em>218</em>, 153–169.</p>
+<p>[5] López-Pina, J. A., Sánchez-Meca, J., López-López, J. A.,
+Marín-Martínez, F., Núñez-Núñez, R. M., Rosa-Alcázar, A. I., … &amp;
+Ferrer-Requena, J. (2015). The Yale–Brown obsessive compulsive scale: a
+reliability generalization meta-analysis. <em>Assessment</em>,
+<em>22</em>, 619–628.</p>
+<p>因此，后续的实例分析将介绍如何使用<code>metafor</code>程序包(Viechtbauer,
+2010)进行统计分析。</p>
+<p>##3. 实例操作：Deng等人(2019)冷酷无情特质问卷信度概化分析研究
+###简要介绍 以下将以一项对冷酷无情特质问卷(the Inventory of Callous
+Unemotional Traits, ICU; Frick, 2003)进行RG分析的研究作为例子(Deng et
+al., 2019)具体介绍如何进行一项RG研究(以统计分析的软件操作为主)。</p>
+<p>该问卷共24题包含三个分量表，分别是<strong>淡漠(Callousness)</strong>、<strong>冷酷(Uncaring)</strong>以及<strong>无情(Unemotional)</strong>，使用李克特4级计分。</p>
+<p>以下是具体研究过程的概要简述：<br />
+(一) 前期准备阶段<br />
+1.文献检索与筛选<br />
+本研究通过多个关键词从国内外多个数据库进行检索共下载了1,
+125篇文献，然后通过筛选条件进行排除，最终共保留146篇文献。</p>
+<p>2.信息提取与编码<br />
+（1）效应值：量表总分及其分量表Cronbach’s alpha系数<br />
+（2）纳入的调节变量，具体如下：<br />
+(a) SD of age<br />
+(b) Mean age<br />
+(c) % of males in sample<br />
+(d) sample size<br />
+(e) SD of total scores<br />
+(f) Mean of total scores<br />
+(g) administration format<br />
+(h) age group<br />
+(i) sample type<br />
+(j) language version<br />
+(k) country<br />
+(l) item number version</p>
+<p>(二) 数据分析阶段–实操展示<br />
+本部分选取该研究中53项研究的量表总分α系数（共24题）及其个别预测变量作为演示数据进行展示。<br />
+(1)效应值:量表总分alpha系数<br />
+(2)连续变量：样本量、年龄均值和标准差、性别比例、量表总分均值和标准差<br />
+(3)类别变量：年龄类型、样本类型、是否英文版本、评定者方式</p>
+<p>具体编码规则示例如下：</p>
+<pre class="r"><code>criteria %&gt;% knitr::kable()</code></pre>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="35%" />
+<col width="18%" />
+<col width="19%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">variable</th>
+<th align="left">c1</th>
+<th align="left">c2</th>
+<th align="left">c3</th>
+<th align="left">c4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">agetype</td>
+<td align="left">Infants and young children</td>
+<td align="left">Children</td>
+<td align="left">Adolescents</td>
+<td align="left">Adults</td>
+</tr>
+<tr class="even">
+<td align="left">sampletype</td>
+<td align="left">community</td>
+<td align="left">offender</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">language</td>
+<td align="left">english</td>
+<td align="left">non-english</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">ratingformat</td>
+<td align="left">self-report</td>
+<td align="left">parent-report</td>
+<td align="left">teacher-report</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+<p>接下来展示如何使用演示数据在R语言中通过<code>metafor</code>包进行介绍具体分析过程。</p>
+<p>###3.1.1 程序包的安装与运行
+首先需要先安装与运行程序包，具体命令如下所示：</p>
+<pre class="r"><code>library(readxl)#读取与导出数据的包;#若没安装，可用install.packages(&quot;readxl&quot;)进行安装
+library(openxlsx)#读取与导出数据的包;若没安装，可用install.packages(&quot;openxlsx&quot;)进行安装
+options(tidyverse.quiet = TRUE)#设置tidyverse附带包及其版本信息不提示
+library (tidyverse)#用于数据整理;若没安装，可用install.packages(&quot;tidyverse&quot;)进行安装
+library(metafor)#主要分析所使用的R包；若没安装，可用install.packages(&quot;metafor&quot;)进行安装</code></pre>
+<p>###3.1.2 数据读取与导入
+由于所展示的例子所使用的数据并非来自程序包自带的数据集，因此需要先导入数据。
+由于数据文件为excel格式，因此使用<code>readxl</code>程序包用于数据读取与导入。具体命令如下：
+使用<code>read_excel()</code>函数读取数据，具体命令如下：</p>
+<pre class="r"><code>data&lt;- read_excel(&quot;example_data.xlsx&quot;)#演示数据
+head(data,10)#查看前10行数据</code></pre>
+<pre><code>## # A tibble: 10 × 13
+##    `study ID` agetype sampletype language ratingformat  ageM ageSD gender  size
+##         &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+##  1          1       3          1        1            1  15.0  1.3   0        58
+##  2          2       3          2        2            1  16.7  1.34  0.56    352
+##  3          3       3          1        1            1  15.9  1.53  1       150
+##  4          4       3          1        1            1  15.2  1.4   0.6     150
+##  5          5       4          2        1            1  19.9  3.48  0.3     602
+##  6          6       3          2        1            1  16.9  0.8   0.48    675
+##  7          7       3          2        2            1  16    0.89  0.503  2306
+##  8          8       2          2        2            1  10    1.19  1        46
+##  9          9       4          2        1            1  21.3  4.65  0.224   687
+## 10         10       3          1        1            1  15.3  1.34  0.716   134
+## # ℹ 4 more variables: totalSD &lt;dbl&gt;, totalM &lt;dbl&gt;, alpha_total &lt;dbl&gt;, mi &lt;dbl&gt;</code></pre>
+<pre class="r"><code>#在这一数据内，包含3部分：
+#(1)效应值：alpha
+#(2)连续调节变量
+#(3)类别调节变量</code></pre>
+<p>###3.2 异质性检验
+主要是使用<code>rma()</code>函数对α系数的变异性进行检验，以检验纳入分析的效应值是否存在显著的异质性。<br />
+在进行异质性检验之前，需要先计算效应值，主要是通过<code>escalc()</code>这个函数实现。<br />
+<code>escalc()</code>参数设置一般为：<code>escalc(meansure, ai, ni, mi, dat)</code>。<br />
+参数具体说明如下：<br />
+(1) measure用于对Cronbach’s α系数进行转换或使用原始值;<br />
+(2) ai为Cronbach’s α系数观测值;<br />
+(3) ni为样本量，mi为题目数量；<br />
+(4) dat为数据集。</p>
+<p>例如，若打算使用不转换的形式，则将将measure设置为”ARAW”，具体命令如下：</p>
+<pre class="r"><code>#使用未转换方式并计算效应值alpha系数
+total_es_raw&lt;-escalc(measure = &quot;ARAW&quot;, ai=alpha_total, ni=size, mi=mi, dat=data)
+total_es_raw[1:10,]#得到最后两列的yi--效应值,vi--抽样方差;查看前10行</code></pre>
+<pre><code>## 
+##    study.ID agetype sampletype language ratingformat  ageM   ageSD gender size 
+## 1         1       3          1        1            1 14.98 1.30000  0.000   58 
+## 2         2       3          2        2            1 16.67 1.34000  0.560  352 
+## 3         3       3          1        1            1 15.89 1.53000  1.000  150 
+## 4         4       3          1        1            1 15.20 1.40000  0.600  150 
+## 5         5       4          2        1            1 19.90 3.48000  0.300  602 
+## 6         6       3          2        1            1 16.90 0.80000  0.480  675 
+## 7         7       3          2        2            1 16.00 0.89000  0.503 2306 
+## 8         8       2          2        2            1 10.00 1.18875  1.000   46 
+## 9         9       4          2        1            1 21.30 4.65000  0.224  687 
+## 10       10       3          1        1            1 15.34 1.34000  0.716  134 
+##    totalSD totalM alpha_total mi     yi     vi 
+## 1     9.17  23.50        0.79 24 0.7900 0.0016 
+## 2     9.17  24.05        0.83 24 0.8300 0.0002 
+## 3     7.41  28.70        0.64 24 0.6400 0.0018 
+## 4     6.04  46.50        0.84 24 0.8400 0.0004 
+## 5     7.53  41.79        0.80 24 0.8000 0.0001 
+## 6     7.85  21.62        0.79 24 0.7900 0.0001 
+## 7     8.72  23.65        0.80 24 0.8000 0.0000 
+## 8     7.23  20.30        0.73 24 0.7300 0.0035 
+## 9     6.75  37.44        0.81 24 0.8100 0.0001 
+## 10   10.11  41.64        0.85 24 0.8500 0.0004</code></pre>
+<p>若打算使用Bonett(2002)公式进行转换，则将将measure设置为”ABT”，具体命令如下：</p>
+<pre class="r"><code>#使用Bonett(2002)的公式转换并计算加权平均alpha系数
+total_es&lt;-escalc(&quot;ABT&quot;,-ln(1-ai), ai=alpha_total, ni=size, mi=mi, dat=data)
+total_es[1:10,]#得到最后两列的yi--效应值,vi--抽样方差;查看前10行</code></pre>
+<pre><code>## 
+##    study.ID agetype sampletype language ratingformat  ageM   ageSD gender size 
+## 1         1       3          1        1            1 14.98 1.30000  0.000   58 
+## 2         2       3          2        2            1 16.67 1.34000  0.560  352 
+## 3         3       3          1        1            1 15.89 1.53000  1.000  150 
+## 4         4       3          1        1            1 15.20 1.40000  0.600  150 
+## 5         5       4          2        1            1 19.90 3.48000  0.300  602 
+## 6         6       3          2        1            1 16.90 0.80000  0.480  675 
+## 7         7       3          2        2            1 16.00 0.89000  0.503 2306 
+## 8         8       2          2        2            1 10.00 1.18875  1.000   46 
+## 9         9       4          2        1            1 21.30 4.65000  0.224  687 
+## 10       10       3          1        1            1 15.34 1.34000  0.716  134 
+##    totalSD totalM alpha_total mi     yi     vi 
+## 1     9.17  23.50        0.79 24 1.5606 0.0373 
+## 2     9.17  24.05        0.83 24 1.7720 0.0060 
+## 3     7.41  28.70        0.64 24 1.0217 0.0141 
+## 4     6.04  46.50        0.84 24 1.8326 0.0141 
+## 5     7.53  41.79        0.80 24 1.6094 0.0035 
+## 6     7.85  21.62        0.79 24 1.5606 0.0031 
+## 7     8.72  23.65        0.80 24 1.6094 0.0009 
+## 8     7.23  20.30        0.73 24 1.3093 0.0474 
+## 9     6.75  37.44        0.81 24 1.6607 0.0030 
+## 10   10.11  41.64        0.85 24 1.8971 0.0158</code></pre>
+<p>在完成计算效应值之后，使用<code>rma()</code>函数进行异质性检验。</p>
+<pre class="r"><code>#异质性检验
+het1&lt;-rma(total_es, yi, vi)
+het1</code></pre>
+<pre><code>## 
+## Random-Effects Model (k = 53; tau^2 estimator: REML)
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.0782 (SE = 0.0178)
+## tau (square root of estimated tau^2 value):      0.2797
+## I^2 (total heterogeneity / total variability):   92.31%
+## H^2 (total variability / sampling variability):  13.01
+## 
+## Test for Heterogeneity:
+## Q(df = 52) = 576.2518, p-val &lt; .0001
+## 
+## Model Results:
+## 
+## estimate      se     zval    pval   ci.lb   ci.ub      
+##   1.6587  0.0415  40.0034  &lt;.0001  1.5775  1.7400  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>pred1=predict(het1, transf=transf.iabt)#回转换为alpha系数
+pred1</code></pre>
+<pre><code>## 
+##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
+##  0.8096 0.7935 0.8245 0.6686 0.8906</code></pre>
+<p>除此以外，还可以直接用<code>rma()</code>一步计算效应值和异质性检验，具体如下：</p>
+<pre class="r"><code>het2&lt;-rma(measure=&quot;ABT&quot;, ai=alpha_total, ni=size, mi=mi, dat=data)#默认使用REML估计
+het2</code></pre>
+<pre><code>## 
+## Random-Effects Model (k = 53; tau^2 estimator: REML)
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.0782 (SE = 0.0178)
+## tau (square root of estimated tau^2 value):      0.2797
+## I^2 (total heterogeneity / total variability):   92.31%
+## H^2 (total variability / sampling variability):  13.01
+## 
+## Test for Heterogeneity:
+## Q(df = 52) = 576.2518, p-val &lt; .0001
+## 
+## Model Results:
+## 
+## estimate      se     zval    pval   ci.lb   ci.ub      
+##   1.6587  0.0415  40.0034  &lt;.0001  1.5775  1.7400  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>pred2=predict(het2, transf=transf.iabt)#回转为alpha系数
+pred2</code></pre>
+<pre><code>## 
+##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
+##  0.8096 0.7935 0.8245 0.6686 0.8906</code></pre>
+<p>通过对比het1和het2，发现结果是相同的，说明上述两种任一即可。</p>
+<p>另外，还可以通过设定<code>method</code>选取不同的估计方法。一般默认使用限制最大似然估计方法(Restricted
+Maximum Likelihood Method;
+REML)进行估计，若使用其他估计方法可以通过<code>method=" "</code>设定,例如<code>method="ML"</code>使用极大似然估计。</p>
+<pre class="r"><code>#method=ML
+het3&lt;-rma(total_es, yi, vi, method=&quot;ML&quot;)
+het3</code></pre>
+<pre><code>## 
+## Random-Effects Model (k = 53; tau^2 estimator: ML)
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.0765 (SE = 0.0172)
+## tau (square root of estimated tau^2 value):      0.2767
+## I^2 (total heterogeneity / total variability):   92.16%
+## H^2 (total variability / sampling variability):  12.75
+## 
+## Test for Heterogeneity:
+## Q(df = 52) = 576.2518, p-val &lt; .0001
+## 
+## Model Results:
+## 
+## estimate      se     zval    pval   ci.lb   ci.ub      
+##   1.6588  0.0411  40.3876  &lt;.0001  1.5783  1.7393  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>pred3=predict(het3, transf=transf.iabt)#回转为alpha系数
+pred3</code></pre>
+<pre><code>## 
+##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
+##  0.8096 0.7937 0.8244 0.6706 0.8900</code></pre>
+<p>结果解读：<br />
+(1) 上图是使用随机效应模型估计的结果，读取的效应值数量为k =
+53，估计方法为极大似然估计。<br />
+(2)
+上述结果还报告了四个用于判断异质性的指标，分别是τ、τ2、H2和I2。其中，I2约为92%，根据判断标准属于高异质性水平。<br />
+(3) 最主要的是异质性的检验结果，结果显示Q为576.2518,
+<em>p</em>&lt;.0001，表明异质性检验显著，也就是这些效应值之间存在异质性。<br />
+(4)
+根据上述不同估计方法的结果，发现是存在异质性的，因此有必要进一步探索造成这些α系数异质性的因素。</p>
+<p>除了直接提取结果以外，还可在R对使用代码对结果进行整理，比较方便快捷。<br />
+—-此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。—-</p>
+<p>下表是异质性分析的结果。</p>
+<pre class="r"><code>het3_res %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">k</th>
+<th align="right">mean_alpha</th>
+<th align="right">CI.LB</th>
+<th align="right">CI.UB</th>
+<th align="right">Tau2</th>
+<th align="left">Q</th>
+<th align="right">I2_precent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">53</td>
+<td align="right">0.81</td>
+<td align="right">0.79</td>
+<td align="right">0.82</td>
+<td align="right">0.077</td>
+<td align="left">576.252***</td>
+<td align="right">92.16</td>
+</tr>
+</tbody>
+</table>
+<p>###3.3 建立森林图
+使用<code>forest.rma()</code>函数建立森林图，从而直观看到效应值分布情况。</p>
+<pre class="r"><code>forest.rma(het3)#transformed alpha</code></pre>
+<p><img src="Tutorial_Reliability-Generalization_files/figure-html/forest0-1.png" width="768" /></p>
+<p>结果解读：<br />
+如图所示，第一列为研究名称，中间为效应值的分布情况，最右边为各项研究对应的效应值及其置信区间结果。</p>
+<p>除此之外，还可以根据需要设定参数，具体说明如下：<br />
+(1)
+使用<code>annotate=TRUE</code>用于设置图中的标注，一般默认TRUE;<br />
+(2) transf用于把效应值转换。<br />
+(3) showweights用于设置是否呈现单个研究对整体效应值影响的权重。<br />
+(4) header用于判断是否设置表头呈现。</p>
+<p>具体命令如下：</p>
+<pre class="r"><code>forest.rma(het3,annotate=TRUE,transf=transf.iabt,header = TRUE,showweights=TRUE)#backtransformed alpha</code></pre>
+<p><img src="Tutorial_Reliability-Generalization_files/figure-html/forest1-1.png" width="768" /></p>
+<p>结果解读：<br />
+(1) 报告了基于随机效应模型所估计的平均效应值结果0.81。<br />
+(2) 这里分析得出α系数均值结果为0.81，表明内部一致性良好。</p>
+<p>同时，可以通过<code>pdf()</code>对结果图进行保存，具体命令如下：</p>
+<pre class="r"><code>pdf(&quot;forestplot.pdf&quot;,width=10, height=20)
+forest.rma(het3,annotate=TRUE,transf=transf.iabt,header = TRUE,showweights=TRUE)#backtransformed alpha
+dev.off()</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>###3.4 调节效应分析
+调节效应分析主要是通过在<code>rma()</code>中设定<code>mods</code>参数，以便分析纳入的调节变量对异质性结果的作用。<br />
+调节分析参数设置一般为：<code>rma (total_es, yi, vi, mods = ~ moderator)</code>。</p>
+<p>####3.4.1 连续变量例子
+以量表总分标准差作为例子呈现单个调节变量纳入进行分析的命令，具体命令如下：</p>
+<pre class="r"><code>res_tot_totalSD&lt;-rma(total_es, yi, vi, mods=~totalSD,method=&quot;ML&quot;)
+res_tot_totalSD</code></pre>
+<pre><code>## 
+## Mixed-Effects Model (k = 53; tau^2 estimator: ML)
+## 
+## tau^2 (estimated amount of residual heterogeneity):     0.0521 (SE = 0.0124)
+## tau (square root of estimated tau^2 value):             0.2282
+## I^2 (residual heterogeneity / unaccounted variability): 88.81%
+## H^2 (unaccounted variability / sampling variability):   8.94
+## R^2 (amount of heterogeneity accounted for):            31.99%
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 51) = 405.6720, p-val &lt; .0001
+## 
+## Test of Moderators (coefficient 2):
+## QM(df = 1) = 20.9010, p-val &lt; .0001
+## 
+## Model Results:
+## 
+##          estimate      se    zval    pval   ci.lb   ci.ub      
+## intrcpt    0.7581  0.2003  3.7851  0.0002  0.3655  1.1506  *** 
+## totalSD    0.1051  0.0230  4.5718  &lt;.0001  0.0600  0.1502  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>res_tot_totalSD&lt;-rma(measure=&quot;ABT&quot;, ai=alpha_total, ni=size, mi=mi, mods=~totalSD,dat=data,method=&quot;ML&quot;)#与上述结果相同，区别在于直接使用数据集中的变量
+res_tot_totalSD</code></pre>
+<pre><code>## 
+## Mixed-Effects Model (k = 53; tau^2 estimator: ML)
+## 
+## tau^2 (estimated amount of residual heterogeneity):     0.0521 (SE = 0.0124)
+## tau (square root of estimated tau^2 value):             0.2282
+## I^2 (residual heterogeneity / unaccounted variability): 88.81%
+## H^2 (unaccounted variability / sampling variability):   8.94
+## R^2 (amount of heterogeneity accounted for):            31.99%
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 51) = 405.6720, p-val &lt; .0001
+## 
+## Test of Moderators (coefficient 2):
+## QM(df = 1) = 20.9010, p-val &lt; .0001
+## 
+## Model Results:
+## 
+##          estimate      se    zval    pval   ci.lb   ci.ub      
+## intrcpt    0.7581  0.2003  3.7851  0.0002  0.3655  1.1506  *** 
+## totalSD    0.1051  0.0230  4.5718  &lt;.0001  0.0600  0.1502  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>结果解读： (1)
+从图中第1行可见，该调节分析结果是基于混合效应模型来进行估计的，使用极大似然进行估计的结果。
+(2)
+还报告了调节变量的调节效应结果，结果显示<em>p</em>&lt;.0001,表明量表总分标准差对效应值具有调节作用。</p>
+<p>除了逐个变量进行分析后直接提取结果以外，还可在R对使用代码进行批量分析并整理结果，比较方便快捷。<br />
+—-此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。—-</p>
+<p>下表是连续变量纳入进行调节分析的结果。</p>
+<pre class="r"><code>reg_res %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">variable</th>
+<th align="right">k</th>
+<th align="right">b</th>
+<th align="right">t</th>
+<th align="right">sig.t</th>
+<th align="right">R2_percentage</th>
+<th align="left">QE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ageM</td>
+<td align="right">53</td>
+<td align="right">-0.010</td>
+<td align="right">-1.160</td>
+<td align="right">0.246</td>
+<td align="right">3.57</td>
+<td align="left">518.487 ***</td>
+</tr>
+<tr class="even">
+<td align="left">ageSD</td>
+<td align="right">53</td>
+<td align="right">-0.018</td>
+<td align="right">-0.591</td>
+<td align="right">0.555</td>
+<td align="right">0.66</td>
+<td align="left">573.47 ***</td>
+</tr>
+<tr class="odd">
+<td align="left">gender</td>
+<td align="right">53</td>
+<td align="right">0.127</td>
+<td align="right">0.934</td>
+<td align="right">0.350</td>
+<td align="right">2.10</td>
+<td align="left">563.457 ***</td>
+</tr>
+<tr class="even">
+<td align="left">size</td>
+<td align="right">53</td>
+<td align="right">0.000</td>
+<td align="right">-0.310</td>
+<td align="right">0.757</td>
+<td align="right">0.34</td>
+<td align="left">563.269 ***</td>
+</tr>
+<tr class="odd">
+<td align="left">totalSD</td>
+<td align="right">53</td>
+<td align="right">0.105</td>
+<td align="right">4.572</td>
+<td align="right">0.000</td>
+<td align="right">31.99</td>
+<td align="left">405.672 ***</td>
+</tr>
+<tr class="even">
+<td align="left">totalM</td>
+<td align="right">53</td>
+<td align="right">0.005</td>
+<td align="right">1.053</td>
+<td align="right">0.292</td>
+<td align="right">1.63</td>
+<td align="left">576.245 ***</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>#b=回归系数beta
+#t=significance test of moderator regression coefficient--zval
+#sig.t=p-value
+#R2%解释率</code></pre>
+<p>####3.4.2 类别变量例子
+以评定者方式作为例子呈现将类别变量纳入调节的分析，具体命令如下：</p>
+<p>#####(1) 亚组分析(Subgroup Analysis)</p>
+<pre class="r"><code>sub_1=rma(total_es, yi, vi, subset = (total_es$ratingformat == 1))
+predict(sub_1, transf=transf.iabt)#转换为alpha系数</code></pre>
+<pre><code>## 
+##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
+##  0.8047 0.7878 0.8202 0.6725 0.8835</code></pre>
+<pre class="r"><code>sub_2=rma (total_es, yi, vi, subset = (total_es$ratingformat == 2))
+predict(sub_2, transf=transf.iabt)#转换为alpha系数</code></pre>
+<pre><code>## 
+##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
+##  0.8203 0.7711 0.8588 0.6757 0.9004</code></pre>
+<pre class="r"><code>sub_3=rma (total_es, yi, vi, subset = (total_es$ratingformat == 3))
+predict(sub_3, transf=transf.iabt)#转换为alpha系数</code></pre>
+<pre><code>## 
+##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
+##  0.8717 0.7335 0.9383 0.5565 0.9629</code></pre>
+<p>除了逐个变量进行分析后直接提取结果以外，还可在R对使用代码进行批量分析并整理结果，比较方便快捷。<br />
+—-此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。—-</p>
+<p>下表是亚组分析的结果。</p>
+<pre class="r"><code>mod_res %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">group</th>
+<th align="right">k</th>
+<th align="right">alpha</th>
+<th align="left">ci_95</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Infants and young children</td>
+<td align="right">1</td>
+<td align="right">0.91</td>
+<td align="left">[ 0.9 , 0.92 ]</td>
+</tr>
+<tr class="even">
+<td align="left">Children</td>
+<td align="right">9</td>
+<td align="right">0.80</td>
+<td align="left">[ 0.74 , 0.85 ]</td>
+</tr>
+<tr class="odd">
+<td align="left">Adolescents</td>
+<td align="right">34</td>
+<td align="right">0.81</td>
+<td align="left">[ 0.79 , 0.83 ]</td>
+</tr>
+<tr class="even">
+<td align="left">Adults</td>
+<td align="right">9</td>
+<td align="right">0.80</td>
+<td align="left">[ 0.79 , 0.81 ]</td>
+</tr>
+<tr class="odd">
+<td align="left">community</td>
+<td align="right">18</td>
+<td align="right">0.82</td>
+<td align="left">[ 0.79 , 0.85 ]</td>
+</tr>
+<tr class="even">
+<td align="left">offender</td>
+<td align="right">35</td>
+<td align="right">0.80</td>
+<td align="left">[ 0.79 , 0.82 ]</td>
+</tr>
+<tr class="odd">
+<td align="left">english</td>
+<td align="right">34</td>
+<td align="right">0.81</td>
+<td align="left">[ 0.79 , 0.82 ]</td>
+</tr>
+<tr class="even">
+<td align="left">non-english</td>
+<td align="right">19</td>
+<td align="right">0.82</td>
+<td align="left">[ 0.79 , 0.84 ]</td>
+</tr>
+<tr class="odd">
+<td align="left">self-report</td>
+<td align="right">45</td>
+<td align="right">0.80</td>
+<td align="left">[ 0.79 , 0.82 ]</td>
+</tr>
+<tr class="even">
+<td align="left">parent-report</td>
+<td align="right">6</td>
+<td align="right">0.82</td>
+<td align="left">[ 0.77 , 0.86 ]</td>
+</tr>
+<tr class="odd">
+<td align="left">teacher-report</td>
+<td align="right">2</td>
+<td align="right">0.87</td>
+<td align="left">[ 0.73 , 0.94 ]</td>
+</tr>
+</tbody>
+</table>
+<p>#####(2) Meta-Anova</p>
+<pre class="r"><code>res_tot_adf&lt;-rma(total_es, yi, vi,mods=~ratingformat,method=&quot;ML&quot;)
+res_tot_adf</code></pre>
+<pre><code>## 
+## Mixed-Effects Model (k = 53; tau^2 estimator: ML)
+## 
+## tau^2 (estimated amount of residual heterogeneity):     0.0692 (SE = 0.0158)
+## tau (square root of estimated tau^2 value):             0.2630
+## I^2 (residual heterogeneity / unaccounted variability): 91.30%
+## H^2 (unaccounted variability / sampling variability):   11.49
+## R^2 (amount of heterogeneity accounted for):            9.64%
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 51) = 434.7357, p-val &lt; .0001
+## 
+## Test of Moderators (coefficient 2):
+## QM(df = 1) = 4.2441, p-val = 0.0394
+## 
+## Model Results:
+## 
+##               estimate      se     zval    pval   ci.lb   ci.ub      
+## intrcpt         1.4559  0.1061  13.7171  &lt;.0001  1.2479  1.6639  *** 
+## ratingformat    0.1718  0.0834   2.0601  0.0394  0.0084  0.3352    * 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>结果解读： (1)
+从图中第1行可见，该调节分析结果是基于混合效应模型来进行估计的，使用极大似然进行估计的结果。
+(2)
+还报告了调节变量的调节效应结果，结果显示<em>p</em>&lt;.05,表明评定者方式对效应值具有调节作用。</p>
+<p>除了逐个变量进行分析后直接提取结果以外，还可在R对使用代码进行批量分析并整理结果，比较方便快捷。<br />
+—-此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。—-</p>
+<p>下表是类别变量纳入进行调节分析的结果。</p>
+<pre class="r"><code>anv_res %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">variable</th>
+<th align="right">k</th>
+<th align="right">R2_percentage</th>
+<th align="right">QB</th>
+<th align="right">sig</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">agetype</td>
+<td align="right">53</td>
+<td align="right">6.13</td>
+<td align="right">2.480</td>
+<td align="right">0.115</td>
+</tr>
+<tr class="even">
+<td align="left">sampletype</td>
+<td align="right">53</td>
+<td align="right">2.05</td>
+<td align="right">1.026</td>
+<td align="right">0.311</td>
+</tr>
+<tr class="odd">
+<td align="left">language</td>
+<td align="right">53</td>
+<td align="right">1.02</td>
+<td align="right">0.506</td>
+<td align="right">0.477</td>
+</tr>
+<tr class="even">
+<td align="left">ratingformat</td>
+<td align="right">53</td>
+<td align="right">9.64</td>
+<td align="right">4.244</td>
+<td align="right">0.039</td>
+</tr>
+</tbody>
+</table>
+<p>####3.4.3 探索性模型例子
+选取上述具有调节作用或解释率较高的变量纳入模型进行分析，具体命令如下：</p>
+<pre class="r"><code>#full model
+res_multi&lt;-rma(total_es, yi, vi, mods=~ageM+totalM+totalSD+ratingformat,method=&quot;ML&quot;)
+res_multi#R2=36.79%</code></pre>
+<pre><code>## 
+## Mixed-Effects Model (k = 53; tau^2 estimator: ML)
+## 
+## tau^2 (estimated amount of residual heterogeneity):     0.0484 (SE = 0.0116)
+## tau (square root of estimated tau^2 value):             0.2200
+## I^2 (residual heterogeneity / unaccounted variability): 87.70%
+## H^2 (unaccounted variability / sampling variability):   8.13
+## R^2 (amount of heterogeneity accounted for):            36.79%
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 48) = 333.9638, p-val &lt; .0001
+## 
+## Test of Moderators (coefficients 2:5):
+## QM(df = 4) = 25.0511, p-val &lt; .0001
+## 
+## Model Results:
+## 
+##               estimate      se     zval    pval    ci.lb   ci.ub      
+## intrcpt         0.6577  0.2803   2.3468  0.0189   0.1084  1.2070    * 
+## ageM           -0.0024  0.0087  -0.2768  0.7819  -0.0194  0.0146      
+## totalM          0.0040  0.0041   0.9920  0.3212  -0.0039  0.0120      
+## totalSD         0.0944  0.0233   4.0558  &lt;.0001   0.0488  0.1400  *** 
+## ratingformat    0.0996  0.0836   1.1911  0.2336  -0.0643  0.2634      
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>###3.5 发表偏倚分析 ####3.5.1 漏斗图 漏斗图(funnel
+plot)是敏感性分析的常用分析技术，能够比较直观地目测当前研究是否存在偏倚情况。<br />
+具体命令如下：</p>
+<pre class="r"><code>funplot1=funnel(het3,atransf=transf.iabt) #建立漏斗图
+funplot2=funnel(het3,atransf=transf.iabt,label = TRUE)#设置呈现studyID标记</code></pre>
+<p><img src="Tutorial_Reliability-Generalization_files/figure-html/funnel-1.png" width="768" /></p>
+<p>结果解读：<br />
+从图中可见，散点主要分布在漏斗图的顶部，向中间集中，表明不存在发表偏倚或者偏倚的可能性较低。</p>
+<p>另外，使用剪补法对是否存在发表偏倚进行分析，具体命令如下：</p>
+<pre class="r"><code>tf=trimfill(het3,estimator = &quot;R0&quot;) #使用剪补法
+tf</code></pre>
+<pre><code>## 
+## Estimated number of missing studies on the right side: 0 (SE = 1.4142)
+## Test of H0: no missing studies on the right side:      p-val = 0.5000
+## 
+## Random-Effects Model (k = 53; tau^2 estimator: ML)
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.0765 (SE = 0.0172)
+## tau (square root of estimated tau^2 value):      0.2767
+## I^2 (total heterogeneity / total variability):   92.16%
+## H^2 (total variability / sampling variability):  12.75
+## 
+## Test for Heterogeneity:
+## Q(df = 52) = 576.2518, p-val &lt; .0001
+## 
+## Model Results:
+## 
+## estimate      se     zval    pval   ci.lb   ci.ub      
+##   1.6588  0.0411  40.3876  &lt;.0001  1.5783  1.7393  *** 
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>结果解读：<br />
+通过使用剪补法进行估计，结果发现：估计右侧的缺失研究数量为0，说明不存在偏倚。</p>
+<p>除此以外，还可以进一步分析效应值和抽样方差之间相关。若高相关，则表明漏斗图是存在不对称性的，即存在偏倚。</p>
+<pre class="r"><code>ranktest (total_es$yi, total_es$vi,exact=FALSE) #相关系数0.05--低相关--漏斗图是对称的--不存在偏倚或者偏倚可能性低。</code></pre>
+<pre><code>## 
+## Rank Correlation Test for Funnel Plot Asymmetry
+## 
+## Kendall&#39;s tau = 0.0494, p = 0.6019</code></pre>
+<p>####3.5.2 计算失效安全系数
+使用<code>fsn()</code>函数计算失效安全系数，具体命令如下：</p>
+<pre class="r"><code>fail_safe=fsn(yi, vi, data=total_es,type=&quot;Rosenthal&quot;)
+fail_safe</code></pre>
+<pre><code>## 
+## Fail-safe N Calculation Using the Rosenthal Approach
+## 
+## Observed Significance Level: &lt;.0001
+## Target Significance Level:   0.05
+## 
+## Fail-safe N: 359983</code></pre>
+<pre class="r"><code>5*nrow(data)+10#与5*k +10(k为纳入分析数量)所计算得出的结果进行比较</code></pre>
+<pre><code>## [1] 275</code></pre>
+<p>结果解读：<br />
+(1) 图中第1行提示失效安全系数是通过”Rosenthal”方法计算所得；<br />
+(2) 图中第4行为失效安全系数–主要的报告结果;<br />
+(3) 失效安全系数用于与 5 * k +
+10(k为纳入分析数量)所计算得出的结果进行比较，若失效安全系数小于所计算得出的值，那么就有可能存在发表偏倚。<br />
+(4)
+图中的结果显示的失效安全系数为359983，远远高于纳入分析的数量，因此表明不存在发表偏倚。</p>
+<p>通常来说，失效安全系数一般会与异质性结果整理在一起，具体整理如下：</p>
+<pre class="r"><code>het3_res %&gt;% knitr::kable()</code></pre>
+<table>
+<colgroup>
+<col width="4%" />
+<col width="17%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="17%" />
+<col width="17%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">k</th>
+<th align="right">mean_alpha</th>
+<th align="right">CI.LB</th>
+<th align="right">CI.UB</th>
+<th align="right">Tau2</th>
+<th align="left">Q</th>
+<th align="right">I2_precent</th>
+<th align="left">FSN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">53</td>
+<td align="right">0.81</td>
+<td align="right">0.79</td>
+<td align="right">0.82</td>
+<td align="right">0.077</td>
+<td align="left">576.252***</td>
+<td align="right">92.16</td>
+<td align="left">359983***</td>
+</tr>
+</tbody>
+</table>
+<p>####3.5.3 计算Egger回归系数–Egger’s regression test
+使用<code>regtest()</code>函数计算失效安全系数，具体命令如下：</p>
+<pre class="r"><code>regtest(het3, model=&quot;lm&quot;)### classical Egger test</code></pre>
+<pre><code>## 
+## Regression Test for Funnel Plot Asymmetry
+## 
+## Model:     weighted regression with multiplicative dispersion
+## Predictor: standard error
+## 
+## Test for Funnel Plot Asymmetry: t = 0.5984, df = 51, p = 0.5522
+## Limit Estimate (as sei -&gt; 0):   b = 1.6015 (CI: 1.4359, 1.7672)</code></pre>
+<p>结果解读：
+从结果可得，egger回归系数截距不显著，说明不存在偏倚或者偏倚可能性较低。</p>
+<p>####3.5.4 总结
+综上，通过多方面的分析，包括漏斗图、剪补法、Rosenthal失效安全系数以及计算Egger回归系数，结果均表明此项研究不存在发表偏倚或者偏倚可能性较低。</p>
+<pre class="r"><code>bias %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">method</th>
+<th align="left">results</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">funnelplot</td>
+<td align="left">symmetrical</td>
+</tr>
+<tr class="even">
+<td align="left">fsn</td>
+<td align="left">Fail-safe N: 359983 &gt; 5*53+10=275</td>
+</tr>
+<tr class="odd">
+<td align="left">egger</td>
+<td align="left">t = 0.5984, df = 51, p = 0.5522</td>
+</tr>
+</tbody>
+</table>
+<p>####3.6 结果整理与导出
+在完成所有分析之后，使用<code>write()</code>函数导出结果，用于论文或分析报告。</p>
+<pre class="r"><code>#write.xlsx (het3_res, file = &quot;heterogeneity test results.xlsx&quot;)
+#write.xlsx (reg_res, file = &quot;continuous moderator results.xlsx&quot;)
+#write.xlsx (anv_res, file = &quot;categorical moderator results.xlsx&quot;)</code></pre>
+<p>##4. 总结
+第一，以实例使用<code>metafor</code>介绍了信度概化的统计分析过程，包括效应值计算、异质性检验、调节分析以及发表偏倚分析。</p>
+<div class="figure">
+<img
+src="https://www.metafor-project.org/lib/exe/fetch.php/docs:diagram.png"
+alt="" />
+<p class="caption">metafor各函数功能概览(引用自metafor-project官网)</p>
+</div>
+<p>第二，在实际研究过程中，可根据研究目的和需要自行调整使用。</p>
+<blockquote>
+<p>Take-away messages</p>
+</blockquote>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>作为以信度系数作为效应值的元分析技术，信度概化既有元分析的共性，也有其特异性。</li>
+</ol>
+<ul>
+<li>了解是否存在“信度引入”的问题。</li>
+<li>综合判断某项测验工具是否稳定可靠。</li>
+</ul></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li><code>metafor</code>为信度概化统计分析的实现提供更多选择。</li>
+</ol>
+<ul>
+<li>根据实际需要选择合适的分析方法。</li>
+</ul></li>
+</ul>
+<hr />
+<p>##5. 学习资源分享 #####a. CRAN R包 documentation
+由于开发者会对R包进行更新，具体语句以对应版本的手册说明为准。</p>
+<pre class="r"><code>help(metafor)#查阅手册
+?metafor
+?escalc()
+#escalc#以escalc()为例，查看源代码，了解底层逻辑</code></pre>
+<p>#####b. <code>metafor</code>官网
+此处列举两个有用的网站，该网站提供了丰富的学习资源，以供参考。<br />
+<a
+href="https://wviechtb.github.io/metafor/index.html">metafor@github</a><br />
+<a
+href="https://www.metafor-project.org/doku.php">metafor-project官网</a></p>
+<p>#####c. 参考书籍 Harrer, M., Cuijpers, P., Furukawa, T. A., &amp;
+Ebert, D. D. (2021). <em>Doing meta-analysis with R: A hands-on
+guide</em>. Chapman and Hall/CRC.</p>
+<p>Polanin, J. R., Hennessy, E. A., &amp; Tanner-Smith, E. E. (2017). A
+Review of Meta-Analysis Packages in R. <em>Journal of Educational and
+Behavioral Statistics</em>, <em>42</em>, 206–242.</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the
+metafor package. <em>Journal of Statistical Software</em>, <em>36</em>,
+1–48.</p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

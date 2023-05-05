@@ -1,0 +1,89 @@
+---
+  title: "Experiences"
+  output:
+   html_document:
+     toc: true
+     toc_float: true
+     collapsed: false
+     number_sections: FALSE
+     toc_depth: 3
+     #code_folding: hide
+     smooth_scroll: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+```
+
+### Education
+
+#### Master of Education
+* Guangzhou University, 2016 Sep-2020 Jun
+* Specialization: Applied Psychology
+* Master thesis: Developmental trajectories of callous-unemotional traits: Longitudinal associations with parenting stress and parenting behaviours in Chinese community children
+* Supervisor: Dr. Mengcheng Wang 
+
+#### Bachelor of Science
+* Guangzhou University, 2012 Sep-2016 Jun
+* Specialization: Psychology
+* Bachelor thesis: The relationship between psychopathy and the five-factor model
+* Supervisor: Dr. Mengcheng Wang
+
+### Honors and Academic Awards
+* Outstanding student of Guangdong Province in 2020 (Apr 2020)
+* Outstanding graduates of Guangzhou University in 2020 (May 2020)
+* The National Scholarship in 2019 (Nov 2019)
+* Scholarship for abroad as a joint graduate student (Jun 2018)
+* Second prize scholarship of School of Education at Guangzhou University (Oct 2018)
+* The National Scholarship in 2017 (Nov 2017)
+* First prize scholarship of School of Education at Guangzhou University (Oct 2017)
+* Second prize scholarship of School of Education at Guangzhou University (Oct 2016)
+* Second prize of essay activity of Psychology Sub-forum of Graduate Academic Forum of Guangzhou University (Dec 2016)
+
+### Research Experience
+#### Research fellow, Jul 2022-current 
+* The Centre for Psychometric and Latent Variable modeling, Guangzhou University, Guangzhou, China
+* Principle Investigator: Dr. Mengcheng Wang  
+* Participation in data analysis and report writing about risk assessment in recidivism
+  + Applying machine learning algorithms (e.g., random forest, support vector machines) and network analysis
+* Working on manuscript drafting and revision
+
+#### Visiting student, Dec 2018-Dec 2019
+* Psychophysiology Lab at Brooklyn College, CUNY, New York, NY, USA.  
+* Principle Investigator: Dr. Yu Gao  
+
+#### Research assistant, May 2015- Apr 2021
+* The Centre for Psychometric and Latent Variable Modeling, Guangzhou University, Guangzhou, China
+* Principle Investigator: Dr. Mengcheng Wang
+* Responsibilities: Data collection and analysis, Manuscript and research report writing.
+* Main Contributed Projects
+  + July 2020-Mar 2021: Risk assessment in psychiatric prisoners, Guangdong, China.
+  + May 2015-Nov 2020: A follow-up study on the influence of parenting behaviours on callous unemotional traits in community children, Guangdong, China.
+  + Apr 2016-Apr 2017: Development assessment tools about study burden and physical-mental development of comprehensive evaluation of primary and middle school education quality in Chongqing, China. 
+
+### Conferences and Presentations
+1.	**Deng, J.**, Wang, M., Shou, Y., Gao, Y., Allen, J. & Hawes, D. (Apr 2023). Cross-cultural Network Analysis of Callous-Unemotional Traits in Four International Youth Samples. Oral presentation at the meeting of Guangzhou Psychological Association. Guangzhou University, Guangzhou, China.
+2.	**Deng, J.**, Wang, M., Gao, Y. & Shou, Y. (May 2019). Parenting Behaviors and Child Psychopathy: A Regression Mixture Analysis. Poster presented at the 8th biennial meeting of the Society for the Scientific Study of Psychopathy. Las Vegas, USA. 
+3.	**Deng, J.**, Zhang, X., Gao, Y., Wang, M. & Shou, Y. (Nov 2017). The Utility of Limited Prosocial Emotion: Meta-analysis and reliability generalization of the Inventory of Callous Unemotional Traits. Oral presentation at Guangzhou-Hong Kong Graduate Forum 2017. Guangzhou University, Guangzhou, China.
+4.	**Deng, J.**, Zhang, X., Gao, Y., Wang, M. & Shou, Y. (Nov 2017). The Utility of Limited Prosocial Emotion: Meta-analysis and reliability generalization of the Inventory of Callous Unemotional Traits. Oral presentation at the 20th National Psychology Conference. Southwest University, Chongqing, China.
+5.	**Deng, J.** & Wang, M. (Jul 2017). The relations between psychopathy and the Five-Factor Model. Oral presentation at International Postgraduate Roundtable and Research Forum cum Summer School 2017. The Education University of Hong Kong, Hong Kong, China.
+
+### Workshops Presentations
+1.	**Deng, J.** (2023). Meta-analysis and Reliability Generalization Workshop. 22 Mar, Guangdong University of Technology, Guangzhou, China.
+2.	**Deng, J.** (2023). Network psychometrics Workshop. 9 Mar, Virtual.
+3.	Wang, M-C., **Deng, J.** (2022). Network psychometrics Workshop. 19 June, Virtual.
+4.	Wang, M-C., **Deng, J.** (2022). Reliability Generalization Workshop. 16 July, Changsha, China.
+
+### Work Experience
+#### Data Analyst in Educational Assessment, Apr 2021-June 2022
+* Jingwei Reading Technology Co., Ltd, Beijing, China
+* Analyzing data and interpreting results using statistics techniques especially psychometric testing
+
+#### Psychology teacher (Internship), Sep 2015-Dec 2015
+* Guangzhou Tianhe Middle School, Guangzhou, China
+* Supervisor: Yang Yang, B.S. (Psychology teacher)
+
+#### Social worker (Internship), May 2015-Aug 2015
+* Guangzhou QiChuang Social Work Service Centre, Guangzhou, China.
+* Supervisor: Wang Jing, B.S. (Senior social worker)
+

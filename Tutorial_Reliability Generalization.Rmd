@@ -1,0 +1,614 @@
+---
+title: "Reliability Generalization Workshop"
+author: "Jiaxin Deng"
+date: "2022/7/16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---------- 目录 --------------------------------------------------------------------------------------------  
+---------- 1. 实例分析与技术实现：R语言 --------------------------------------------------------------  
+---------- 2. R语言基本操作------------------------------------------------------------------------------  
+---------- 3. 实例操作：Deng等人(2019)冷酷无情特质问卷信度概化分析研究-----------------------  
+----------实际操作练习：使用演示数据进行练习-------------------------------------------------------  
+---------- 4. 总结------------------------------------------------------------------------------------------  
+---------- 5. 学习资源分享--------------------------------------------------------------------------------  
+
+
+##1. 实例分析与技术实现：R语言
+信度概化或者元分析在心理学领域的应用中，常用R语言作为主要的数据分析软件。
+
+常用的元分析R包：`metafor` (Viechtbauer, 2010), `metaSEM` (Cheung, 2015)等等。  
+
+具体详见Polanin等人(2017)文章，该文归纳了当前可用于元分析的R包，共63个，并对其使用功能等方面进行比较并提供使用建议。
+
+Polanin, J. R., Hennessy, E. A., & Tanner-Smith, E. E. (2017). A Review of Meta-Analysis Packages in R. *Journal of Educational and Behavioral Statistics*, *42*, 206–242. 
+
+其中，`metafor`由荷兰马斯特里赫特大学Wolfgang Viechtbauer教授进行编写和开发，是目前应用最为广泛的程序包之一，与其他程序包相比，其基本涵盖了元分析统计分析过程，包括:计算效应值、调节分析、发表偏倚分析以及用多水平模型处理嵌套的因变量效应值等。    
+
+目前不少RG研究选用`metafor`包作为统计分析的工具，例如：  
+
+[1] Blázquez-Rincón, D., Durán, J. I., & Botella, J. (2022). The fear of COVID-19 scale: a reliability generalization meta-analysis. *Assessment*, *29*, 940–948.
+
+[2] Rubio-Aparicio, M., Núñez-Núñez, R. M., Sánchez-Meca, J., López-Pina, J. A., Marín-Martínez, F., & López-López, J. A. (2020). The Padua Inventory–Washington State University Revision of obsessions and compulsions: A reliability generalization meta-analysis. *Journal of Personality Assessment*, *102*, 113–123. 
+
+[3] Vicent, M., Rubio-Aparicio, M., Sánchez-Meca, J., & Gonzálvez, C. (2019). A reliability generalization meta-analysis of the child and adolescent perfectionism scale. *Journal of Affective Disorders*, *245*, 533–544.
+
+[4] Piqueras, J. A., Martín-Vivar, M., Sandin, B., San Luis, C., & Pineda, D. (2017). The Revised Child Anxiety and Depression Scale: A systematic review and reliability generalization meta-analysis. *Journal of affective disorders*, *218*, 153–169.
+
+[5] López-Pina, J. A., Sánchez-Meca, J., López-López, J. A., Marín-Martínez, F., Núñez-Núñez, R. M., Rosa-Alcázar, A. I., ... & Ferrer-Requena, J. (2015). The Yale–Brown obsessive compulsive scale: a reliability generalization meta-analysis. *Assessment*, *22*, 619–628.
+
+因此，后续的实例分析将介绍如何使用`metafor`程序包(Viechtbauer, 2010)进行统计分析。  
+
+##3. 实例操作：Deng等人(2019)冷酷无情特质问卷信度概化分析研究
+###简要介绍
+以下将以一项对冷酷无情特质问卷(the Inventory of Callous Unemotional Traits, ICU; Frick, 2003)进行RG分析的研究作为例子(Deng et al., 2019)具体介绍如何进行一项RG研究(以统计分析的软件操作为主)。    
+
+该问卷共24题包含三个分量表，分别是**淡漠(Callousness)**、**冷酷(Uncaring)**以及**无情(Unemotional)**，使用李克特4级计分。  
+
+以下是具体研究过程的概要简述：  
+(一) 前期准备阶段  
+1.文献检索与筛选  
+本研究通过多个关键词从国内外多个数据库进行检索共下载了1, 125篇文献，然后通过筛选条件进行排除，最终共保留146篇文献。  
+
+2.信息提取与编码  
+（1）效应值：量表总分及其分量表Cronbach's alpha系数  
+（2）纳入的调节变量，具体如下：  
+(a) SD of age  
+(b) Mean age  
+(c) % of males in sample  
+(d) sample size  
+(e) SD of total scores  
+(f) Mean of total scores  
+(g) administration format  
+(h) age group  
+(i) sample type  
+(j) language version  
+(k) country  
+(l) item number version  
+
+(二) 数据分析阶段--实操展示  
+本部分选取该研究中53项研究的量表总分α系数（共24题）及其个别预测变量作为演示数据进行展示。  
+(1)效应值:量表总分alpha系数  
+(2)连续变量：样本量、年龄均值和标准差、性别比例、量表总分均值和标准差  
+(3)类别变量：年龄类型、样本类型、是否英文版本、评定者方式  
+
+具体编码规则示例如下：
+```{r coding1, include=FALSE,warnings = FALSE, message=FALSE}
+library(readxl)#读取与导出数据的包;#若没安装，可用install.packages("readxl")进行安装
+library(openxlsx)#读取与导出数据的包;若没安装，可用install.packages("openxlsx")进行安装
+options(tidyverse.quiet = TRUE)#设置tidyverse附带包及其版本信息不提示
+library (tidyverse)#用于数据整理;若没安装，可用install.packages("tidyverse")进行安装
+library(metafor)#主要分析所使用的R包；若没安装，可用install.packages("metafor")进行安装
+agetype=c("Infants and young children","Children","Adolescents","Adults")
+sampletype=c("community","offender")
+language=c("english","non-english")
+ratingformat=c("self-report","parent-report","teacher-report")
+
+criteria <- tibble(variable = NA %>% as.character(), 
+                    c1 = NA %>% as.character(), 
+                    c2 = NA %>% as.character(), 
+                    c3 = NA %>% as.character(), 
+                    c4 = NA %>% as.character())
+criteria [1:4, 1] <- c ("agetype","sampletype","language","ratingformat")
+criteria [1, 2:5] <- t(agetype)
+criteria [2, 2:3] <- t(sampletype)
+criteria [3, 2:3] <- t(language)
+criteria [4, 2:4] <- t(ratingformat)
+criteria
+```
+
+```{r coding2, include=TRUE,warnings = FALSE, message=FALSE}
+criteria %>% knitr::kable()
+```
+
+
+接下来展示如何使用演示数据在R语言中通过`metafor`包进行介绍具体分析过程。
+
+###3.1.1 程序包的安装与运行
+首先需要先安装与运行程序包，具体命令如下所示：
+```{r load, warnings = FALSE, message=FALSE}
+library(readxl)#读取与导出数据的包;#若没安装，可用install.packages("readxl")进行安装
+library(openxlsx)#读取与导出数据的包;若没安装，可用install.packages("openxlsx")进行安装
+options(tidyverse.quiet = TRUE)#设置tidyverse附带包及其版本信息不提示
+library (tidyverse)#用于数据整理;若没安装，可用install.packages("tidyverse")进行安装
+library(metafor)#主要分析所使用的R包；若没安装，可用install.packages("metafor")进行安装
+```
+
+
+###3.1.2 数据读取与导入
+由于所展示的例子所使用的数据并非来自程序包自带的数据集，因此需要先导入数据。
+由于数据文件为excel格式，因此使用`readxl`程序包用于数据读取与导入。具体命令如下：
+使用`read_excel()`函数读取数据，具体命令如下：
+```{r import, warnings = FALSE}
+data<- read_excel("example_data.xlsx")#演示数据
+head(data,10)#查看前10行数据
+#在这一数据内，包含3部分：
+#(1)效应值：alpha
+#(2)连续调节变量
+#(3)类别调节变量
+```
+
+###3.2 异质性检验
+主要是使用`rma()`函数对α系数的变异性进行检验，以检验纳入分析的效应值是否存在显著的异质性。  
+在进行异质性检验之前，需要先计算效应值，主要是通过`escalc()`这个函数实现。  
+`escalc()`参数设置一般为：`escalc(meansure, ai, ni, mi, dat)`。  
+参数具体说明如下：  
+(1) measure用于对Cronbach’s α系数进行转换或使用原始值;  
+(2) ai为Cronbach’s α系数观测值;  
+(3) ni为样本量，mi为题目数量；  
+(4) dat为数据集。  
+
+例如，若打算使用不转换的形式，则将将measure设置为"ARAW"，具体命令如下：
+```{r esc0, warnings = FALSE, message=FALSE}
+#使用未转换方式并计算效应值alpha系数
+total_es_raw<-escalc(measure = "ARAW", ai=alpha_total, ni=size, mi=mi, dat=data)
+total_es_raw[1:10,]#得到最后两列的yi--效应值,vi--抽样方差;查看前10行
+```
+
+若打算使用Bonett(2002)公式进行转换，则将将measure设置为"ABT"，具体命令如下：  
+```{r esc1, warnings = FALSE, message=FALSE}
+#使用Bonett(2002)的公式转换并计算加权平均alpha系数
+total_es<-escalc("ABT",-ln(1-ai), ai=alpha_total, ni=size, mi=mi, dat=data)
+total_es[1:10,]#得到最后两列的yi--效应值,vi--抽样方差;查看前10行
+```
+
+在完成计算效应值之后，使用`rma()`函数进行异质性检验。
+```{r het1, warnings = FALSE, message=FALSE}
+#异质性检验
+het1<-rma(total_es, yi, vi)
+het1
+pred1=predict(het1, transf=transf.iabt)#回转换为alpha系数
+pred1
+```
+
+除此以外，还可以直接用`rma()`一步计算效应值和异质性检验，具体如下：
+```{r het2, warnings = FALSE, message=FALSE}
+het2<-rma(measure="ABT", ai=alpha_total, ni=size, mi=mi, dat=data)#默认使用REML估计
+het2
+pred2=predict(het2, transf=transf.iabt)#回转为alpha系数
+pred2
+```
+
+通过对比het1和het2，发现结果是相同的，说明上述两种任一即可。  
+
+另外，还可以通过设定`method`选取不同的估计方法。一般默认使用限制最大似然估计方法(Restricted Maximum Likelihood Method; REML)进行估计，若使用其他估计方法可以通过`method=" "`设定,例如`method="ML"`使用极大似然估计。  
+```{r het3, warnings = FALSE, message=FALSE}
+#method=ML
+het3<-rma(total_es, yi, vi, method="ML")
+het3
+pred3=predict(het3, transf=transf.iabt)#回转为alpha系数
+pred3
+```
+
+结果解读：  
+(1) 上图是使用随机效应模型估计的结果，读取的效应值数量为k = 53，估计方法为极大似然估计。  
+(2) 上述结果还报告了四个用于判断异质性的指标，分别是τ、τ2、H2和I2。其中，I2约为92%，根据判断标准属于高异质性水平。  
+(3) 最主要的是异质性的检验结果，结果显示Q为576.2518, *p*<.0001，表明异质性检验显著，也就是这些效应值之间存在异质性。  
+(4) 根据上述不同估计方法的结果，发现是存在异质性的，因此有必要进一步探索造成这些α系数异质性的因素。  
+
+除了直接提取结果以外，还可在R对使用代码对结果进行整理，比较方便快捷。  
+----此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。----  
+
+下表是异质性分析的结果。  
+
+```{r het_res,include=FALSE, warnings = FALSE, message=FALSE}
+Q.value <- "0" #定义Q.value
+if (het3[["QEp"]] > 0.05) {
+    Q.value <- paste(round (het3[["QE"]], 3))
+  } else if (0.01 < het3[["QEp"]] & het3[["QEp"]] < 0.05) {
+    Q.value <- paste0(round (het3[["QE"]], 3), "*")
+  } else if (0.001 < het3[["QEp"]] & het3[["QEp"]] < 0.01) {
+    Q.value <- paste0(round (het3[["QE"]], 3), "**")
+  } else if (het3[["QEp"]] < 0.001) {
+    Q.value <- paste0(round (het3[["QE"]], 3), "***")
+  }
+
+het3_res <- tibble (
+  k = het3[["k"]],
+  mean_alpha = round (pred3[["pred"]], 2),
+  CI.LB = round (pred3[["ci.lb"]], 2),
+  CI.UB = round (pred3[["ci.ub"]], 2),
+  #tranfs_mean_alpha = round (het3[["b"]], 2),
+  #tranfs_CI.LB = round (het3[["ci.lb"]], 2),
+  #tranfs_CI.UB = round (het3[["ci.ub"]], 2),
+  Tau2 = round (het3[["tau2"]], 3),
+  Q = Q.value,
+  I2_precent = round (het3[["I2"]], 2)
+)
+
+het3_res %>% knitr::kable()
+```
+
+```{r print het3_res,include=TRUE, warnings = FALSE, message=FALSE}
+het3_res %>% knitr::kable()
+```
+
+
+###3.3 建立森林图
+使用`forest.rma()`函数建立森林图，从而直观看到效应值分布情况。
+```{r forest0, warnings = FALSE, message=FALSE,fig.width=8,fig.height=12}
+forest.rma(het3)#transformed alpha
+```
+
+结果解读：  
+如图所示，第一列为研究名称，中间为效应值的分布情况，最右边为各项研究对应的效应值及其置信区间结果。  
+
+除此之外，还可以根据需要设定参数，具体说明如下：  
+(1) 使用`annotate=TRUE`用于设置图中的标注，一般默认TRUE;  
+(2) transf用于把效应值转换。  
+(3) showweights用于设置是否呈现单个研究对整体效应值影响的权重。  
+(4) header用于判断是否设置表头呈现。  
+
+具体命令如下：
+```{r forest1, warnings = FALSE, message=FALSE,fig.width=8,fig.height=12}
+forest.rma(het3,annotate=TRUE,transf=transf.iabt,header = TRUE,showweights=TRUE)#backtransformed alpha
+```
+
+结果解读：  
+(1) 报告了基于随机效应模型所估计的平均效应值结果0.81。  
+(2) 这里分析得出α系数均值结果为0.81，表明内部一致性良好。  
+
+同时，可以通过`pdf()`对结果图进行保存，具体命令如下：
+```{r forest2, warnings = FALSE, message=FALSE,fig.width=8,fig.height=12}
+pdf("forestplot.pdf",width=10, height=20)
+forest.rma(het3,annotate=TRUE,transf=transf.iabt,header = TRUE,showweights=TRUE)#backtransformed alpha
+dev.off()
+```
+
+
+###3.4 调节效应分析
+调节效应分析主要是通过在`rma()`中设定`mods`参数，以便分析纳入的调节变量对异质性结果的作用。  
+调节分析参数设置一般为：`rma (total_es, yi, vi, mods = ~ moderator)`。  
+
+####3.4.1 连续变量例子
+以量表总分标准差作为例子呈现单个调节变量纳入进行分析的命令，具体命令如下：
+
+```{r moderator1, warnings = FALSE, message=FALSE}
+res_tot_totalSD<-rma(total_es, yi, vi, mods=~totalSD,method="ML")
+res_tot_totalSD
+```
+
+```{r moderator2, warnings = FALSE, message=FALSE}
+res_tot_totalSD<-rma(measure="ABT", ai=alpha_total, ni=size, mi=mi, mods=~totalSD,dat=data,method="ML")#与上述结果相同，区别在于直接使用数据集中的变量
+res_tot_totalSD
+```
+
+结果解读：
+(1) 从图中第1行可见，该调节分析结果是基于混合效应模型来进行估计的，使用极大似然进行估计的结果。
+(2) 还报告了调节变量的调节效应结果，结果显示*p*<.0001,表明量表总分标准差对效应值具有调节作用。  
+
+除了逐个变量进行分析后直接提取结果以外，还可在R对使用代码进行批量分析并整理结果，比较方便快捷。  
+----此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。----  
+
+下表是连续变量纳入进行调节分析的结果。  
+
+```{r reg_res, include=FALSE,warnings = FALSE, message=FALSE}
+R2 <- array (0, 1)
+QE <- array (0, 1)
+p.QE <- array (0, 1)
+k <- array (0, 1)
+b <- array (0, 1)
+t <- array (0, 1)
+p.t <- array (0, 1)
+name <- array ("0", 1)
+QE.list <- array (" ", 5)
+
+for (A in 6:11) {
+  #  6 caterogical variables  in columns 6 to 11 in the dataset
+  tmp_con <- rma (total_es, yi, vi, mods = ~ total_es[[A]], method="ML")
+  R2[A - 5] <- round (tmp_con [["R2"]], 2)
+  QE[A - 5] <- round (tmp_con [["QE"]], 3)
+  p.QE[A - 5] <- tmp_con [["QEp"]]
+  k[A - 5] <- tmp_con[["k"]]
+  b[A - 5] <- round (tmp_con[["beta"]][2], 3)
+  t[A - 5] <- round (tmp_con[["zval"]][2], 3)
+  p.t[A - 5] <- round (tmp_con[["pval"]][2], 3)
+  name[A - 5] <- names (total_es)[A]
+  if (p.QE[A - 5] > 0.05) {
+    QE.list[A - 5] <- paste(QE[A - 5])
+  }
+  else if (0.01 < p.QE[A - 5] & p.QE[A - 5] < 0.05) {
+    QE.list[A - 5] <- paste(QE[A - 5], "*")
+  }
+  else if (0.001 < p.QE[A - 5] & p.QE[A - 5] < 0.01) {
+    QE.list[A - 5] <- paste(QE[A - 5], "**")
+  }
+  else if (p.QE[A - 5] < 0.001) {
+    QE.list[A - 5] <- paste(QE[A - 5], "***")
+    }
+}
+
+# A - 5 here is similar to A - 1 in Meta-Anova.
+
+reg_res <- tibble (
+  variable = name,
+  k = k,
+  b = b,
+  t = t,
+  sig.t = p.t,
+  R2_percentage = R2,
+  QE = QE.list)
+
+#remove (R2, QE, p.QE, k, b, t, 
+#        p.t, name, QE.list, tmp_con, A)
+reg_res %>% knitr::kable()
+
+```
+
+```{r print reg_res,include=TRUE, warnings = FALSE, message=FALSE}
+reg_res %>% knitr::kable()
+#b=回归系数beta
+#t=significance test of moderator regression coefficient--zval
+#sig.t=p-value
+#R2%解释率
+```
+
+####3.4.2 类别变量例子
+以评定者方式作为例子呈现将类别变量纳入调节的分析，具体命令如下：
+
+#####(1) 亚组分析(Subgroup Analysis)
+```{r sub1, warnings = FALSE, message=FALSE}
+sub_1=rma(total_es, yi, vi, subset = (total_es$ratingformat == 1))
+predict(sub_1, transf=transf.iabt)#转换为alpha系数
+```
+
+```{r sub2, warnings = FALSE, message=FALSE}
+sub_2=rma (total_es, yi, vi, subset = (total_es$ratingformat == 2))
+predict(sub_2, transf=transf.iabt)#转换为alpha系数
+```
+
+```{r sub3, warnings = FALSE, message=FALSE}
+sub_3=rma (total_es, yi, vi, subset = (total_es$ratingformat == 3))
+predict(sub_3, transf=transf.iabt)#转换为alpha系数
+```
+
+除了逐个变量进行分析后直接提取结果以外，还可在R对使用代码进行批量分析并整理结果，比较方便快捷。  
+----此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。----  
+
+下表是亚组分析的结果。  
+
+```{r mod_res, include=FALSE,warnings = FALSE, message=FALSE}
+subgroup <- 0
+N <- 1
+for (A in 2:5) { 
+  # 4 caterogical variables in columns 2 to 5 in the dataset
+  subgroup <- subgroup + length (unique (total_es[[A]]))
+}
+
+sub_alphas <- array (0, subgroup)
+k <- array (0, subgroup)
+lb <- array (0, subgroup)
+ub <- array (0, subgroup)
+
+
+for (S in 2:5) {
+  for (K in 1:length (unique (total_es[[S]]))) {
+    tmp_sub <- rma(total_es, yi, vi, subset = (total_es[[S]] == K))
+    pred=predict(tmp_sub, transf=transf.iabt)
+    alpha <- pred[["pred"]]
+    num <- tmp_sub[["k"]]
+    Lb <- pred[["ci.lb"]]
+    Ub <- pred[["ci.ub"]]
+    sub_alphas[N] <- round (alpha, 2)
+    k[N] <- num
+    lb[N] <- round (Lb, 2)
+    ub[N] <- round (Ub, 2)
+    N <- N + 1
+  }
+}
+
+ci <- array (" ", subgroup)
+for (V in 1:subgroup) 
+  {ci[V] <- paste ("[", lb[V], ", ", ub[V], "]")}
+
+mod_res <- tibble (
+  group = c (agetype, sampletype, language,ratingformat),
+  k = k,
+  alpha = round (sub_alphas, 2),
+  ci_95 = ci)
+
+#remove (A, S, K, N, V, tmp, sub_alphas, k, lb, ub, ci) 
+
+mod_res %>% knitr::kable()
+```
+
+```{r print mod_res,include=TRUE, warnings = FALSE, message=FALSE}
+mod_res %>% knitr::kable()
+```
+
+
+#####(2) Meta-Anova
+```{r metaanova, warnings = FALSE, message=FALSE}
+res_tot_adf<-rma(total_es, yi, vi,mods=~ratingformat,method="ML")
+res_tot_adf
+```
+
+结果解读：
+(1) 从图中第1行可见，该调节分析结果是基于混合效应模型来进行估计的，使用极大似然进行估计的结果。
+(2) 还报告了调节变量的调节效应结果，结果显示*p*<.05,表明评定者方式对效应值具有调节作用。
+
+除了逐个变量进行分析后直接提取结果以外，还可在R对使用代码进行批量分析并整理结果，比较方便快捷。  
+----此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。----  
+
+下表是类别变量纳入进行调节分析的结果。  
+
+```{r anv_res,include=FALSE, warnings = FALSE, message=FALSE}
+R2 <- array (0, 1)
+QB <- array (0, 1)
+p <- array (0, 1)
+k <- array (0, 1)
+name <- array ("0", 1)
+
+for (A in 2:5) {
+  tmp_cat <- rma (total_es, yi, vi, mods = ~ total_es[[A]],method="ML")
+  R2[A - 1] <- round (tmp_cat [["R2"]], 2) 
+  QB[A - 1] <- round (tmp_cat [["QM"]], 3)
+  p[A - 1] <- round (tmp_cat [["QMp"]], 3)
+  k[A - 1] <- tmp_cat[["k"]]
+  name[A - 1] <- criteria$variable[A - 1]
+}
+
+anv_res <- tibble (
+  variable = name,
+  k = k,
+  R2_percentage = R2,
+  QB = QB,
+  sig = p)
+
+#remove (R2, QB, p, k, name, tmp_cat, A) 
+anv_res %>% knitr::kable()
+#R2%解释率
+#QB组间显著性差异--QM
+#sig：QB组间显著性差异p值
+```
+
+
+```{r print anv_res,include=TRUE, warnings = FALSE, message=FALSE}
+anv_res %>% knitr::kable()
+```
+
+####3.4.3 探索性模型例子
+选取上述具有调节作用或解释率较高的变量纳入模型进行分析，具体命令如下：
+
+```{r multi, warnings = FALSE, message=FALSE}
+#full model
+res_multi<-rma(total_es, yi, vi, mods=~ageM+totalM+totalSD+ratingformat,method="ML")
+res_multi#R2=36.79%
+```
+
+
+###3.5 发表偏倚分析
+####3.5.1 漏斗图
+漏斗图(funnel plot)是敏感性分析的常用分析技术，能够比较直观地目测当前研究是否存在偏倚情况。  
+具体命令如下：
+```{r funnel, warnings = FALSE, message=FALSE,fig.width=8,fig.height=8}
+funplot1=funnel(het3,atransf=transf.iabt) #建立漏斗图
+funplot2=funnel(het3,atransf=transf.iabt,label = TRUE)#设置呈现studyID标记
+```
+
+结果解读：  
+从图中可见，散点主要分布在漏斗图的顶部，向中间集中，表明不存在发表偏倚或者偏倚的可能性较低。  
+
+另外，使用剪补法对是否存在发表偏倚进行分析，具体命令如下：
+```{r tf, warnings = FALSE, message=FALSE,fig.width=8,fig.height=8}
+tf=trimfill(het3,estimator = "R0") #使用剪补法
+tf
+```
+
+结果解读：  
+通过使用剪补法进行估计，结果发现：估计右侧的缺失研究数量为0，说明不存在偏倚。  
+
+除此以外，还可以进一步分析效应值和抽样方差之间相关。若高相关，则表明漏斗图是存在不对称性的，即存在偏倚。
+```{r ranktest, warnings = FALSE, message=FALSE}
+ranktest (total_es$yi, total_es$vi,exact=FALSE) #相关系数0.05--低相关--漏斗图是对称的--不存在偏倚或者偏倚可能性低。
+```
+
+
+####3.5.2 计算失效安全系数
+使用`fsn()`函数计算失效安全系数，具体命令如下：
+```{r fsn1, warnings = FALSE, message=FALSE}
+fail_safe=fsn(yi, vi, data=total_es,type="Rosenthal")
+fail_safe
+5*nrow(data)+10#与5*k +10(k为纳入分析数量)所计算得出的结果进行比较
+```
+
+结果解读：  
+(1) 图中第1行提示失效安全系数是通过"Rosenthal"方法计算所得；  
+(2) 图中第4行为失效安全系数--主要的报告结果;  
+(3) 失效安全系数用于与 5 * k + 10(k为纳入分析数量)所计算得出的结果进行比较，若失效安全系数小于所计算得出的值，那么就有可能存在发表偏倚。  
+(4) 图中的结果显示的失效安全系数为359983，远远高于纳入分析的数量，因此表明不存在发表偏倚。  
+
+通常来说，失效安全系数一般会与异质性结果整理在一起，具体整理如下：
+```{r fsn2, include=FALSE, warnings = FALSE, message=FALSE}
+if (fail_safe[["pval"]] < fail_safe[["alpha"]]) {
+  het3_res <- het3_res %>% mutate (FSN = paste0 (fail_safe[["fsnum"]], "***"))
+} else 
+  {het3_res <- het3_res %>% mutate (FSN = paste (fail_safe[["fsnum"]]))}
+het3_res %>% knitr::kable()
+```
+
+```{r fsn3, include=TRUE, warnings = FALSE, message=FALSE}
+het3_res %>% knitr::kable()
+```
+
+####3.5.3 计算Egger回归系数--Egger's regression test
+使用`regtest() `函数计算失效安全系数，具体命令如下：
+```{r egger, warnings = FALSE, message=FALSE}
+regtest(het3, model="lm")### classical Egger test
+```
+
+结果解读：
+从结果可得，egger回归系数截距不显著，说明不存在偏倚或者偏倚可能性较低。  
+
+####3.5.4 总结
+综上，通过多方面的分析，包括漏斗图、剪补法、Rosenthal失效安全系数以及计算Egger回归系数，结果均表明此项研究不存在发表偏倚或者偏倚可能性较低。
+
+```{r bias1,include=FALSE, warnings = FALSE, message=FALSE}
+m1=("symmetrical")
+m2=("Fail-safe N: 359983 > 5*53+10=275")
+m3=("t = 0.5984, df = 51, p = 0.5522")
+bias <- tibble(method = NA %>% as.character(), 
+                    results = NA %>% as.character())
+bias [1:3, 1] <- c("funnelplot", "fsn", "egger")
+bias [1:3, 2] <- c(m1,m2,m3)
+```
+
+```{r bias2,include=TRUE, warnings = FALSE, message=FALSE}
+bias %>% knitr::kable()
+```
+
+
+####3.6 结果整理与导出
+在完成所有分析之后，使用`write()`函数导出结果，用于论文或分析报告。
+```{r resultexp, warnings = FALSE, message=FALSE}
+#write.xlsx (het3_res, file = "heterogeneity test results.xlsx")
+#write.xlsx (reg_res, file = "continuous moderator results.xlsx")
+#write.xlsx (anv_res, file = "categorical moderator results.xlsx")
+```
+
+##4. 总结
+第一，以实例使用`metafor`介绍了信度概化的统计分析过程，包括效应值计算、异质性检验、调节分析以及发表偏倚分析。
+
+![metafor各函数功能概览(引用自metafor-project官网)](https://www.metafor-project.org/lib/exe/fetch.php/docs:diagram.png)
+
+第二，在实际研究过程中，可根据研究目的和需要自行调整使用。
+
+
+> Take-away messages
+
+* 1. 作为以信度系数作为效应值的元分析技术，信度概化既有元分析的共性，也有其特异性。
+    + 了解是否存在“信度引入”的问题。
+    + 综合判断某项测验工具是否稳定可靠。
+
+* 2. `metafor`为信度概化统计分析的实现提供更多选择。
+    + 根据实际需要选择合适的分析方法。
+
+***
+##5. 学习资源分享
+#####a. CRAN R包 documentation
+由于开发者会对R包进行更新，具体语句以对应版本的手册说明为准。  
+```{r help, warnings = FALSE, message=FALSE}
+help(metafor)#查阅手册
+?metafor
+?escalc()
+#escalc#以escalc()为例，查看源代码，了解底层逻辑
+```
+#####b. `metafor`官网
+此处列举两个有用的网站，该网站提供了丰富的学习资源，以供参考。  
+[metafor@github](https://wviechtb.github.io/metafor/index.html)  
+[metafor-project官网](https://www.metafor-project.org/doku.php)
+
+#####c. 参考书籍
+Harrer, M., Cuijpers, P., Furukawa, T. A., & Ebert, D. D. (2021). *Doing meta-analysis with R: A hands-on guide*. Chapman and Hall/CRC.
+
+Polanin, J. R., Hennessy, E. A., & Tanner-Smith, E. E. (2017). A Review of Meta-Analysis Packages in R. *Journal of Educational and Behavioral Statistics*, *42*, 206–242. 
+
+Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. *Journal of Statistical Software*, *36*, 1–48.
+
+```{r paper, include=FALSE, warnings = FALSE, message=FALSE}
+#vignette("metafor")#see Viechtbauer (2010)
+```

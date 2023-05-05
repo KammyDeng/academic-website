@@ -1,5 +1,5 @@
 ---
-title: "Jiaxindeng's site"
+title: "homepage"
 output: html_document
 ---
 
@@ -17,27 +17,26 @@ output: html_document
 <div class="row" style="padding-top: 30px;">
 <div class="col-sm-6">
 
-# **Jiaxindeng's site**
+#### Welcome to my website!
+***
+I graduated from the department of psychology at Guangzhou University in China with my Master of Education in Applied Psychology and Bachelor of Science. Currently, I’ve been working as a research fellow at the Centre for Psychometrics and Latent Variable Modelling at Guangzhou University in China.  
+My research interests focus on the understanding of the development of psychopathic traits and antisocial behaviours in youth. Also, I'm interested in using meta-analysis and network analysis. 
 
-This is a template example for lab journaling. Students in Matt Crump's Human Cognition and Performance Lab will use this template to learn R, and other things. Students can replace this text with more fun things. People not in my lab can use this too.
+##### Contact
+* Jiaxin Deng
+* E-mail: kammy-tang@hotmail.com
+* [ResearchGate profile](https://www.researchgate.net/profile/Jiaxin_Deng3)
 
-## How to use
 
-1. fork the repo for this website and follow instructions on read me to get set up. [https://github.com/CrumpLab/LabJournalWebsite](https://github.com/CrumpLab/LabJournalWebsite)
 
-2. Blog/journal what you are doing in R, by editing the Journal.Rmd. See the [Journal page](https://crumplab.github.io/LabJournalWebsite/Journal.html) for an example of what to do to get started learning R.
 
-3. See the [links page](https://crumplab.github.io/LabJournalWebsite/Links.html) for lots of helpful links on learning R.
-
-4. Change everything to make it your own.
 
 
 </div>
 <div class="col-sm-6">
 
-### [Crump Lab: Human Cognition and Performance](https://crumplab.github.io)
 
-<a href = "https://crumplab.github.io">
-![](images/logo.png)
+
+![](images/homepage pic.jpg){width=75%}
 </a>
 </div>
