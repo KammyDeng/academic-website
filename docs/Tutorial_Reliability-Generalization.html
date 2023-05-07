@@ -249,7 +249,7 @@ $(document).ready(function () {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="CV.html">Curriculum Vitae</a>
+  <a href="Cv.html">Curriculum Vitae</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -277,7 +277,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Tutorial_Reliability Generalization.html">Reliability Generalization</a>
+      <a href="Tutorial_Reliability-Generalization.html">Reliability Generalization</a>
     </li>
     <li>
       <a href="Tutorial_Network-analysis.html">Network Analysis</a>
@@ -308,25 +308,37 @@ $(document).ready(function () {
 </div>
 
 
-<p>———- 目录 ——————————————————————————————–<br />
-———- 1. 实例分析与技术实现：R语言 ————————————————————–<br />
-———- 2. R语言基本操作——————————————————————————<br />
-———- 3.
-实例操作：Deng等人(2019)冷酷无情特质问卷信度概化分析研究———————–<br />
-———-实际操作练习：使用演示数据进行练习——————————————————-<br />
-———- 4. 总结——————————————————————————————<br />
-———- 5. 学习资源分享——————————————————————————–</p>
-<p>##1. 实例分析与技术实现：R语言
-信度概化或者元分析在心理学领域的应用中，常用R语言作为主要的数据分析软件。</p>
-<p>常用的元分析R包：<code>metafor</code> (Viechtbauer, 2010),
-<code>metaSEM</code> (Cheung, 2015)等等。</p>
-<p>具体详见Polanin等人(2017)文章，该文归纳了当前可用于元分析的R包，共63个，并对其使用功能等方面进行比较并提供使用建议。</p>
+<p>———-Table of Contents——————————————————————————————–<br />
+———- 1. Meta-analysis in R ————————————————————–<br />
+———- 2. Example: Deng et al. (2019) Reliability generalization of the
+ICU———————–<br />
+———- Hands-on exercises: Practice with demo
+data——————————————————-<br />
+———- 3. Summary——————————————————————————————<br />
+———- 4. Resources ——————————————————————————–</p>
+<div id="meta-analysis-in-r" class="section level2">
+<h2>1. Meta-analysis in R</h2>
+<p><em>R</em> programming is commonly used in the data analysis of
+meta-analysis and reliability generalization.</p>
+<p>Several commonly used R packages in the meta-analysis include
+<code>metafor</code>(Viechtbauer, 2010), <code>metaSEM</code> (Cheung,
+2015), etc. For details, see Polanin et al. (2017). This review
+summarizes 63 currently available packages for meta-analysis and
+provides comparisons and suggestions for their use in terms of
+functions.</p>
 <p>Polanin, J. R., Hennessy, E. A., &amp; Tanner-Smith, E. E. (2017). A
 Review of Meta-Analysis Packages in R. <em>Journal of Educational and
 Behavioral Statistics</em>, <em>42</em>, 206–242.</p>
-<p>其中，<code>metafor</code>由荷兰马斯特里赫特大学Wolfgang
-Viechtbauer教授进行编写和开发，是目前应用最为广泛的程序包之一，与其他程序包相比，其基本涵盖了元分析统计分析过程，包括:计算效应值、调节分析、发表偏倚分析以及用多水平模型处理嵌套的因变量效应值等。</p>
-<p>目前不少RG研究选用<code>metafor</code>包作为统计分析的工具，例如：</p>
+<p>One of the most widely used packages for conducting meta-analysis is
+<code>metafor</code>, which was written and developed by Professor
+Wolfgang Viechtbauer of Maastricht University in the Netherlands.
+Compared with other packages, <code>metafor</code> covers the
+statistical analysis process of meta-analysis quite comprehensively,
+including calculating effect size, conducting moderator analysis,
+analyzing publication bias, and using multi-level models to deal with
+nested dependent variable effect size.</p>
+<p>Many RG studies used the<code>metafor</code>package as a tool for
+statistical analysis, such as:</p>
 <p>[1] Blázquez-Rincón, D., Durán, J. I., &amp; Botella, J. (2022). The
 fear of COVID-19 scale: a reliability generalization meta-analysis.
 <em>Assessment</em>, <em>29</em>, 940–948.</p>
@@ -345,42 +357,82 @@ A systematic review and reliability generalization meta-analysis.
 <em>Journal of affective disorders</em>, <em>218</em>, 153–169.</p>
 <p>[5] López-Pina, J. A., Sánchez-Meca, J., López-López, J. A.,
 Marín-Martínez, F., Núñez-Núñez, R. M., Rosa-Alcázar, A. I., … &amp;
-Ferrer-Requena, J. (2015). The Yale–Brown obsessive compulsive scale: a
+Ferrer-Requena, J. (2015). The Yale–Brown obsessive compulsive scale: A
 reliability generalization meta-analysis. <em>Assessment</em>,
 <em>22</em>, 619–628.</p>
-<p>因此，后续的实例分析将介绍如何使用<code>metafor</code>程序包(Viechtbauer,
-2010)进行统计分析。</p>
-<p>##3. 实例操作：Deng等人(2019)冷酷无情特质问卷信度概化分析研究
-###简要介绍 以下将以一项对冷酷无情特质问卷(the Inventory of Callous
-Unemotional Traits, ICU; Frick, 2003)进行RG分析的研究作为例子(Deng et
-al., 2019)具体介绍如何进行一项RG研究(以统计分析的软件操作为主)。</p>
-<p>该问卷共24题包含三个分量表，分别是<strong>淡漠(Callousness)</strong>、<strong>冷酷(Uncaring)</strong>以及<strong>无情(Unemotional)</strong>，使用李克特4级计分。</p>
-<p>以下是具体研究过程的概要简述：<br />
-(一) 前期准备阶段<br />
-1.文献检索与筛选<br />
-本研究通过多个关键词从国内外多个数据库进行检索共下载了1,
-125篇文献，然后通过筛选条件进行排除，最终共保留146篇文献。</p>
-<p>2.信息提取与编码<br />
-（1）效应值：量表总分及其分量表Cronbach’s alpha系数<br />
-（2）纳入的调节变量，具体如下：<br />
-(a) SD of age<br />
-(b) Mean age<br />
-(c) % of males in sample<br />
-(d) sample size<br />
-(e) SD of total scores<br />
-(f) Mean of total scores<br />
-(g) administration format<br />
-(h) age group<br />
-(i) sample type<br />
-(j) language version<br />
-(k) country<br />
-(l) item number version</p>
-<p>(二) 数据分析阶段–实操展示<br />
-本部分选取该研究中53项研究的量表总分α系数（共24题）及其个别预测变量作为演示数据进行展示。<br />
-(1)效应值:量表总分alpha系数<br />
-(2)连续变量：样本量、年龄均值和标准差、性别比例、量表总分均值和标准差<br />
-(3)类别变量：年龄类型、样本类型、是否英文版本、评定者方式</p>
-<p>具体编码规则示例如下：</p>
+<p>Therefore, the following example studies will demonstrate how to
+perform statistical analysis using the <code>metafor</code> package
+(Viechtbauer, 2010).</p>
+<p>##2. Example: Deng et al. (2019) Reliability generalization of the
+ICU</p>
+<div id="brief-introduction" class="section level3">
+<h3>Brief introduction</h3>
+<p>The following is an RG example of the Inventory of
+Callous-Unemotional traits (Deng et al., 2019), specifically describe
+how to conduct an RG study, focusing on software operations for
+statistical analysis.</p>
+<p>The 24-item scale contains three subscales, Callousness, Uncaring,
+and Unemotional, using Likert 4 scored. Here is a brief summary of the
+specific process:</p>
+<div id="preparation" class="section level4">
+<h4>Preparation</h4>
+<div id="literature-search-and-screening" class="section level5">
+<h5>1. Literature search and screening</h5>
+<p>In this study, a total of 1,125 articles were downloaded from
+multiple databases using multiple keywords. After applying filtering
+criteria, 146 articles were ultimately retained.</p>
+</div>
+<div id="data-extraction-and-encoding" class="section level5">
+<h5>2. Data extraction and encoding</h5>
+<ol style="list-style-type: decimal">
+<li>Effect size: the total score and its subscale Cronbach’s alpha
+coefficient<br />
+</li>
+<li>The moderators are included as follows:<br />
+</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>SD of age<br />
+</li>
+<li>Mean age<br />
+</li>
+<li>% of males in sample<br />
+</li>
+<li>sample size<br />
+</li>
+<li>SD of total scores<br />
+</li>
+<li>Mean of total scores<br />
+</li>
+<li>administration format<br />
+</li>
+<li>age group<br />
+</li>
+<li>sample type<br />
+</li>
+<li>language version<br />
+</li>
+<li>country<br />
+</li>
+<li>item number version</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>Data analysis In this section, the total score α coefficient of the
+scale (24 items) and the moderators of 53 studies in this study were
+selected as demo data.<br />
+</li>
+</ol>
+<ul>
+<li>effect size: the alpha coefficient of the total score of the
+scale<br />
+</li>
+<li>Continuous variables: sample size, mean age and standard deviation,
+gender percentage, mean and standard deviation of the total score<br />
+</li>
+<li>Categorical variables: age type, sample type, language,
+adminstration ratings</li>
+</ul>
+<p>Examples of specific encoding rules are as follows:</p>
 <pre class="r"><code>criteria %&gt;% knitr::kable()</code></pre>
 <table>
 <colgroup>
@@ -430,20 +482,29 @@ al., 2019)具体介绍如何进行一项RG研究(以统计分析的软件操作�
 </tr>
 </tbody>
 </table>
-<p>接下来展示如何使用演示数据在R语言中通过<code>metafor</code>包进行介绍具体分析过程。</p>
-<p>###3.1.1 程序包的安装与运行
-首先需要先安装与运行程序包，具体命令如下所示：</p>
-<pre class="r"><code>library(readxl)#读取与导出数据的包;#若没安装，可用install.packages(&quot;readxl&quot;)进行安装
-library(openxlsx)#读取与导出数据的包;若没安装，可用install.packages(&quot;openxlsx&quot;)进行安装
-options(tidyverse.quiet = TRUE)#设置tidyverse附带包及其版本信息不提示
-library (tidyverse)#用于数据整理;若没安装，可用install.packages(&quot;tidyverse&quot;)进行安装
-library(metafor)#主要分析所使用的R包；若没安装，可用install.packages(&quot;metafor&quot;)进行安装</code></pre>
-<p>###3.1.2 数据读取与导入
-由于所展示的例子所使用的数据并非来自程序包自带的数据集，因此需要先导入数据。
-由于数据文件为excel格式，因此使用<code>readxl</code>程序包用于数据读取与导入。具体命令如下：
-使用<code>read_excel()</code>函数读取数据，具体命令如下：</p>
-<pre class="r"><code>data&lt;- read_excel(&quot;example_data.xlsx&quot;)#演示数据
-head(data,10)#查看前10行数据</code></pre>
+<p>Next, I will demonstrate how to conduct the analysis using demo
+data.</p>
+</div>
+</div>
+</div>
+<div id="installation-and-load-packages" class="section level3">
+<h3>2.1.1 Installation and load packages</h3>
+<p>First, install and run the package. The code is displayed as
+follows:</p>
+<pre class="r"><code>library(readxl)
+library(openxlsx) 
+options(tidyverse.quiet = TRUE)
+library (tidyverse) 
+library(metafor)</code></pre>
+</div>
+<div id="data-reading-and-import" class="section level3">
+<h3>2.1.2 Data reading and import</h3>
+<p>To use the example shown, you first need to import the data. Since
+the data file is in Excel format, you can use the <code>readxl</code>
+package to read and import the data. Use this code with the appropriate
+file path to import the data.</p>
+<pre class="r"><code>data&lt;-read_excel(&quot;example_data.xlsx&quot;) #demo data in the current working directory
+head(data,10)#10 rows</code></pre>
 <pre><code>## # A tibble: 10 × 13
 ##    `study ID` agetype sampletype language ratingformat  ageM ageSD gender  size
 ##         &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
@@ -458,23 +519,33 @@ head(data,10)#查看前10行数据</code></pre>
 ##  9          9       4          2        1            1  21.3  4.65  0.224   687
 ## 10         10       3          1        1            1  15.3  1.34  0.716   134
 ## # ℹ 4 more variables: totalSD &lt;dbl&gt;, totalM &lt;dbl&gt;, alpha_total &lt;dbl&gt;, mi &lt;dbl&gt;</code></pre>
-<pre class="r"><code>#在这一数据内，包含3部分：
-#(1)效应值：alpha
-#(2)连续调节变量
-#(3)类别调节变量</code></pre>
-<p>###3.2 异质性检验
-主要是使用<code>rma()</code>函数对α系数的变异性进行检验，以检验纳入分析的效应值是否存在显著的异质性。<br />
-在进行异质性检验之前，需要先计算效应值，主要是通过<code>escalc()</code>这个函数实现。<br />
-<code>escalc()</code>参数设置一般为：<code>escalc(meansure, ai, ni, mi, dat)</code>。<br />
-参数具体说明如下：<br />
-(1) measure用于对Cronbach’s α系数进行转换或使用原始值;<br />
-(2) ai为Cronbach’s α系数观测值;<br />
-(3) ni为样本量，mi为题目数量；<br />
-(4) dat为数据集。</p>
-<p>例如，若打算使用不转换的形式，则将将measure设置为”ARAW”，具体命令如下：</p>
-<pre class="r"><code>#使用未转换方式并计算效应值alpha系数
+<pre class="r"><code>#data consists of 3 parts:
+#(1) Effect size: alpha
+#(2) Continuous regulation variables
+#(3) Categorical moderators
+
+#read_excel(&quot;path/to/data_file.xlsx&quot;) #specific path</code></pre>
+</div>
+<div id="heterogeneity-testing" class="section level3">
+<h3>2.2 Heterogeneity testing</h3>
+<p>To examine heterogeneity in the effect size, the variability of the α
+coefficients was mainly tested using the <code>rma()</code>
+function.</p>
+<p>Before testing for heterogeneity, the effect size needs to be
+calculated, which is done mainly by the <code>escalc()</code>
+function.</p>
+<p>The <code>escalc()</code> function include the following
+parameters:<br />
+(1) measure is used to convert Cronbach’s α coefficient or use the
+original value;<br />
+(2) ai is the observed Cronbach’s α coefficient;<br />
+(3) ni is the sample size and mi is the number of items;<br />
+(4) dat is the dataset.</p>
+<p>For example, to use the form without transformation, set measure to
+“ARAW” with the following code:</p>
+<pre class="r"><code>#raw alpha
 total_es_raw&lt;-escalc(measure = &quot;ARAW&quot;, ai=alpha_total, ni=size, mi=mi, dat=data)
-total_es_raw[1:10,]#得到最后两列的yi--效应值,vi--抽样方差;查看前10行</code></pre>
+total_es_raw[1:10,]#yi--effect size,vi--sampling variance; the first 10 rows</code></pre>
 <pre><code>## 
 ##    study.ID agetype sampletype language ratingformat  ageM   ageSD gender size 
 ## 1         1       3          1        1            1 14.98 1.30000  0.000   58 
@@ -498,10 +569,11 @@ total_es_raw[1:10,]#得到最后两列的yi--效应值,vi--抽样方差;查看�
 ## 8     7.23  20.30        0.73 24 0.7300 0.0035 
 ## 9     6.75  37.44        0.81 24 0.8100 0.0001 
 ## 10   10.11  41.64        0.85 24 0.8500 0.0004</code></pre>
-<p>若打算使用Bonett(2002)公式进行转换，则将将measure设置为”ABT”，具体命令如下：</p>
-<pre class="r"><code>#使用Bonett(2002)的公式转换并计算加权平均alpha系数
-total_es&lt;-escalc(&quot;ABT&quot;,-ln(1-ai), ai=alpha_total, ni=size, mi=mi, dat=data)
-total_es[1:10,]#得到最后两列的yi--效应值,vi--抽样方差;查看前10行</code></pre>
+<p>If use the Bonett (2002) formula for conversion, set measure to “ABT”
+with the following code:</p>
+<pre class="r"><code>#use Bonett&#39;s (2002) formula to convert and calculate the weighted average alpha coefficient
+total_es &lt;- escalc(&quot;ABT&quot;,-ln(1-ai), ai=alpha_total, ni=size, mi=mi, dat=data)
+total_es[1:10,] #yi--effect size, vi--sampling variance; Look at the first 10 rows</code></pre>
 <pre><code>## 
 ##    study.ID agetype sampletype language ratingformat  ageM   ageSD gender size 
 ## 1         1       3          1        1            1 14.98 1.30000  0.000   58 
@@ -525,8 +597,9 @@ total_es[1:10,]#得到最后两列的yi--效应值,vi--抽样方差;查看前10�
 ## 8     7.23  20.30        0.73 24 1.3093 0.0474 
 ## 9     6.75  37.44        0.81 24 1.6607 0.0030 
 ## 10   10.11  41.64        0.85 24 1.8971 0.0158</code></pre>
-<p>在完成计算效应值之后，使用<code>rma()</code>函数进行异质性检验。</p>
-<pre class="r"><code>#异质性检验
+<p>After calculating the effect size, the <code>rma()</code> function is
+used for heterogeneity testing.</p>
+<pre class="r"><code>#heterogeneity
 het1&lt;-rma(total_es, yi, vi)
 het1</code></pre>
 <pre><code>## 
@@ -547,13 +620,14 @@ het1</code></pre>
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>pred1=predict(het1, transf=transf.iabt)#回转换为alpha系数
+<pre class="r"><code>pred1=predict(het1, transf=transf.iabt)#back-transformation to alpha
 pred1</code></pre>
 <pre><code>## 
 ##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
 ##  0.8096 0.7935 0.8245 0.6686 0.8906</code></pre>
-<p>除此以外，还可以直接用<code>rma()</code>一步计算效应值和异质性检验，具体如下：</p>
-<pre class="r"><code>het2&lt;-rma(measure=&quot;ABT&quot;, ai=alpha_total, ni=size, mi=mi, dat=data)#默认使用REML估计
+<p>In addition, you can calculate the effect size and heterogeneity
+tests directly with <code>rma()</code> in one step, as shown below:</p>
+<pre class="r"><code>het2&lt;-rma(measure=&quot;ABT&quot;, ai=alpha_total, ni=size, mi=mi, dat=data)#default REML
 het2</code></pre>
 <pre><code>## 
 ## Random-Effects Model (k = 53; tau^2 estimator: REML)
@@ -573,15 +647,18 @@ het2</code></pre>
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>pred2=predict(het2, transf=transf.iabt)#回转为alpha系数
+<pre class="r"><code>pred2=predict(het2, transf=transf.iabt)##back-transformation to alpha
 pred2</code></pre>
 <pre><code>## 
 ##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
 ##  0.8096 0.7935 0.8245 0.6686 0.8906</code></pre>
-<p>通过对比het1和het2，发现结果是相同的，说明上述两种任一即可。</p>
-<p>另外，还可以通过设定<code>method</code>选取不同的估计方法。一般默认使用限制最大似然估计方法(Restricted
-Maximum Likelihood Method;
-REML)进行估计，若使用其他估计方法可以通过<code>method=" "</code>设定,例如<code>method="ML"</code>使用极大似然估计。</p>
+<p>The results from comparing HET1 and HET2 are the same, indicating
+that either of them can be used.<br />
+Furthermore, you can choose different estimation methods by setting the
+<code>method</code> parameter. The Restricted Maximum Likelihood method
+(REML) is generally used by default. If you want to use other estimation
+methods, you can set <code>method="ML"</code> to use maximum likelihood
+estimation.</p>
 <pre class="r"><code>#method=ML
 het3&lt;-rma(total_es, yi, vi, method=&quot;ML&quot;)
 het3</code></pre>
@@ -603,23 +680,33 @@ het3</code></pre>
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>pred3=predict(het3, transf=transf.iabt)#回转为alpha系数
+<pre class="r"><code>pred3=predict(het3, transf=transf.iabt)#back-transformation to alpha
 pred3</code></pre>
 <pre><code>## 
 ##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
 ##  0.8096 0.7937 0.8244 0.6706 0.8900</code></pre>
-<p>结果解读：<br />
-(1) 上图是使用随机效应模型估计的结果，读取的效应值数量为k =
-53，估计方法为极大似然估计。<br />
-(2)
-上述结果还报告了四个用于判断异质性的指标，分别是τ、τ2、H2和I2。其中，I2约为92%，根据判断标准属于高异质性水平。<br />
-(3) 最主要的是异质性的检验结果，结果显示Q为576.2518,
-<em>p</em>&lt;.0001，表明异质性检验显著，也就是这些效应值之间存在异质性。<br />
-(4)
-根据上述不同估计方法的结果，发现是存在异质性的，因此有必要进一步探索造成这些α系数异质性的因素。</p>
-<p>除了直接提取结果以外，还可在R对使用代码对结果进行整理，比较方便快捷。<br />
-—-此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。—-</p>
-<p>下表是异质性分析的结果。</p>
+<p>Interpretation of the results:</p>
+<ol style="list-style-type: decimal">
+<li><p>The figure above shows the results of estimation using a
+random-effects model, with 53 effect sizes and maximum likelihood
+estimation.</p></li>
+<li><p>Four indicators are provided for evaluating the heterogeneity: τ,
+τ2, H2, and I2. Among them, I2 is about 92%, indicating a high level of
+heterogeneity according to the criteria.</p></li>
+<li><p>The Q value is 576.2518 with <em>p</em>&lt;.0001, indicating that
+the heterogeneity test was significant.</p></li>
+<li><p>Based on the results of the different estimation methods,
+heterogeneity exists. Therefore, it is necessary to further explore the
+factors contributing to the heterogeneity of these α coefficients.<br />
+In addition to directly extracting the results, you can also use code to
+organize the results in <em>R</em>, which is more convenient and
+fast.<br />
+—- this part is mainly based on R if and loop code, and does not involve
+reliability generalization analysis, so it will not be further expanded
+here. —-</p></li>
+</ol>
+<p>The following table shows the results of the heterogeneity
+analysis.</p>
 <pre class="r"><code>het3_res %&gt;% knitr::kable()</code></pre>
 <table>
 <thead>
@@ -645,35 +732,53 @@ pred3</code></pre>
 </tr>
 </tbody>
 </table>
-<p>###3.3 建立森林图
-使用<code>forest.rma()</code>函数建立森林图，从而直观看到效应值分布情况。</p>
+</div>
+<div id="forest-plot" class="section level3">
+<h3>2.3 Forest plot</h3>
+<p>Use the <code>forest.rma()</code> function to build a forest plot to
+visualize the distribution of effect size.</p>
 <pre class="r"><code>forest.rma(het3)#transformed alpha</code></pre>
 <p><img src="Tutorial_Reliability-Generalization_files/figure-html/forest0-1.png" width="768" /></p>
-<p>结果解读：<br />
-如图所示，第一列为研究名称，中间为效应值的分布情况，最右边为各项研究对应的效应值及其置信区间结果。</p>
-<p>除此之外，还可以根据需要设定参数，具体说明如下：<br />
-(1)
-使用<code>annotate=TRUE</code>用于设置图中的标注，一般默认TRUE;<br />
-(2) transf用于把效应值转换。<br />
-(3) showweights用于设置是否呈现单个研究对整体效应值影响的权重。<br />
-(4) header用于判断是否设置表头呈现。</p>
-<p>具体命令如下：</p>
+<p>Interpretation of the results: The figure displays the name of each
+study in the first column, the distribution of effect size in the
+middle, and the effect size corresponding to each study and their
+confidence interval on the right.<br />
+You can also adjust the parameters as needed. Here are some
+options:<br />
+(1) Set <code>annotate=TRUE</code> to add labels to the figure. This is
+generally the default setting.<br />
+(2) Use <code>transf</code> to convert the effect size.<br />
+(3) Use <code>showweights</code> to set the weights for presenting the
+impact of each studies on the overall effect size.<br />
+(4) Use <code>header</code> to determine whether to include a header in
+the figure.</p>
+<p>The specific code is as follows:</p>
 <pre class="r"><code>forest.rma(het3,annotate=TRUE,transf=transf.iabt,header = TRUE,showweights=TRUE)#backtransformed alpha</code></pre>
 <p><img src="Tutorial_Reliability-Generalization_files/figure-html/forest1-1.png" width="768" /></p>
-<p>结果解读：<br />
-(1) 报告了基于随机效应模型所估计的平均效应值结果0.81。<br />
-(2) 这里分析得出α系数均值结果为0.81，表明内部一致性良好。</p>
-<p>同时，可以通过<code>pdf()</code>对结果图进行保存，具体命令如下：</p>
+<p>Interpretation of the results:<br />
+(1) A mean effect of 0.81 was estimated using a random-effects
+model.<br />
+(2) The analysis yielded a mean α coefficient of 0.81, indicating good
+internal consistency.<br />
+To save the result graph as a pdf, use the following code:</p>
 <pre class="r"><code>pdf(&quot;forestplot.pdf&quot;,width=10, height=20)
 forest.rma(het3,annotate=TRUE,transf=transf.iabt,header = TRUE,showweights=TRUE)#backtransformed alpha
 dev.off()</code></pre>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
-<p>###3.4 调节效应分析
-调节效应分析主要是通过在<code>rma()</code>中设定<code>mods</code>参数，以便分析纳入的调节变量对异质性结果的作用。<br />
-调节分析参数设置一般为：<code>rma (total_es, yi, vi, mods = ~ moderator)</code>。</p>
-<p>####3.4.1 连续变量例子
-以量表总分标准差作为例子呈现单个调节变量纳入进行分析的命令，具体命令如下：</p>
+</div>
+<div id="moderator-analysis" class="section level3">
+<h3>2.4 Moderator analysis</h3>
+<p>Moderator analysis is mainly done by setting the <code>mods</code>
+parameter in <code>rma()</code> in order to analyze the effect of the
+included moderator on heterogeneity results.<br />
+The analysis parameter setting is typically used:
+<code>rma (total_es, yi, vi, mods = ~ moderator)</code>.</p>
+<div id="example-of-a-continuous-variable" class="section level4">
+<h4>2.4.1 Example of a continuous variable</h4>
+<p>Using the standard deviation of the total score of the scale as an
+example, the code to include a single moderator for analysis is as
+follows:</p>
 <pre class="r"><code>res_tot_totalSD&lt;-rma(total_es, yi, vi, mods=~totalSD,method=&quot;ML&quot;)
 res_tot_totalSD</code></pre>
 <pre><code>## 
@@ -699,7 +804,7 @@ res_tot_totalSD</code></pre>
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>res_tot_totalSD&lt;-rma(measure=&quot;ABT&quot;, ai=alpha_total, ni=size, mi=mi, mods=~totalSD,dat=data,method=&quot;ML&quot;)#与上述结果相同，区别在于直接使用数据集中的变量
+<pre class="r"><code>res_tot_totalSD&lt;-rma(measure=&quot;ABT&quot;, ai=alpha_total, ni=size, mi=mi, mods=~totalSD,dat=  data,method=&quot;ML&quot;) #same results, the difference is that the variables in the dataset are used directly
 res_tot_totalSD</code></pre>
 <pre><code>## 
 ## Mixed-Effects Model (k = 53; tau^2 estimator: ML)
@@ -724,13 +829,20 @@ res_tot_totalSD</code></pre>
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>结果解读： (1)
-从图中第1行可见，该调节分析结果是基于混合效应模型来进行估计的，使用极大似然进行估计的结果。
-(2)
-还报告了调节变量的调节效应结果，结果显示<em>p</em>&lt;.0001,表明量表总分标准差对效应值具有调节作用。</p>
-<p>除了逐个变量进行分析后直接提取结果以外，还可在R对使用代码进行批量分析并整理结果，比较方便快捷。<br />
-—-此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。—-</p>
-<p>下表是连续变量纳入进行调节分析的结果。</p>
+<p>Interpretation of the results:<br />
+(1) The moderator analysis used the the maximum likelihood estimation
+based on the mixed-effects model, as shown in the first row.<br />
+(2) The effect of the moderators are also reported, with
+<em>p</em>&lt;.0001, indicating that the standard deviation of the total
+score of the scale has a moderating effect on the effect size.</p>
+<p>In addition to directly extracting the results after analyzing each
+variable, you can also use code in R and organize the results, which is
+convenient and fast.</p>
+<p>—– This section mainly involves R if and loop code and does not
+involve reliability generalization analysis. Therefore, it will not be
+further expanded here. —-</p>
+<p>The following table shows the results of the moderator analysis of
+continuous variables included.</p>
 <pre class="r"><code>reg_res %&gt;% knitr::kable()</code></pre>
 <table>
 <thead>
@@ -801,31 +913,34 @@ res_tot_totalSD</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>#b=回归系数beta
+<pre class="r"><code>#b=beta
 #t=significance test of moderator regression coefficient--zval
 #sig.t=p-value
-#R2%解释率</code></pre>
-<p>####3.4.2 类别变量例子
-以评定者方式作为例子呈现将类别变量纳入调节的分析，具体命令如下：</p>
-<p>#####(1) 亚组分析(Subgroup Analysis)</p>
+#R2% explain</code></pre>
+</div>
+<div id="examples-of-categorical-variables" class="section level4">
+<h4>2.4.2 Examples of categorical variables</h4>
+<p>To present an analysis of categorical variables in moderator analysis
+using the example of administration ratings, the following code is shown
+as follows:</p>
+<div id="subgroup-analysis" class="section level6">
+<h6>(1) Subgroup Analysis</h6>
 <pre class="r"><code>sub_1=rma(total_es, yi, vi, subset = (total_es$ratingformat == 1))
-predict(sub_1, transf=transf.iabt)#转换为alpha系数</code></pre>
+predict(sub_1, transf=transf.iabt) #backtransformed alpha</code></pre>
 <pre><code>## 
 ##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
 ##  0.8047 0.7878 0.8202 0.6725 0.8835</code></pre>
 <pre class="r"><code>sub_2=rma (total_es, yi, vi, subset = (total_es$ratingformat == 2))
-predict(sub_2, transf=transf.iabt)#转换为alpha系数</code></pre>
+predict(sub_2, transf=transf.iabt)#backtransformed alpha</code></pre>
 <pre><code>## 
 ##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
 ##  0.8203 0.7711 0.8588 0.6757 0.9004</code></pre>
 <pre class="r"><code>sub_3=rma (total_es, yi, vi, subset = (total_es$ratingformat == 3))
-predict(sub_3, transf=transf.iabt)#转换为alpha系数</code></pre>
+predict(sub_3, transf=transf.iabt) #backtransformed alpha</code></pre>
 <pre><code>## 
 ##    pred  ci.lb  ci.ub  pi.lb  pi.ub 
 ##  0.8717 0.7335 0.9383 0.5565 0.9629</code></pre>
-<p>除了逐个变量进行分析后直接提取结果以外，还可在R对使用代码进行批量分析并整理结果，比较方便快捷。<br />
-—-此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。—-</p>
-<p>下表是亚组分析的结果。</p>
+<p>The table below shows the results of the subgroup analysis.</p>
 <pre class="r"><code>mod_res %&gt;% knitr::kable()</code></pre>
 <table>
 <thead>
@@ -905,7 +1020,9 @@ predict(sub_3, transf=transf.iabt)#转换为alpha系数</code></pre>
 </tr>
 </tbody>
 </table>
-<p>#####(2) Meta-Anova</p>
+</div>
+<div id="meta-anova" class="section level5">
+<h5>(2) Meta-Anova</h5>
 <pre class="r"><code>res_tot_adf&lt;-rma(total_es, yi, vi,mods=~ratingformat,method=&quot;ML&quot;)
 res_tot_adf</code></pre>
 <pre><code>## 
@@ -931,13 +1048,11 @@ res_tot_adf</code></pre>
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>结果解读： (1)
-从图中第1行可见，该调节分析结果是基于混合效应模型来进行估计的，使用极大似然进行估计的结果。
-(2)
-还报告了调节变量的调节效应结果，结果显示<em>p</em>&lt;.05,表明评定者方式对效应值具有调节作用。</p>
-<p>除了逐个变量进行分析后直接提取结果以外，还可在R对使用代码进行批量分析并整理结果，比较方便快捷。<br />
-—-此部分主要是基于R语言条件和循环语句等方面，不涉及信度概化分析，因此在此不进一步展开。—-</p>
-<p>下表是类别变量纳入进行调节分析的结果。</p>
+<p>The results of the effect of the moderators were
+reported,<em>p</em>&lt;.05, indicating that the effect was on the
+adminstration ratings.</p>
+<p>The following table is the result of the moderator analysis of
+categorical variables.</p>
 <pre class="r"><code>anv_res %&gt;% knitr::kable()</code></pre>
 <table>
 <thead>
@@ -980,8 +1095,13 @@ res_tot_adf</code></pre>
 </tr>
 </tbody>
 </table>
-<p>####3.4.3 探索性模型例子
-选取上述具有调节作用或解释率较高的变量纳入模型进行分析，具体命令如下：</p>
+</div>
+</div>
+<div id="examples-of-exploratory-models" class="section level4">
+<h4>2.4.3 Examples of exploratory models</h4>
+<p>Select the above variables with moderating effect or high explanatory
+percentage into the model for analysis, and the specific code is as
+follows:</p>
 <pre class="r"><code>#full model
 res_multi&lt;-rma(total_es, yi, vi, mods=~ageM+totalM+totalSD+ratingformat,method=&quot;ML&quot;)
 res_multi#R2=36.79%</code></pre>
@@ -1011,16 +1131,26 @@ res_multi#R2=36.79%</code></pre>
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>###3.5 发表偏倚分析 ####3.5.1 漏斗图 漏斗图(funnel
-plot)是敏感性分析的常用分析技术，能够比较直观地目测当前研究是否存在偏倚情况。<br />
-具体命令如下：</p>
-<pre class="r"><code>funplot1=funnel(het3,atransf=transf.iabt) #建立漏斗图
-funplot2=funnel(het3,atransf=transf.iabt,label = TRUE)#设置呈现studyID标记</code></pre>
+</div>
+</div>
+<div id="publication-bias" class="section level3">
+<h3>2.5 Publication bias</h3>
+<div id="funnel-plot" class="section level4">
+<h4>2.5.1 Funnel plot</h4>
+<p>Funnel plot is a common analytical technique for sensitivity
+analysis, which can visually detect whether the current study is
+biased.<br />
+The specific code is as follows:</p>
+<pre class="r"><code>funplot1=funnel(het3,atransf=transf.iabt) #funnel plot
+funplot2=funnel(het3,atransf=transf.iabt,label = TRUE)#studyID tag</code></pre>
 <p><img src="Tutorial_Reliability-Generalization_files/figure-html/funnel-1.png" width="768" /></p>
-<p>结果解读：<br />
-从图中可见，散点主要分布在漏斗图的顶部，向中间集中，表明不存在发表偏倚或者偏倚的可能性较低。</p>
-<p>另外，使用剪补法对是否存在发表偏倚进行分析，具体命令如下：</p>
-<pre class="r"><code>tf=trimfill(het3,estimator = &quot;R0&quot;) #使用剪补法
+<p>Interpretation of the results:<br />
+As can be seen from the figure, scatter points are mainly distributed at
+the top of the funnel and concentrated in the middle, indicating no or
+low probability of publication bias.</p>
+<p>In addition, the Trim-and-fill method was used to analyze for
+publication bias as follows:</p>
+<pre class="r"><code>tf=trimfill(het3,estimator = &quot;R0&quot;) #Trim-and-fill 
 tf</code></pre>
 <pre><code>## 
 ## Estimated number of missing studies on the right side: 0 (SE = 1.4142)
@@ -1043,16 +1173,24 @@ tf</code></pre>
 ## 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>结果解读：<br />
-通过使用剪补法进行估计，结果发现：估计右侧的缺失研究数量为0，说明不存在偏倚。</p>
-<p>除此以外，还可以进一步分析效应值和抽样方差之间相关。若高相关，则表明漏斗图是存在不对称性的，即存在偏倚。</p>
-<pre class="r"><code>ranktest (total_es$yi, total_es$vi,exact=FALSE) #相关系数0.05--低相关--漏斗图是对称的--不存在偏倚或者偏倚可能性低。</code></pre>
+<p>Interpretation of the results:<br />
+Estimates using the Trim-and-fill method found that the number of
+missing studies on the right side of the estimate was 0, indicating no
+bias.</p>
+<p>In addition, the correlation between effect size and sampling
+variance can be further analyzed. If the correlation is high, it
+indicates that the funnel graph is asymmetric, that is, there is
+bias.</p>
+<pre class="r"><code>ranktest (total_es$yi, total_es$vi,exact=FALSE) #correlation coefficient 0.05 - Low correlation - funnel plot is symmetric - no or low risk of bias. </code></pre>
 <pre><code>## 
 ## Rank Correlation Test for Funnel Plot Asymmetry
 ## 
 ## Kendall&#39;s tau = 0.0494, p = 0.6019</code></pre>
-<p>####3.5.2 计算失效安全系数
-使用<code>fsn()</code>函数计算失效安全系数，具体命令如下：</p>
+</div>
+<div id="fail-safe-n" class="section level4">
+<h4>2.5.2 Fail-safe N</h4>
+<p>Use the <code>fsn()</code> function to calculate the Fail-safe N with
+the following code:</p>
 <pre class="r"><code>fail_safe=fsn(yi, vi, data=total_es,type=&quot;Rosenthal&quot;)
 fail_safe</code></pre>
 <pre><code>## 
@@ -1062,16 +1200,19 @@ fail_safe</code></pre>
 ## Target Significance Level:   0.05
 ## 
 ## Fail-safe N: 359983</code></pre>
-<pre class="r"><code>5*nrow(data)+10#与5*k +10(k为纳入分析数量)所计算得出的结果进行比较</code></pre>
+<pre class="r"><code>5*nrow(data)+10# was compared to the calculated results of 5*k+10 (k is the number of included analyses).</code></pre>
 <pre><code>## [1] 275</code></pre>
-<p>结果解读：<br />
-(1) 图中第1行提示失效安全系数是通过”Rosenthal”方法计算所得；<br />
-(2) 图中第4行为失效安全系数–主要的报告结果;<br />
-(3) 失效安全系数用于与 5 * k +
-10(k为纳入分析数量)所计算得出的结果进行比较，若失效安全系数小于所计算得出的值，那么就有可能存在发表偏倚。<br />
-(4)
-图中的结果显示的失效安全系数为359983，远远高于纳入分析的数量，因此表明不存在发表偏倚。</p>
-<p>通常来说，失效安全系数一般会与异质性结果整理在一起，具体整理如下：</p>
+<p>Interpretation of the results: (1) Line 1 indicates that the
+Fail-safe N was calculated using the “Rosenthal” method.<br />
+(2) The Fail-safe N is compared to the calculated result of 5*k + 10
+(where k is the number of included analyses). If the Fail-safe N is less
+than the calculated value, then there is a risk of publication
+bias.<br />
+(3) The results show the Fail-safe N of 359983, which is much higher
+than the number included in the analysis, indicating no publication
+bias.</p>
+<p>In general, Fail-safe N are generally collated with heterogeneity
+results, as follows:</p>
 <pre class="r"><code>het3_res %&gt;% knitr::kable()</code></pre>
 <table>
 <colgroup>
@@ -1109,8 +1250,11 @@ fail_safe</code></pre>
 </tr>
 </tbody>
 </table>
-<p>####3.5.3 计算Egger回归系数–Egger’s regression test
-使用<code>regtest()</code>函数计算失效安全系数，具体命令如下：</p>
+</div>
+<div id="calculate-the-eggers-regression-test" class="section level4">
+<h4>2.5.3 Calculate the Egger’s regression test</h4>
+<p>Use the <code>regtest()</code> function for the Egger’s regression
+test as follows:</p>
 <pre class="r"><code>regtest(het3, model=&quot;lm&quot;)### classical Egger test</code></pre>
 <pre><code>## 
 ## Regression Test for Funnel Plot Asymmetry
@@ -1120,10 +1264,16 @@ fail_safe</code></pre>
 ## 
 ## Test for Funnel Plot Asymmetry: t = 0.5984, df = 51, p = 0.5522
 ## Limit Estimate (as sei -&gt; 0):   b = 1.6015 (CI: 1.4359, 1.7672)</code></pre>
-<p>结果解读：
-从结果可得，egger回归系数截距不显著，说明不存在偏倚或者偏倚可能性较低。</p>
-<p>####3.5.4 总结
-综上，通过多方面的分析，包括漏斗图、剪补法、Rosenthal失效安全系数以及计算Egger回归系数，结果均表明此项研究不存在发表偏倚或者偏倚可能性较低。</p>
+<p>Interpretation of the results: From the results, the Egger regression
+coefficient intercept was not significant, indicating that there was no
+bias or the possibility of bias was low.</p>
+</div>
+<div id="summary" class="section level4">
+<h4>2.5.4 Summary</h4>
+<p>In summary, the results of multiple analyses, including funnel plot,
+Trim-and-fill method, Rosenthal Fail-safe N, and Egger’s regression
+test, indicate a low risk of bias or the absence of publication bias in
+this study.</p>
 <pre class="r"><code>bias %&gt;% knitr::kable()</code></pre>
 <table>
 <thead>
@@ -1147,60 +1297,95 @@ fail_safe</code></pre>
 </tr>
 </tbody>
 </table>
-<p>####3.6 结果整理与导出
-在完成所有分析之后，使用<code>write()</code>函数导出结果，用于论文或分析报告。</p>
+</div>
+<div id="export-the-results" class="section level4">
+<h4>2.6 Export the results</h4>
+<p>After all the analysis is completed, use the <code>write()</code>
+function to export the results for use in a paper or analysis
+report.</p>
 <pre class="r"><code>#write.xlsx (het3_res, file = &quot;heterogeneity test results.xlsx&quot;)
 #write.xlsx (reg_res, file = &quot;continuous moderator results.xlsx&quot;)
 #write.xlsx (anv_res, file = &quot;categorical moderator results.xlsx&quot;)</code></pre>
-<p>##4. 总结
-第一，以实例使用<code>metafor</code>介绍了信度概化的统计分析过程，包括效应值计算、异质性检验、调节分析以及发表偏倚分析。</p>
+</div>
+</div>
+<div id="practice" class="section level3">
+<h3>Practice</h3>
+<p>Try using the built-in data <code>dat.bonett2010</code> to complete a
+full analysis process. The code for importing the data is provided
+below:</p>
+<pre class="r"><code>dat &lt;- dat.bonett2010
+#description: Results from 9 studies on the reliability of the Center for Epidemiologic Studies Depression (CES-D) Scale administered to children providing care to an elderly parent.</code></pre>
+</div>
+</div>
+<div id="summary-1" class="section level2">
+<h2>3. Summary</h2>
+<p>First, the statistical analysis process of reliability generalization
+is described using<code>metafor</code>with examples, including effect
+size calculation, heterogeneity testing, moderation analysis, and
+publication bias.</p>
 <div class="figure">
 <img
 src="https://www.metafor-project.org/lib/exe/fetch.php/docs:diagram.png"
 alt="" />
-<p class="caption">metafor各函数功能概览(引用自metafor-project官网)</p>
+<p class="caption">Overview of the functions of metafor (from the
+official website of metafor-project)</p>
 </div>
-<p>第二，在实际研究过程中，可根据研究目的和需要自行调整使用。</p>
+<p>Secondly, the analytical strategy can be adjusted according to the
+purpose and aims of the research.</p>
 <blockquote>
 <p>Take-away messages</p>
 </blockquote>
+<ol style="list-style-type: decimal">
+<li>As a meta-analysis technique that uses the reliability coefficient
+as the effect size, reliability generalization has both the common and
+specificity of meta-analysis.
 <ul>
-<li><ol style="list-style-type: decimal">
-<li>作为以信度系数作为效应值的元分析技术，信度概化既有元分析的共性，也有其特异性。</li>
-</ol>
-<ul>
-<li>了解是否存在“信度引入”的问题。</li>
-<li>综合判断某项测验工具是否稳定可靠。</li>
+<li>Find out if there is a “Reliability Induction” issue.</li>
+<li>Comprehensively evaluate whether a tool is stable and reliable.</li>
 </ul></li>
-<li><ol start="2" style="list-style-type: decimal">
-<li><code>metafor</code>为信度概化统计分析的实现提供更多选择。</li>
-</ol>
+<li><code>metafor</code>provides more options for the implementation of
+statistical analysis of reliabilit generalization.
 <ul>
-<li>根据实际需要选择合适的分析方法。</li>
+<li>Choose the appropriate analysis method according to the aim.</li>
 </ul></li>
-</ul>
+</ol>
 <hr />
-<p>##5. 学习资源分享 #####a. CRAN R包 documentation
-由于开发者会对R包进行更新，具体语句以对应版本的手册说明为准。</p>
-<pre class="r"><code>help(metafor)#查阅手册
-?metafor
-?escalc()
-#escalc#以escalc()为例，查看源代码，了解底层逻辑</code></pre>
-<p>#####b. <code>metafor</code>官网
-此处列举两个有用的网站，该网站提供了丰富的学习资源，以供参考。<br />
+</div>
+<div id="resources" class="section level2">
+<h2>4. Resources</h2>
+<div id="cran-documentation" class="section level3">
+<h3>4.1 CRAN documentation</h3>
+<p>Since the developer will update the R package, the code need to be
+used based on the manual if any updates.</p>
+<pre class="r"><code>help(metafor) #manual
+? metaphor</code></pre>
+<pre><code>## No documentation for &#39;metaphor&#39; in specified packages and libraries:
+## you could try &#39;??metaphor&#39;</code></pre>
+<pre class="r"><code>? escalc()
+#escalc# Take escalc() as an example to look at the source code to understand the underlying logic</code></pre>
+</div>
+<div id="metaforofficial-website" class="section level3">
+<h3>4.2 <code>metafor</code>official website</h3>
+<p>Here are two useful websites that provide a lot of resources.<br />
 <a
 href="https://wviechtb.github.io/metafor/index.html">metafor@github</a><br />
-<a
-href="https://www.metafor-project.org/doku.php">metafor-project官网</a></p>
-<p>#####c. 参考书籍 Harrer, M., Cuijpers, P., Furukawa, T. A., &amp;
-Ebert, D. D. (2021). <em>Doing meta-analysis with R: A hands-on
-guide</em>. Chapman and Hall/CRC.</p>
+[Metafor-Project website] (<a
+href="https://www.metafor-project.org/doku.php"
+class="uri">https://www.metafor-project.org/doku.php</a>).</p>
+</div>
+<div id="reference-books" class="section level3">
+<h3>4.3 Reference books</h3>
+<p>Harrer, M., Cuijpers, P., Furukawa, T. A., &amp; Ebert, D. D. (2021).
+<em>Doing meta-analysis with R: A hands-on guide</em>. Chapman and
+Hall/CRC.</p>
 <p>Polanin, J. R., Hennessy, E. A., &amp; Tanner-Smith, E. E. (2017). A
 Review of Meta-Analysis Packages in R. <em>Journal of Educational and
 Behavioral Statistics</em>, <em>42</em>, 206–242.</p>
 <p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the
 metafor package. <em>Journal of Statistical Software</em>, <em>36</em>,
 1–48.</p>
+</div>
+</div>
 
 
 

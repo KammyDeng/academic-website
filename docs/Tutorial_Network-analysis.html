@@ -249,7 +249,7 @@ $(document).ready(function () {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="CV.html">Curriculum Vitae</a>
+  <a href="Cv.html">Curriculum Vitae</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -277,10 +277,10 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Tutorial_Reliability Generalization.html">Reliability Generalization</a>
+      <a href="Tutorial_Reliability-Generalization.html">Reliability Generalization</a>
     </li>
     <li>
-      <a href="Tutorial_Network analysis.html">Network Analysis</a>
+      <a href="Tutorial_Network-analysis.html">Network Analysis</a>
     </li>
   </ul>
 </li>
@@ -310,24 +310,29 @@ $(document).ready(function () {
 
 <p>———- 目录 ——————————————————————————————–<br />
 ———- 1. 实例分析与技术实现：R语言 ————————————————————–<br />
-———- 2. R语言基本操作——————————————————————————<br />
-———- 3.
+———- 2.
 实例操作1：Deng等人(2021)冷酷无情特质网络分析研究——————————–<br />
 ———-实际操作练习1：使用example1演示数据进行练习——————————–<br />
-———- 4.
+———- 3.
 实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究————————–<br />
 ———-实际操作练习2：使用example2演示数据进行练习——————————–<br />
-———- 5. 总结——————————————————————————————<br />
-———- 6. 学习资源分享——————————————————————————–</p>
-<p>##1. 实例分析与技术实现：R语言
-网络分析在心理学领域的应用中，常用R语言作为主要的数据分析软件。</p>
+———- 4. 总结——————————————————————————————<br />
+———- 5. 学习资源分享——————————————————————————–</p>
+<div id="实例分析与技术实现r语言" class="section level2">
+<h2>1. 实例分析与技术实现：R语言</h2>
+<p>网络分析在心理学领域的应用中，常用R语言作为主要的数据分析软件。</p>
 <p>常用的网络分析R包： <code>qgraph</code> (Epskamp et al., 2012),
 <code>bootnet</code> (Epskamp et al., 2018),
 <code>Network Comparison Test package</code> (NCT; van Borkulo et al.,
 2017), <code>EstimateGroupNetwork</code> (Costantini &amp; Epskamp,
 2017)</p>
-<p>##3. 实例操作1：Deng等人(2021)冷酷无情特质网络分析研究 ###简要介绍
-以下将以一项冷酷无情特质网络分析研究作为例子(Deng et al.,
+</div>
+<div id="实例操作1deng等人2021冷酷无情特质网络分析研究"
+class="section level2">
+<h2>2. 实例操作1：Deng等人(2021)冷酷无情特质网络分析研究</h2>
+<div id="简要介绍" class="section level3">
+<h3>简要介绍</h3>
+<p>以下将以一项冷酷无情特质网络分析研究作为例子(Deng et al.,
 2021)具体介绍如何进行一项网络分析研究。<br />
 该研究以国内609名青少年犯人（样本一）和487名社区儿童（样本二）作为研究对象进行分析，使用了自我报告版冷酷无情特质问卷(the
 Inventory of Callous-Unemotional Traits; Frick, 2004)中文版(Wang et al.,
@@ -335,14 +340,21 @@ Inventory of Callous-Unemotional Traits; Frick, 2004)中文版(Wang et al.,
 这里以样本一的冷酷无情特质问卷数据（部分截选）作为例子来展示。</p>
 <p>该问卷共24题包含三个分量表，分别是<strong>淡漠(Callousness)</strong>、<strong>冷酷(Uncaring)</strong>以及<strong>无情(Unemotional)</strong>，使用李克特4级计分。</p>
 <p>接下来展示如何使用<code>qgraph</code>和<code>bootnet</code>程序包对数据进行网络分析。</p>
-<p>###3.0.1 程序包的安装与运行
-首先需要先安装与运行程序包，具体命令如下所示：</p>
+</div>
+<div id="程序包的安装与运行" class="section level3">
+<h3>2.0.1 程序包的安装与运行</h3>
+<p>首先需要先安装与运行程序包，具体命令如下所示：</p>
 <pre class="r"><code>library(readxl)#运行readxl程序包；若没安装，可用install.packages(&quot;readxl&quot;)进行安装
 library(qgraph)#运行qgraph程序包；若没安装，可用install.packages(&quot;qgraph&quot;)进行安装
-library(bootnet)#运行bootnet程序包；若没安装，可用install.packages(&quot;bootnet&quot;)进行安装
-library(NetworkComparisonTest)#运行NetworkComparisonTest程序包；若没安装，可用install.packages(&quot;NetworkComparisonTest&quot;)进行安装</code></pre>
-<p>###3.0.2 数据读取与导入
-由于所展示的例子所使用的数据并非来自程序包自带的数据集，因此需要先导入数据。
+library(bootnet)#运行bootnet程序包；若没安装，可用install.packages(&quot;bootnet&quot;)进行安装</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## This is bootnet 1.5</code></pre>
+<pre><code>## For questions and issues, please see github.com/SachaEpskamp/bootnet.</code></pre>
+<pre class="r"><code>library(NetworkComparisonTest)#运行NetworkComparisonTest程序包；若没安装，可用install.packages(&quot;NetworkComparisonTest&quot;)进行安装</code></pre>
+</div>
+<div id="数据读取与导入" class="section level3">
+<h3>2.0.2 数据读取与导入</h3>
+<p>由于所展示的例子所使用的数据并非来自程序包自带的数据集，因此需要先导入数据。
 由于数据文件为excel格式，因此使用<code>readxl</code>程序包用于数据读取与导入。具体命令如下：
 使用<code>read_excel()</code>函数读取数据，具体命令如下：</p>
 <pre class="r"><code>data1&lt;- read_excel(&quot;example1_data_c.xlsx&quot;)#演示数据
@@ -361,8 +373,10 @@ head(data1)</code></pre>
 ## #   UC_ICU13 &lt;dbl&gt;, UE_ICU14 &lt;dbl&gt;, UC_ICU15 &lt;dbl&gt;, UC_ICU16 &lt;dbl&gt;,
 ## #   UC_ICU17 &lt;dbl&gt;, CA_ICU18 &lt;dbl&gt;, UE_ICU19 &lt;dbl&gt;, CA_ICU20 &lt;dbl&gt;,
 ## #   CA_ICU21 &lt;dbl&gt;, UE_ICU22 &lt;dbl&gt;, UC_ICU23 &lt;dbl&gt;, UC_ICU24 &lt;dbl&gt;</code></pre>
-<p>###3.1.1 建立网络结构图
-当完成数据导入后，即可通过运行<code>qgraph</code>程序包进行网络分析。<br />
+</div>
+<div id="建立网络结构图" class="section level3">
+<h3>2.1.1 建立网络结构图</h3>
+<p>当完成数据导入后，即可通过运行<code>qgraph</code>程序包进行网络分析。<br />
 正如上文所提及，可分为两个步骤：建立网络结构图和计算中心指标。<br />
 现在，先从建立网络图结构开始。建立网络结构图主要是程序包中<code>qgraph()</code>函数来实现，具体命令如下：</p>
 <pre class="r"><code>qgraph&lt;-qgraph(cor_auto(data1))#基于相关矩阵的网络结构图（题目没有分组）</code></pre>
@@ -454,8 +468,10 @@ q_cor_auto1&lt;-qgraph(cor_auto(data1),groups=ICU24groups,minimum=0.15,cut=0.4,v
                    legend.cex=0.25,label.cex=1,height=5,width=5,
                    labels=Labels,nodeNames=Names, mar=c(4,1,2,2),
                    filetype=&quot;jpg&quot;,filename=&quot;q_cor_auto2&quot;)#这里使用&quot;filetype= jpg&quot;将文件格式设置为jpg格式图片，filename=&quot;q_cor_auto1&quot;将文件命名为q_cor_auto1，而height=5,width=10则是设置图片大小</code></pre>
-<p>###3.1.2 网络推断分析：计算中心指标
-当建立网络结构图后，即可计算网络中节点的中心指标，以便了解网络中节点的重要程度。那么，如何计算中心指标呢？可以通过<code>centrality_auto</code>这个函数实现。如果想进一步得到可视化结果，可使用<code>centralityPlot</code>这个函数实现。计算中心指标及其可视化结果的具体命令如下所示：</p>
+</div>
+<div id="网络推断分析计算中心指标" class="section level3">
+<h3>2.1.2 网络推断分析：计算中心指标</h3>
+<p>当建立网络结构图后，即可计算网络中节点的中心指标，以便了解网络中节点的重要程度。那么，如何计算中心指标呢？可以通过<code>centrality_auto</code>这个函数实现。如果想进一步得到可视化结果，可使用<code>centralityPlot</code>这个函数实现。计算中心指标及其可视化结果的具体命令如下所示：</p>
 <pre class="r"><code>#centrality_auto(q_cor_auto1)#计算中心指标
 centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),
                scale = &quot;z-scores&quot;)#选取3个中心指标进行可视化呈现</code></pre>
@@ -481,8 +497,10 @@ centralityPlot(list(Community= cor_auto(data1), Offender= cor_auto(data2)),
 dev.off()</code></pre>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
-<p>###3.1.3 网络结构的准确性分析
-与其他统计分析方法类似，网络分析的准确性同样会受到样本量的影响。因此，在建立网络图后，需要对网络分析的准确性进行检验。网络分析的准确性检验分析主要是使用<code>bootnet</code>程序包(Epskamp,
+</div>
+<div id="网络结构的准确性分析" class="section level3">
+<h3>2.1.3 网络结构的准确性分析</h3>
+<p>与其他统计分析方法类似，网络分析的准确性同样会受到样本量的影响。因此，在建立网络图后，需要对网络分析的准确性进行检验。网络分析的准确性检验分析主要是使用<code>bootnet</code>程序包(Epskamp,
 Borsboom &amp; Fried, 2018)来实现，包括三种方法的检验：<br />
 第一，计算边线的Bootstrap置信区间。<br />
 第二，检验节点在中心指标的稳定性。<br />
@@ -496,16 +514,19 @@ plot(Network, layout = &#39;spring&#39;,groups=ICU24groups,minimum=0.15,cut=0.4,
                    legend.cex=0.25,label.cex=1,height=5,width=5,
                    labels=Labels,nodeNames=Names, mar=c(4,1,2,2))#建立网络图</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/network-1.png" width="672" /></p>
-<p>####(1) 计算边线的Bootstrap置信区间</p>
+<div id="计算边线的bootstrap置信区间" class="section level4">
+<h4>(1) 计算边线的Bootstrap置信区间</h4>
 <pre class="r"><code>Results1 &lt;- bootnet(Network, statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;,&quot;edge&quot;), nBoots = 1000, nCores = 5) #使用statistics=&quot;&quot;设定需要估计的统计量;
 #nBoots:bootstraps的数量
 #nCores:多核计算的数量
 plot(Results1, labels = FALSE, order = &quot;sample&quot;)#边线权重的Bootstrapped置信区间;order=sample用于设定边线权重从高到低排列(从正相关到负相关)</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/ci-1.png" width="960" /></p>
 <p>结果解读：如图所示，纵轴表示网络中的所有边线，横轴表示置信区间。图中包括两条不同颜色的线，对应原样本所估计的均值以及通过bootstrapping方法估计出来的均值，灰色部分则代表两种方法所对应的置信区间。一般来说，与传统的参数估计结果解释类似，不同边线权重的置信区间重叠代表这些边线权重的差异不显著。</p>
-<p>####(2) 检验节点或边线之间的差异</p>
+</div>
+<div id="检验节点或边线之间的差异" class="section level4">
+<h4>(2) 检验节点或边线之间的差异</h4>
 <pre class="r"><code>plot(Results1, &quot;strength&quot;, plot = &quot;difference&quot;)#分析节点在强度上的差异检验</code></pre>
-<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.051</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/diff1-1.png" width="1440" /></p>
 <pre class="r"><code>plot(Results1, &quot;closeness&quot;, plot = &quot;difference&quot;)#分析节点在紧密性上的差异检验</code></pre>
 <pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
@@ -532,16 +553,18 @@ differenceTest(Results1, &quot;CA_ICU2&quot;, &quot;CA_ICU12&quot;, &quot;streng
 ## This warning is displayed once every 8 hours.
 ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 ## generated.</code></pre>
-<pre><code>##       id1      id2  measure     lower    upper significant
-## 1 CA_ICU2 CA_ICU12 strength 0.3148676 3.164951        TRUE</code></pre>
+<pre><code>##       id1      id2  measure     lower  upper significant
+## 1 CA_ICU2 CA_ICU12 strength 0.3741022 3.2734        TRUE</code></pre>
 <pre class="r"><code>differenceTest(Results1, &quot;CA_ICU2&quot;, &quot;CA_ICU18&quot;, &quot;strength&quot;)</code></pre>
 <pre><code>##       id1      id2  measure      lower    upper significant
-## 1 CA_ICU2 CA_ICU18 strength -0.9523769 1.640938       FALSE</code></pre>
+## 1 CA_ICU2 CA_ICU18 strength -0.8873372 1.618412       FALSE</code></pre>
 <pre class="r"><code>#for edges
 differenceTest(Results1, &quot;CA_ICU2--CA_ICU18&quot;, &quot;CA_ICU2--CA_ICU12&quot;, &quot;edge&quot;)</code></pre>
 <pre><code>##                 id1               id2 measure      lower     upper significant
-## 1 CA_ICU2--CA_ICU18 CA_ICU2--CA_ICU12    edge -0.1966856 0.1244137       FALSE</code></pre>
-<p>####(3) 检验节点在中心指标的稳定性</p>
+## 1 CA_ICU2--CA_ICU18 CA_ICU2--CA_ICU12    edge -0.2070838 0.1347403       FALSE</code></pre>
+</div>
+<div id="检验节点在中心指标的稳定性" class="section level4">
+<h4>(3) 检验节点在中心指标的稳定性</h4>
 <pre class="r"><code>Results2 &lt;- bootnet(Network, statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;), nBoots = 1000, nCores = 3, type = &quot;case&quot;) 
 
 #稳定性：去掉一些样本或节点后，网络结构的中心指标顺序仍然不变
@@ -554,37 +577,45 @@ plot(Results2 ,statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;bet
 ## 
 ## Sampling levels tested:
 ##    nPerson Drop%   n
-## 1       61  74.9  81
-## 2       80  67.1 101
-## 3       99  59.3  95
-## 4      117  51.9  97
-## 5      136  44.0 111
-## 6      155  36.2 110
-## 7      174  28.4  93
-## 8      193  20.6 102
-## 9      212  12.8 102
-## 10     231   4.9 108
+## 1       61  74.9 105
+## 2       80  67.1  93
+## 3       99  59.3  91
+## 4      117  51.9 106
+## 5      136  44.0 105
+## 6      155  36.2  86
+## 7      174  28.4  95
+## 8      193  20.6 104
+## 9      212  12.8 123
+## 10     231   4.9  92
 ## 
 ## Maximum drop proportions to retain correlation of 0.7 in at least 95% of the samples:
 ## 
-## betweenness: 0.128 
-##   - For more accuracy, run bootnet(..., caseMin = 0.049, caseMax = 0.206) 
+## betweenness: 0.206 
+##   - For more accuracy, run bootnet(..., caseMin = 0.128, caseMax = 0.284) 
 ## 
 ## closeness: 0.593 
 ##   - For more accuracy, run bootnet(..., caseMin = 0.519, caseMax = 0.671) 
 ## 
-## strength: 0.593 
-##   - For more accuracy, run bootnet(..., caseMin = 0.519, caseMax = 0.671) 
+## strength: 0.671 
+##   - For more accuracy, run bootnet(..., caseMin = 0.593, caseMax = 0.749) 
 ## 
 ## Accuracy can also be increased by increasing both &#39;nBoots&#39; and &#39;caseN&#39;.</code></pre>
 <pre class="r"><code>#CS(cor = 0.7) 表示在去掉最大比例时，在95%概率下原始中心指标和基于子集的网络中心指标之间的相关性为 0.7 或更高。
 #CS值不应低于0.25，在0.5以上较佳。</code></pre>
 <p>结果解读：如图所示，纵轴为原样本与样本量减少所估计结果的关联程度，横轴为样本数量。图中不同颜色的线表示节点在中心指标的具体值，不同颜色范围代表的是对应的置信区间。如图所示，随着样本量减少，中心指标的稳定性在逐步下降，尤其是中介性。</p>
-<p>###小结
-综上所述，通过比较分析两样本的网络结构以及各个节点的中心性指标，发现淡漠因子题目位于网络结构的中间位置。另外，无情因子题目则位于网络结构的边缘位置，并呈现与淡漠因子和冷酷因子的题目存在较少的关联。<strong>本研究得出如下结论：淡漠是青少年CU特质的核心特征。本研究发现拓展了国内青少年CU特质核心特征的理解，为干预与治疗青少年CU特质提供了更多的理论意义和临床价值。</strong></p>
-<p>##4. 实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究
-###简要介绍 以下将以一项儿童精神病态纵向网络分析研究作为例子(Wang et
-al.,
+</div>
+</div>
+<div id="小结" class="section level3">
+<h3>小结</h3>
+<p>综上所述，通过比较分析两样本的网络结构以及各个节点的中心性指标，发现淡漠因子题目位于网络结构的中间位置。另外，无情因子题目则位于网络结构的边缘位置，并呈现与淡漠因子和冷酷因子的题目存在较少的关联。<strong>本研究得出如下结论：淡漠是青少年CU特质的核心特征。本研究发现拓展了国内青少年CU特质核心特征的理解，为干预与治疗青少年CU特质提供了更多的理论意义和临床价值。</strong></p>
+</div>
+</div>
+<div id="实例操作2wang等人2022儿童精神病态纵向网络分析研究"
+class="section level2">
+<h2>3. 实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究</h2>
+<div id="简要介绍-1" class="section level3">
+<h3>简要介绍</h3>
+<p>以下将以一项儿童精神病态纵向网络分析研究作为例子(Wang et al.,
 unpublished)具体介绍如何进行一项纵向网络分析研究。与上面的例子不同，这一研究在研究设计上使用了<strong>纵向研究方法</strong>，探讨的是网络结构在时间维度上的稳定性问题，即<strong>网络结构是否会随着时间推移而发生变化</strong>。</p>
 <p>除此以外，本研究仅比较单一样本的纵向网络结构。即便存在一些不同，但是这两项研究的研究思路基本是一致的，只是基于不同视角的网络结构比较，上面的例子是基于不同特征的样本进行比较，而<strong>本研究则是基于同一样本在不同时间截点上的比较</strong>。</p>
 <p>这一研究以<strong>广东省某小学268名学生为被试</strong>，使用儿童问题行为问卷(the
@@ -597,13 +628,17 @@ INS)</strong>，题目均采用李克特4级计分方式。</p>
 <p>本研究在2016年至2019年每间隔一年收集一次数据，共收集<strong>4次数据</strong>，数据分析的基本思路是分别对每个时间点的数据进行分析，然后再对比每个时间点上的网络结构结果进行分析。</p>
 <p>接下来展示如何使用程序包对数据进行网络分析(选取部分数据）。</p>
 <p>首先，与上面的实例操作一样，需要先进行程序包的安装与运行以及数据读取和导入。这两部分内容与上文类似，在此不再赘述，直接从网络分析的步骤开始。</p>
-<p>####4.0导入数据</p>
+<div id="导入数据" class="section level4">
+<h4>3.0导入数据</h4>
 <pre class="r"><code>Data1&lt;- read_excel(&quot;example2_Data1_t1.xlsx&quot;)#演示数据
 Data2&lt;- read_excel(&quot;example2_Data2_t2.xlsx&quot;)#演示数据
 Data3&lt;- read_excel(&quot;example2_Data3_t3.xlsx&quot;)#演示数据
 Data4&lt;- read_excel(&quot;example2_Data4_t4.xlsx&quot;)#演示数据</code></pre>
-<p>###4.1.1 建立网络结构图
-基本分析思路为先分别对每个时间点所收集的数据进行网络估计，然后再输出网络结构图。具体的分析语句如下所示：</p>
+</div>
+</div>
+<div id="建立网络结构图-1" class="section level3">
+<h3>3.1.1 建立网络结构图</h3>
+<p>基本分析思路为先分别对每个时间点所收集的数据进行网络估计，然后再输出网络结构图。具体的分析语句如下所示：</p>
 <pre class="r"><code>Network1&lt;-bootnet::estimateNetwork(Data1,default = &quot;cor&quot;)#Time 1的网络估计
 Network2&lt;-bootnet::estimateNetwork(Data2,default = &quot;cor&quot;)#Time 2的网络估计
 Network3&lt;-bootnet::estimateNetwork(Data3,default = &quot;cor&quot;)#Time 3的网络估计
@@ -667,8 +702,10 @@ Network4G &lt;- plot(Network4, layout = L,title=&quot;Time 4&quot;, groups=group
 dev.off()</code></pre>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
-<p>###4.1.2 计算中心指标
-基本分析思路为先分别计算每个时间点网络结构中节点的中心指标，然后输出中心指标比较的可视化结果。具体的分析语句如下所示：</p>
+</div>
+<div id="计算中心指标" class="section level3">
+<h3>3.1.2 计算中心指标</h3>
+<p>基本分析思路为先分别计算每个时间点网络结构中节点的中心指标，然后输出中心指标比较的可视化结果。具体的分析语句如下所示：</p>
 <pre class="r"><code>centralityPlot(list(Time1=cor_auto(Data1),
                     Time2 = cor_auto(Data2), Time3=cor_auto(Data3),
                     Time4 = cor_auto(Data4)),
@@ -684,18 +721,25 @@ dev.off()</code></pre>
 ##                 2</code></pre>
 <p>结果解读：<br />
 如图所示，发现CPTI题目在四个时间点上的中心指标结果较为一致，其中第15、20、21、25、27题具有较高的中心指标，表明这些题目位于网络结构中较为中心的位置，与上图的网络结构图结果一致。</p>
-<p>###4.1.3 网络分析的准确性检验
-基本分析思路为分别对使用每个时间点所收集的数据进行估计的网络结构进行准确性分析。具体操作内容与上文例子类似，在此不再赘述。</p>
-<p>###小结
-综上所述，通过比较基于不同时间点的网络结构以及各个节点的中心性指标，发现CPTI纵向网络结构具有一定的稳定性，其中一些题目位于较为中心的位置，例如:<br />
+</div>
+<div id="网络分析的准确性检验" class="section level3">
+<h3>3.1.3 网络分析的准确性检验</h3>
+<p>基本分析思路为分别对使用每个时间点所收集的数据进行估计的网络结构进行准确性分析。具体操作内容与上文例子类似，在此不再赘述。</p>
+</div>
+<div id="小结-1" class="section level3">
+<h3>小结</h3>
+<p>综上所述，通过比较基于不同时间点的网络结构以及各个节点的中心性指标，发现CPTI纵向网络结构具有一定的稳定性，其中一些题目位于较为中心的位置，例如:<br />
 (1) 第15题“与同龄人相比，他/她更经常撒谎。”<br />
 (2) 第20题“他/她大多数时候看起来并不在乎别人的感受和想法。”<br />
 (3) 第21题“他/她认为通过欺骗他人来达到目的是有效的。”<br />
 (4) 第25题“他/她做了不被允许的事时并没有表现出内疚。”<br />
 (5) 第27题“他/她不会表现出和同龄人同样程度的内疚。”</p>
 <p>综上这些发现表明<strong>缺乏懊悔感、不关心他人感受以及欺骗位于儿童精神病态网络结构中的核心位置，说明这些特征为儿童精神病态的核心特征</strong>。因此，本研究发现拓展了国内儿童精神病态核心特征及其稳定性的理解，为针对儿童精神病态的干预与治疗提供了更多的理论意义和临床价值。</p>
-<p>###4.1.4 网络分析的比较检验(Network Comparison Test)
-这部分主要是使用上述演示数据说明使用<code>NetworkComparisonTest</code>进行比较检验分析，选取Data1和Data2作为例子进行操作说明。</p>
+</div>
+<div id="网络分析的比较检验network-comparison-test"
+class="section level3">
+<h3>3.1.4 网络分析的比较检验(Network Comparison Test)</h3>
+<p>这部分主要是使用上述演示数据说明使用<code>NetworkComparisonTest</code>进行比较检验分析，选取Data1和Data2作为例子进行操作说明。</p>
 <pre class="r"><code>compare_12 &lt;- NCT(Data1,Data2, binary.data=FALSE, paired = TRUE,test.edges=TRUE, edges=&#39;all&#39;, progressbar=TRUE,test.centrality = TRUE,centrality = &quot;strength&quot;)#paired:TRUE of FALSE to indicate whether the samples are dependent or not</code></pre>
 <pre><code>## 
   |                                                                            
@@ -901,66 +945,74 @@ dev.off()</code></pre>
   |                                                                            
   |======================================================================| 100%</code></pre>
 <pre class="r"><code>#compare_12_p.adj &lt;- NCT(Data1,Data2, binary.data=FALSE, paired = TRUE,test.edges=TRUE, edges=&#39;all&#39;,p.adjust.methods=&quot;bonferroni&quot;, progressbar=TRUE,test.centrality = TRUE,centrality = &quot;strength&quot;)</code></pre>
-<p>####(1) NCT topology: network structure invariance test</p>
+<div id="nct-topology-network-structure-invariance-test"
+class="section level4">
+<h4>(1) NCT topology: network structure invariance test</h4>
 <pre class="r"><code>compare_12$nwinv.pval#查看整个网络在边线权重是否存在显著性差异：P值</code></pre>
-<pre><code>## [1] 0.76</code></pre>
+<pre><code>## [1] 0.81</code></pre>
 <p>####(2) invariant global strength</p>
 <pre class="r"><code>compare_12$glstrinv.pval##查看网络在整体强度上是否存在显著性差异：P值</code></pre>
-<pre><code>## [1] 0.7</code></pre>
-<p>####(3) global strength value estimation</p>
+<pre><code>## [1] 0.68</code></pre>
+</div>
+<div id="global-strength-value-estimation" class="section level4">
+<h4>(3) global strength value estimation</h4>
 <pre class="r"><code>compare_12$glstrinv.sep #查看两个网络在整体强度上的具体值</code></pre>
 <pre><code>## [1] 12.56604 12.71591</code></pre>
-<p>####(4) quantification of differences: count significantly different
-edges</p>
+</div>
+<div
+id="quantification-of-differences-count-significantly-different-edges"
+class="section level4">
+<h4>(4) quantification of differences: count significantly different
+edges</h4>
 <pre class="r"><code>compare_12$einv.pvals###查看网络在边线权重上置换检验是否存在显著性差异：P值</code></pre>
 <pre><code>##       Var1   Var2 p-value
 ## 29  CPTI01 CPTI02    1.00
-## 57  CPTI01 CPTI03    0.67
-## 58  CPTI02 CPTI03    0.10
+## 57  CPTI01 CPTI03    0.64
+## 58  CPTI02 CPTI03    0.16
 ## 85  CPTI01 CPTI04    1.00
-## 86  CPTI02 CPTI04    0.15
-## 87  CPTI03 CPTI04    0.02
-## 113 CPTI01 CPTI05    0.30
+## 86  CPTI02 CPTI04    0.18
+## 87  CPTI03 CPTI04    0.01
+## 113 CPTI01 CPTI05    0.31
 ## 114 CPTI02 CPTI05    1.00
-## 115 CPTI03 CPTI05    0.42
+## 115 CPTI03 CPTI05    0.37
 ## 116 CPTI04 CPTI05    1.00
-## 141 CPTI01 CPTI06    0.94
+## 141 CPTI01 CPTI06    0.92
 ## 142 CPTI02 CPTI06    1.00
-## 143 CPTI03 CPTI06    0.68
+## 143 CPTI03 CPTI06    0.56
 ## 144 CPTI04 CPTI06    1.00
 ## 145 CPTI05 CPTI06    1.00
-## 169 CPTI01 CPTI07    0.93
+## 169 CPTI01 CPTI07    0.86
 ## 170 CPTI02 CPTI07    1.00
 ## 171 CPTI03 CPTI07    1.00
-## 172 CPTI04 CPTI07    0.03
+## 172 CPTI04 CPTI07    0.04
 ## 173 CPTI05 CPTI07    1.00
-## 174 CPTI06 CPTI07    0.13
+## 174 CPTI06 CPTI07    0.14
 ## 197 CPTI01 CPTI08    1.00
-## 198 CPTI02 CPTI08    0.28
-## 199 CPTI03 CPTI08    0.66
-## 200 CPTI04 CPTI08    0.91
-## 201 CPTI05 CPTI08    0.31
-## 202 CPTI06 CPTI08    0.13
-## 203 CPTI07 CPTI08    0.75
+## 198 CPTI02 CPTI08    0.35
+## 199 CPTI03 CPTI08    0.74
+## 200 CPTI04 CPTI08    0.89
+## 201 CPTI05 CPTI08    0.23
+## 202 CPTI06 CPTI08    0.21
+## 203 CPTI07 CPTI08    0.67
 ## 225 CPTI01 CPTI09    0.53
 ## 226 CPTI02 CPTI09    1.00
 ## 227 CPTI03 CPTI09    1.00
 ## 228 CPTI04 CPTI09    1.00
-## 229 CPTI05 CPTI09    0.75
-## 230 CPTI06 CPTI09    0.13
-## 231 CPTI07 CPTI09    0.00
-## 232 CPTI08 CPTI09    0.01
-## 253 CPTI01 CPTI10    0.63
-## 254 CPTI02 CPTI10    0.02
-## 255 CPTI03 CPTI10    0.77
+## 229 CPTI05 CPTI09    0.72
+## 230 CPTI06 CPTI09    0.16
+## 231 CPTI07 CPTI09    0.01
+## 232 CPTI08 CPTI09    0.00
+## 253 CPTI01 CPTI10    0.62
+## 254 CPTI02 CPTI10    0.08
+## 255 CPTI03 CPTI10    0.80
 ## 256 CPTI04 CPTI10    1.00
 ## 257 CPTI05 CPTI10    1.00
-## 258 CPTI06 CPTI10    0.50
-## 259 CPTI07 CPTI10    0.33
+## 258 CPTI06 CPTI10    0.57
+## 259 CPTI07 CPTI10    0.45
 ## 260 CPTI08 CPTI10    1.00
-## 261 CPTI09 CPTI10    0.09
+## 261 CPTI09 CPTI10    0.08
 ## 281 CPTI01 CPTI11    1.00
-## 282 CPTI02 CPTI11    0.45
+## 282 CPTI02 CPTI11    0.64
 ## 283 CPTI03 CPTI11    1.00
 ## 284 CPTI04 CPTI11    1.00
 ## 285 CPTI05 CPTI11    1.00
@@ -971,377 +1023,391 @@ edges</p>
 ## 290 CPTI10 CPTI11    1.00
 ## 309 CPTI01 CPTI12    1.00
 ## 310 CPTI02 CPTI12    1.00
-## 311 CPTI03 CPTI12    0.07
-## 312 CPTI04 CPTI12    0.81
+## 311 CPTI03 CPTI12    0.14
+## 312 CPTI04 CPTI12    0.89
 ## 313 CPTI05 CPTI12    0.36
 ## 314 CPTI06 CPTI12    0.31
 ## 315 CPTI07 CPTI12    1.00
-## 316 CPTI08 CPTI12    0.14
-## 317 CPTI09 CPTI12    0.58
-## 318 CPTI10 CPTI12    0.03
-## 319 CPTI11 CPTI12    0.45
+## 316 CPTI08 CPTI12    0.26
+## 317 CPTI09 CPTI12    0.63
+## 318 CPTI10 CPTI12    0.07
+## 319 CPTI11 CPTI12    0.43
 ## 337 CPTI01 CPTI13    1.00
-## 338 CPTI02 CPTI13    0.20
+## 338 CPTI02 CPTI13    0.22
 ## 339 CPTI03 CPTI13    1.00
 ## 340 CPTI04 CPTI13    0.00
 ## 341 CPTI05 CPTI13    1.00
 ## 342 CPTI06 CPTI13    1.00
 ## 343 CPTI07 CPTI13    1.00
-## 344 CPTI08 CPTI13    0.09
+## 344 CPTI08 CPTI13    0.04
 ## 345 CPTI09 CPTI13    1.00
 ## 346 CPTI10 CPTI13    1.00
 ## 347 CPTI11 CPTI13    0.32
-## 348 CPTI12 CPTI13    0.99
+## 348 CPTI12 CPTI13    0.98
 ## 365 CPTI01 CPTI14    1.00
 ## 366 CPTI02 CPTI14    1.00
 ## 367 CPTI03 CPTI14    1.00
 ## 368 CPTI04 CPTI14    1.00
 ## 369 CPTI05 CPTI14    1.00
-## 370 CPTI06 CPTI14    0.29
+## 370 CPTI06 CPTI14    0.32
 ## 371 CPTI07 CPTI14    1.00
 ## 372 CPTI08 CPTI14    1.00
 ## 373 CPTI09 CPTI14    1.00
-## 374 CPTI10 CPTI14    0.76
+## 374 CPTI10 CPTI14    0.75
 ## 375 CPTI11 CPTI14    1.00
-## 376 CPTI12 CPTI14    0.90
+## 376 CPTI12 CPTI14    0.89
 ## 377 CPTI13 CPTI14    1.00
 ## 393 CPTI01 CPTI15    1.00
 ## 394 CPTI02 CPTI15    1.00
 ## 395 CPTI03 CPTI15    1.00
 ## 396 CPTI04 CPTI15    1.00
-## 397 CPTI05 CPTI15    0.44
+## 397 CPTI05 CPTI15    0.41
 ## 398 CPTI06 CPTI15    1.00
-## 399 CPTI07 CPTI15    0.09
-## 400 CPTI08 CPTI15    0.80
-## 401 CPTI09 CPTI15    0.24
-## 402 CPTI10 CPTI15    0.30
+## 399 CPTI07 CPTI15    0.04
+## 400 CPTI08 CPTI15    0.89
+## 401 CPTI09 CPTI15    0.20
+## 402 CPTI10 CPTI15    0.34
 ## 403 CPTI11 CPTI15    0.00
-## 404 CPTI12 CPTI15    0.19
+## 404 CPTI12 CPTI15    0.27
 ## 405 CPTI13 CPTI15    1.00
-## 406 CPTI14 CPTI15    0.54
+## 406 CPTI14 CPTI15    0.47
 ## 421 CPTI01 CPTI16    0.02
 ## 422 CPTI02 CPTI16    1.00
 ## 423 CPTI03 CPTI16    1.00
 ## 424 CPTI04 CPTI16    1.00
 ## 425 CPTI05 CPTI16    1.00
-## 426 CPTI06 CPTI16    0.37
-## 427 CPTI07 CPTI16    0.59
+## 426 CPTI06 CPTI16    0.49
+## 427 CPTI07 CPTI16    0.55
 ## 428 CPTI08 CPTI16    1.00
 ## 429 CPTI09 CPTI16    0.01
-## 430 CPTI10 CPTI16    0.29
-## 431 CPTI11 CPTI16    0.16
-## 432 CPTI12 CPTI16    0.64
+## 430 CPTI10 CPTI16    0.20
+## 431 CPTI11 CPTI16    0.22
+## 432 CPTI12 CPTI16    0.58
 ## 433 CPTI13 CPTI16    1.00
-## 434 CPTI14 CPTI16    0.85
-## 435 CPTI15 CPTI16    0.33
+## 434 CPTI14 CPTI16    0.96
+## 435 CPTI15 CPTI16    0.25
 ## 449 CPTI01 CPTI17    1.00
-## 450 CPTI02 CPTI17    0.10
+## 450 CPTI02 CPTI17    0.02
 ## 451 CPTI03 CPTI17    1.00
-## 452 CPTI04 CPTI17    0.38
-## 453 CPTI05 CPTI17    0.80
-## 454 CPTI06 CPTI17    0.51
+## 452 CPTI04 CPTI17    0.40
+## 453 CPTI05 CPTI17    0.79
+## 454 CPTI06 CPTI17    0.53
 ## 455 CPTI07 CPTI17    1.00
-## 456 CPTI08 CPTI17    0.92
-## 457 CPTI09 CPTI17    0.04
-## 458 CPTI10 CPTI17    0.15
+## 456 CPTI08 CPTI17    0.87
+## 457 CPTI09 CPTI17    0.00
+## 458 CPTI10 CPTI17    0.11
 ## 459 CPTI11 CPTI17    1.00
-## 460 CPTI12 CPTI17    0.20
-## 461 CPTI13 CPTI17    0.94
-## 462 CPTI14 CPTI17    0.97
-## 463 CPTI15 CPTI17    0.33
-## 464 CPTI16 CPTI17    0.46
-## 477 CPTI01 CPTI18    0.84
-## 478 CPTI02 CPTI18    0.68
+## 460 CPTI12 CPTI17    0.19
+## 461 CPTI13 CPTI17    0.95
+## 462 CPTI14 CPTI17    0.99
+## 463 CPTI15 CPTI17    0.39
+## 464 CPTI16 CPTI17    0.41
+## 477 CPTI01 CPTI18    0.78
+## 478 CPTI02 CPTI18    0.66
 ## 479 CPTI03 CPTI18    1.00
-## 480 CPTI04 CPTI18    0.45
+## 480 CPTI04 CPTI18    0.53
 ## 481 CPTI05 CPTI18    1.00
 ## 482 CPTI06 CPTI18    1.00
-## 483 CPTI07 CPTI18    0.01
+## 483 CPTI07 CPTI18    0.05
 ## 484 CPTI08 CPTI18    0.79
 ## 485 CPTI09 CPTI18    1.00
 ## 486 CPTI10 CPTI18    1.00
-## 487 CPTI11 CPTI18    0.37
-## 488 CPTI12 CPTI18    0.15
-## 489 CPTI13 CPTI18    0.17
+## 487 CPTI11 CPTI18    0.43
+## 488 CPTI12 CPTI18    0.21
+## 489 CPTI13 CPTI18    0.38
 ## 490 CPTI14 CPTI18    1.00
-## 491 CPTI15 CPTI18    0.35
-## 492 CPTI16 CPTI18    0.04
-## 493 CPTI17 CPTI18    0.49
+## 491 CPTI15 CPTI18    0.40
+## 492 CPTI16 CPTI18    0.13
+## 493 CPTI17 CPTI18    0.44
 ## 505 CPTI01 CPTI19    1.00
 ## 506 CPTI02 CPTI19    1.00
-## 507 CPTI03 CPTI19    0.22
-## 508 CPTI04 CPTI19    0.29
+## 507 CPTI03 CPTI19    0.25
+## 508 CPTI04 CPTI19    0.44
 ## 509 CPTI05 CPTI19    1.00
-## 510 CPTI06 CPTI19    0.87
+## 510 CPTI06 CPTI19    0.90
 ## 511 CPTI07 CPTI19    1.00
-## 512 CPTI08 CPTI19    0.01
+## 512 CPTI08 CPTI19    0.02
 ## 513 CPTI09 CPTI19    1.00
-## 514 CPTI10 CPTI19    0.29
+## 514 CPTI10 CPTI19    0.34
 ## 515 CPTI11 CPTI19    1.00
-## 516 CPTI12 CPTI19    0.57
+## 516 CPTI12 CPTI19    0.56
 ## 517 CPTI13 CPTI19    1.00
 ## 518 CPTI14 CPTI19    0.14
 ## 519 CPTI15 CPTI19    1.00
-## 520 CPTI16 CPTI19    0.90
+## 520 CPTI16 CPTI19    0.87
 ## 521 CPTI17 CPTI19    0.59
 ## 522 CPTI18 CPTI19    1.00
 ## 533 CPTI01 CPTI20    1.00
-## 534 CPTI02 CPTI20    0.02
-## 535 CPTI03 CPTI20    0.23
-## 536 CPTI04 CPTI20    0.47
+## 534 CPTI02 CPTI20    0.00
+## 535 CPTI03 CPTI20    0.26
+## 536 CPTI04 CPTI20    0.52
 ## 537 CPTI05 CPTI20    1.00
 ## 538 CPTI06 CPTI20    1.00
 ## 539 CPTI07 CPTI20    1.00
 ## 540 CPTI08 CPTI20    1.00
 ## 541 CPTI09 CPTI20    1.00
-## 542 CPTI10 CPTI20    0.05
-## 543 CPTI11 CPTI20    0.67
-## 544 CPTI12 CPTI20    0.55
+## 542 CPTI10 CPTI20    0.04
+## 543 CPTI11 CPTI20    0.59
+## 544 CPTI12 CPTI20    0.57
 ## 545 CPTI13 CPTI20    1.00
-## 546 CPTI14 CPTI20    0.65
+## 546 CPTI14 CPTI20    0.68
 ## 547 CPTI15 CPTI20    1.00
-## 548 CPTI16 CPTI20    0.63
-## 549 CPTI17 CPTI20    0.33
-## 550 CPTI18 CPTI20    0.64
-## 551 CPTI19 CPTI20    0.83
+## 548 CPTI16 CPTI20    0.56
+## 549 CPTI17 CPTI20    0.32
+## 550 CPTI18 CPTI20    0.67
+## 551 CPTI19 CPTI20    0.91
 ## 561 CPTI01 CPTI21    1.00
 ## 562 CPTI02 CPTI21    1.00
 ## 563 CPTI03 CPTI21    1.00
-## 564 CPTI04 CPTI21    0.56
-## 565 CPTI05 CPTI21    0.29
+## 564 CPTI04 CPTI21    0.50
+## 565 CPTI05 CPTI21    0.34
 ## 566 CPTI06 CPTI21    1.00
 ## 567 CPTI07 CPTI21    1.00
-## 568 CPTI08 CPTI21    0.27
-## 569 CPTI09 CPTI21    0.19
+## 568 CPTI08 CPTI21    0.23
+## 569 CPTI09 CPTI21    0.33
 ## 570 CPTI10 CPTI21    0.17
 ## 571 CPTI11 CPTI21    1.00
-## 572 CPTI12 CPTI21    0.92
-## 573 CPTI13 CPTI21    0.36
+## 572 CPTI12 CPTI21    0.93
+## 573 CPTI13 CPTI21    0.33
 ## 574 CPTI14 CPTI21    1.00
-## 575 CPTI15 CPTI21    0.14
-## 576 CPTI16 CPTI21    0.11
+## 575 CPTI15 CPTI21    0.09
+## 576 CPTI16 CPTI21    0.06
 ## 577 CPTI17 CPTI21    1.00
-## 578 CPTI18 CPTI21    0.52
+## 578 CPTI18 CPTI21    0.45
 ## 579 CPTI19 CPTI21    1.00
 ## 580 CPTI20 CPTI21    0.00
 ## 589 CPTI01 CPTI22    1.00
 ## 590 CPTI02 CPTI22    1.00
 ## 591 CPTI03 CPTI22    1.00
-## 592 CPTI04 CPTI22    0.38
+## 592 CPTI04 CPTI22    0.37
 ## 593 CPTI05 CPTI22    1.00
 ## 594 CPTI06 CPTI22    1.00
 ## 595 CPTI07 CPTI22    1.00
-## 596 CPTI08 CPTI22    0.10
+## 596 CPTI08 CPTI22    0.14
 ## 597 CPTI09 CPTI22    1.00
 ## 598 CPTI10 CPTI22    1.00
 ## 599 CPTI11 CPTI22    1.00
-## 600 CPTI12 CPTI22    0.81
-## 601 CPTI13 CPTI22    0.38
+## 600 CPTI12 CPTI22    0.76
+## 601 CPTI13 CPTI22    0.46
 ## 602 CPTI14 CPTI22    1.00
 ## 603 CPTI15 CPTI22    0.13
-## 604 CPTI16 CPTI22    0.29
+## 604 CPTI16 CPTI22    0.22
 ## 605 CPTI17 CPTI22    0.24
-## 606 CPTI18 CPTI22    0.57
+## 606 CPTI18 CPTI22    0.48
 ## 607 CPTI19 CPTI22    1.00
-## 608 CPTI20 CPTI22    0.31
-## 609 CPTI21 CPTI22    0.04
+## 608 CPTI20 CPTI22    0.26
+## 609 CPTI21 CPTI22    0.08
 ## 617 CPTI01 CPTI23    1.00
-## 618 CPTI02 CPTI23    0.31
-## 619 CPTI03 CPTI23    0.37
-## 620 CPTI04 CPTI23    0.60
-## 621 CPTI05 CPTI23    0.44
-## 622 CPTI06 CPTI23    0.02
-## 623 CPTI07 CPTI23    0.85
+## 618 CPTI02 CPTI23    0.29
+## 619 CPTI03 CPTI23    0.53
+## 620 CPTI04 CPTI23    0.51
+## 621 CPTI05 CPTI23    0.42
+## 622 CPTI06 CPTI23    0.04
+## 623 CPTI07 CPTI23    0.84
 ## 624 CPTI08 CPTI23    0.09
 ## 625 CPTI09 CPTI23    1.00
-## 626 CPTI10 CPTI23    0.38
-## 627 CPTI11 CPTI23    0.05
-## 628 CPTI12 CPTI23    0.62
-## 629 CPTI13 CPTI23    0.32
+## 626 CPTI10 CPTI23    0.32
+## 627 CPTI11 CPTI23    0.09
+## 628 CPTI12 CPTI23    0.54
+## 629 CPTI13 CPTI23    0.33
 ## 630 CPTI14 CPTI23    0.00
 ## 631 CPTI15 CPTI23    1.00
 ## 632 CPTI16 CPTI23    1.00
-## 633 CPTI17 CPTI23    0.08
+## 633 CPTI17 CPTI23    0.03
 ## 634 CPTI18 CPTI23    1.00
 ## 635 CPTI19 CPTI23    0.03
-## 636 CPTI20 CPTI23    0.94
-## 637 CPTI21 CPTI23    0.37
+## 636 CPTI20 CPTI23    0.97
+## 637 CPTI21 CPTI23    0.21
 ## 638 CPTI22 CPTI23    0.81
 ## 645 CPTI01 CPTI24    1.00
 ## 646 CPTI02 CPTI24    1.00
 ## 647 CPTI03 CPTI24    1.00
 ## 648 CPTI04 CPTI24    1.00
-## 649 CPTI05 CPTI24    0.01
+## 649 CPTI05 CPTI24    0.02
 ## 650 CPTI06 CPTI24    1.00
-## 651 CPTI07 CPTI24    0.85
+## 651 CPTI07 CPTI24    0.95
 ## 652 CPTI08 CPTI24    0.68
 ## 653 CPTI09 CPTI24    1.00
-## 654 CPTI10 CPTI24    0.78
-## 655 CPTI11 CPTI24    0.11
+## 654 CPTI10 CPTI24    0.73
+## 655 CPTI11 CPTI24    0.25
 ## 656 CPTI12 CPTI24    1.00
 ## 657 CPTI13 CPTI24    1.00
 ## 658 CPTI14 CPTI24    1.00
 ## 659 CPTI15 CPTI24    1.00
 ## 660 CPTI16 CPTI24    1.00
 ## 661 CPTI17 CPTI24    1.00
-## 662 CPTI18 CPTI24    0.72
-## 663 CPTI19 CPTI24    0.92
+## 662 CPTI18 CPTI24    0.74
+## 663 CPTI19 CPTI24    0.93
 ## 664 CPTI20 CPTI24    1.00
-## 665 CPTI21 CPTI24    0.16
-## 666 CPTI22 CPTI24    0.19
-## 667 CPTI23 CPTI24    0.17
+## 665 CPTI21 CPTI24    0.11
+## 666 CPTI22 CPTI24    0.17
+## 667 CPTI23 CPTI24    0.18
 ## 673 CPTI01 CPTI25    0.02
 ## 674 CPTI02 CPTI25    1.00
-## 675 CPTI03 CPTI25    0.02
-## 676 CPTI04 CPTI25    0.87
-## 677 CPTI05 CPTI25    0.05
-## 678 CPTI06 CPTI25    0.19
+## 675 CPTI03 CPTI25    0.05
+## 676 CPTI04 CPTI25    0.88
+## 677 CPTI05 CPTI25    0.02
+## 678 CPTI06 CPTI25    0.17
 ## 679 CPTI07 CPTI25    1.00
-## 680 CPTI08 CPTI25    0.60
+## 680 CPTI08 CPTI25    0.56
 ## 681 CPTI09 CPTI25    1.00
 ## 682 CPTI10 CPTI25    1.00
 ## 683 CPTI11 CPTI25    1.00
 ## 684 CPTI12 CPTI25    1.00
-## 685 CPTI13 CPTI25    0.05
-## 686 CPTI14 CPTI25    0.88
-## 687 CPTI15 CPTI25    0.78
-## 688 CPTI16 CPTI25    0.09
-## 689 CPTI17 CPTI25    0.58
+## 685 CPTI13 CPTI25    0.04
+## 686 CPTI14 CPTI25    0.83
+## 687 CPTI15 CPTI25    0.87
+## 688 CPTI16 CPTI25    0.12
+## 689 CPTI17 CPTI25    0.48
 ## 690 CPTI18 CPTI25    1.00
 ## 691 CPTI19 CPTI25    1.00
-## 692 CPTI20 CPTI25    0.46
-## 693 CPTI21 CPTI25    0.46
-## 694 CPTI22 CPTI25    0.62
-## 695 CPTI23 CPTI25    0.52
-## 696 CPTI24 CPTI25    0.13
+## 692 CPTI20 CPTI25    0.34
+## 693 CPTI21 CPTI25    0.36
+## 694 CPTI22 CPTI25    0.76
+## 695 CPTI23 CPTI25    0.60
+## 696 CPTI24 CPTI25    0.12
 ## 701 CPTI01 CPTI26    1.00
 ## 702 CPTI02 CPTI26    1.00
 ## 703 CPTI03 CPTI26    1.00
-## 704 CPTI04 CPTI26    0.26
+## 704 CPTI04 CPTI26    0.28
 ## 705 CPTI05 CPTI26    0.97
 ## 706 CPTI06 CPTI26    1.00
 ## 707 CPTI07 CPTI26    1.00
 ## 708 CPTI08 CPTI26    0.02
-## 709 CPTI09 CPTI26    0.02
+## 709 CPTI09 CPTI26    0.05
 ## 710 CPTI10 CPTI26    1.00
 ## 711 CPTI11 CPTI26    1.00
 ## 712 CPTI12 CPTI26    1.00
 ## 713 CPTI13 CPTI26    1.00
 ## 714 CPTI14 CPTI26    1.00
-## 715 CPTI15 CPTI26    0.28
+## 715 CPTI15 CPTI26    0.26
 ## 716 CPTI16 CPTI26    1.00
 ## 717 CPTI17 CPTI26    1.00
 ## 718 CPTI18 CPTI26    0.10
 ## 719 CPTI19 CPTI26    1.00
 ## 720 CPTI20 CPTI26    1.00
-## 721 CPTI21 CPTI26    0.18
+## 721 CPTI21 CPTI26    0.22
 ## 722 CPTI22 CPTI26    1.00
-## 723 CPTI23 CPTI26    0.28
+## 723 CPTI23 CPTI26    0.40
 ## 724 CPTI24 CPTI26    1.00
-## 725 CPTI25 CPTI26    0.19
+## 725 CPTI25 CPTI26    0.15
 ## 729 CPTI01 CPTI27    1.00
 ## 730 CPTI02 CPTI27    1.00
 ## 731 CPTI03 CPTI27    1.00
 ## 732 CPTI04 CPTI27    0.00
 ## 733 CPTI05 CPTI27    1.00
 ## 734 CPTI06 CPTI27    1.00
-## 735 CPTI07 CPTI27    0.07
-## 736 CPTI08 CPTI27    0.40
+## 735 CPTI07 CPTI27    0.11
+## 736 CPTI08 CPTI27    0.28
 ## 737 CPTI09 CPTI27    1.00
 ## 738 CPTI10 CPTI27    1.00
-## 739 CPTI11 CPTI27    0.35
+## 739 CPTI11 CPTI27    0.25
 ## 740 CPTI12 CPTI27    1.00
 ## 741 CPTI13 CPTI27    0.51
-## 742 CPTI14 CPTI27    0.41
-## 743 CPTI15 CPTI27    0.35
+## 742 CPTI14 CPTI27    0.54
+## 743 CPTI15 CPTI27    0.32
 ## 744 CPTI16 CPTI27    1.00
-## 745 CPTI17 CPTI27    0.72
-## 746 CPTI18 CPTI27    0.56
+## 745 CPTI17 CPTI27    0.69
+## 746 CPTI18 CPTI27    0.66
 ## 747 CPTI19 CPTI27    1.00
-## 748 CPTI20 CPTI27    0.74
-## 749 CPTI21 CPTI27    0.55
-## 750 CPTI22 CPTI27    0.55
-## 751 CPTI23 CPTI27    0.78
-## 752 CPTI24 CPTI27    0.25
+## 748 CPTI20 CPTI27    0.75
+## 749 CPTI21 CPTI27    0.60
+## 750 CPTI22 CPTI27    0.56
+## 751 CPTI23 CPTI27    0.83
+## 752 CPTI24 CPTI27    0.22
 ## 753 CPTI25 CPTI27    0.11
-## 754 CPTI26 CPTI27    0.94
-## 757 CPTI01 CPTI28    0.29
+## 754 CPTI26 CPTI27    0.91
+## 757 CPTI01 CPTI28    0.31
 ## 758 CPTI02 CPTI28    1.00
-## 759 CPTI03 CPTI28    0.13
+## 759 CPTI03 CPTI28    0.22
 ## 760 CPTI04 CPTI28    1.00
 ## 761 CPTI05 CPTI28    1.00
-## 762 CPTI06 CPTI28    0.65
+## 762 CPTI06 CPTI28    0.66
 ## 763 CPTI07 CPTI28    1.00
-## 764 CPTI08 CPTI28    0.09
-## 765 CPTI09 CPTI28    0.06
-## 766 CPTI10 CPTI28    0.82
-## 767 CPTI11 CPTI28    0.08
-## 768 CPTI12 CPTI28    0.66
+## 764 CPTI08 CPTI28    0.08
+## 765 CPTI09 CPTI28    0.04
+## 766 CPTI10 CPTI28    0.85
+## 767 CPTI11 CPTI28    0.12
+## 768 CPTI12 CPTI28    0.61
 ## 769 CPTI13 CPTI28    1.00
-## 770 CPTI14 CPTI28    0.73
+## 770 CPTI14 CPTI28    0.83
 ## 771 CPTI15 CPTI28    1.00
-## 772 CPTI16 CPTI28    0.67
+## 772 CPTI16 CPTI28    0.71
 ## 773 CPTI17 CPTI28    1.00
 ## 774 CPTI18 CPTI28    0.00
-## 775 CPTI19 CPTI28    0.23
-## 776 CPTI20 CPTI28    0.40
+## 775 CPTI19 CPTI28    0.18
+## 776 CPTI20 CPTI28    0.35
 ## 777 CPTI21 CPTI28    1.00
 ## 778 CPTI22 CPTI28    1.00
-## 779 CPTI23 CPTI28    0.26
-## 780 CPTI24 CPTI28    0.29
-## 781 CPTI25 CPTI28    0.76
+## 779 CPTI23 CPTI28    0.20
+## 780 CPTI24 CPTI28    0.30
+## 781 CPTI25 CPTI28    0.78
 ## 782 CPTI26 CPTI28    1.00
-## 783 CPTI27 CPTI28    0.26</code></pre>
+## 783 CPTI27 CPTI28    0.24</code></pre>
 <pre class="r"><code>sum(compare_12$einv.pvals$&quot;p-value&quot; &lt; 0.05) #查看P值小于.05的数量</code></pre>
-<pre><code>## [1] 27</code></pre>
-<p>####(5) differences in centralities: p-value</p>
+<pre><code>## [1] 28</code></pre>
+</div>
+<div id="differences-in-centralities-p-value" class="section level4">
+<h4>(5) differences in centralities: p-value</h4>
 <pre class="r"><code>compare_12$diffcen.pval#查看网络在中心指标强度上置换检验是否存在显著性差异：P值</code></pre>
 <pre><code>##        strength
-## CPTI01     0.89
-## CPTI02     0.60
-## CPTI03     0.86
-## CPTI04     0.43
-## CPTI05     0.75
-## CPTI06     0.47
-## CPTI07     0.53
-## CPTI08     0.94
-## CPTI09     0.94
-## CPTI10     0.51
-## CPTI11     0.64
-## CPTI12     0.58
-## CPTI13     0.23
-## CPTI14     0.60
-## CPTI15     0.93
-## CPTI16     0.58
-## CPTI17     0.30
-## CPTI18     0.12
-## CPTI19     0.35
-## CPTI20     0.09
-## CPTI21     0.09
-## CPTI22     0.23
-## CPTI23     0.81
-## CPTI24     0.80
-## CPTI25     0.05
-## CPTI26     0.86
-## CPTI27     0.20
-## CPTI28     0.55</code></pre>
+## CPTI01     0.93
+## CPTI02     0.55
+## CPTI03     0.79
+## CPTI04     0.39
+## CPTI05     0.86
+## CPTI06     0.46
+## CPTI07     0.49
+## CPTI08     0.97
+## CPTI09     0.96
+## CPTI10     0.57
+## CPTI11     0.62
+## CPTI12     0.61
+## CPTI13     0.30
+## CPTI14     0.54
+## CPTI15     0.97
+## CPTI16     0.55
+## CPTI17     0.31
+## CPTI18     0.21
+## CPTI19     0.38
+## CPTI20     0.06
+## CPTI21     0.12
+## CPTI22     0.21
+## CPTI23     0.82
+## CPTI24     0.78
+## CPTI25     0.01
+## CPTI26     0.85
+## CPTI27     0.16
+## CPTI28     0.58</code></pre>
 <pre class="r"><code>sum(compare_12$diffcen.pval&lt; 0.05)#查看P值小于.05的数量</code></pre>
-<pre><code>## [1] 0</code></pre>
+<pre><code>## [1] 1</code></pre>
 <p>结果解读：说明Data1和Data2所构建的网络之间基本一致。</p>
-<p>##5. 总结
-综上，通过两项研究实例具体展示如何通过使用R语言进行一项网络分析，具体使用以下R包来实现统计分析：<code>qgraph</code>，<code>bootnet</code>,<code>NetworkComparisonTest</code>,包括网络结构的估计、中心指标的计算、网络分析准确性分析以及网络分析的比较检验。<br />
+</div>
+</div>
+</div>
+<div id="总结" class="section level2">
+<h2>4. 总结</h2>
+<p>综上，通过两项研究实例具体展示如何通过使用R语言进行一项网络分析，具体使用以下R包来实现统计分析：<code>qgraph</code>，<code>bootnet</code>,<code>NetworkComparisonTest</code>,包括网络结构的估计、中心指标的计算、网络分析准确性分析以及网络分析的比较检验。<br />
 作为一种新取向，网络分析在临床心理学领域为理解精神障碍和症状之间关系提供了新的视角。纵然已有一些研究成果，但目前处于初步发展阶段，需要更多研究对这种方法进行探索与验证以保证其在心理学领域的推广性。</p>
-<p>##6. 学习资源分享 #####a.CRAN R包 documentation
-由于开发者会对R包进行更新，具体语句以对应版本的手册说明为准。</p>
+</div>
+<div id="学习资源分享" class="section level2">
+<h2>5. 学习资源分享</h2>
+<div id="cran-r包-documentation" class="section level3">
+<h3>5.1 CRAN R包 documentation</h3>
+<p>由于开发者会对R包进行更新，具体语句以对应版本的手册说明为准。</p>
 <pre class="r"><code>help(package=&quot;qgraph&quot;)#查阅手册
 ??qgraph
 ??bootnet
 ??NetworkComparisonTest</code></pre>
-<p>#####b.参考书籍 <a
-href="https://doi.org/10.4324/9781003111238">Isvoranu, A.-M., Epskamp,
-S., Waldorp, L.J., &amp; Borsboom, D. (Eds.). (2022). <em>Network
-Psychometrics with R: A Guide for Behavioral and Social Scientists (1st
-ed.)</em>. Routledge.</a></p>
+</div>
+<div id="参考书籍" class="section level3">
+<h3>5.2 参考书籍</h3>
+<p><a href="https://doi.org/10.4324/9781003111238">Isvoranu, A.-M.,
+Epskamp, S., Waldorp, L.J., &amp; Borsboom, D. (Eds.). (2022).
+<em>Network Psychometrics with R: A Guide for Behavioral and Social
+Scientists (1st ed.)</em>. Routledge.</a></p>
+</div>
+</div>
 
 
 

@@ -9,19 +9,17 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 ---------- 目录 --------------------------------------------------------------------------------------------  
 ---------- 1. 实例分析与技术实现：R语言 --------------------------------------------------------------  
----------- 2. R语言基本操作------------------------------------------------------------------------------  
----------- 3. 实例操作1：Deng等人(2021)冷酷无情特质网络分析研究--------------------------------  
+---------- 2. 实例操作1：Deng等人(2021)冷酷无情特质网络分析研究--------------------------------  
 ----------实际操作练习1：使用example1演示数据进行练习--------------------------------  
----------- 4. 实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究--------------------------  
+---------- 3. 实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究--------------------------  
 ----------实际操作练习2：使用example2演示数据进行练习--------------------------------  
----------- 5. 总结------------------------------------------------------------------------------------------  
----------- 6. 学习资源分享--------------------------------------------------------------------------------  
+---------- 4. 总结------------------------------------------------------------------------------------------  
+---------- 5. 学习资源分享--------------------------------------------------------------------------------  
 
 
-##1. 实例分析与技术实现：R语言
+## 1. 实例分析与技术实现：R语言
 网络分析在心理学领域的应用中，常用R语言作为主要的数据分析软件。
 
 常用的网络分析R包：
@@ -31,8 +29,8 @@ knitr::opts_chunk$set(echo = TRUE)
 `EstimateGroupNetwork` (Costantini & Epskamp, 2017)
 
 
-##3. 实例操作1：Deng等人(2021)冷酷无情特质网络分析研究
-###简要介绍
+## 2. 实例操作1：Deng等人(2021)冷酷无情特质网络分析研究
+### 简要介绍
 以下将以一项冷酷无情特质网络分析研究作为例子(Deng et al., 2021)具体介绍如何进行一项网络分析研究。    
 该研究以国内609名青少年犯人（样本一）和487名社区儿童（样本二）作为研究对象进行分析，使用了自我报告版冷酷无情特质问卷(the Inventory of Callous-Unemotional Traits; Frick, 2004)中文版(Wang et al., 2019)评估冷酷无情特质。  
 这里以样本一的冷酷无情特质问卷数据（部分截选）作为例子来展示。  
@@ -41,30 +39,30 @@ knitr::opts_chunk$set(echo = TRUE)
 
 接下来展示如何使用`qgraph`和`bootnet`程序包对数据进行网络分析。  
 
-###3.0.1 程序包的安装与运行
+### 2.0.1 程序包的安装与运行
 首先需要先安装与运行程序包，具体命令如下所示：
-```{r load1, warnings = FALSE, cache = TRUE}
+```{r load1, warnings = FALSE}
 library(readxl)#运行readxl程序包；若没安装，可用install.packages("readxl")进行安装
 library(qgraph)#运行qgraph程序包；若没安装，可用install.packages("qgraph")进行安装
 library(bootnet)#运行bootnet程序包；若没安装，可用install.packages("bootnet")进行安装
 library(NetworkComparisonTest)#运行NetworkComparisonTest程序包；若没安装，可用install.packages("NetworkComparisonTest")进行安装
 ```
 
-###3.0.2 数据读取与导入
+### 2.0.2 数据读取与导入
 由于所展示的例子所使用的数据并非来自程序包自带的数据集，因此需要先导入数据。
 由于数据文件为excel格式，因此使用`readxl`程序包用于数据读取与导入。具体命令如下：
 使用`read_excel()`函数读取数据，具体命令如下：
-```{r load2, warnings = FALSE, cache = TRUE}
+```{r load2, warnings = FALSE}
 data1<- read_excel("example1_data_c.xlsx")#演示数据
 data2<- read_excel("example1_data_j.xlsx")#演示数据
 head(data1)
 ```
 
-###3.1.1 建立网络结构图
+### 2.1.1 建立网络结构图
 当完成数据导入后，即可通过运行`qgraph`程序包进行网络分析。  
 正如上文所提及，可分为两个步骤：建立网络结构图和计算中心指标。  
 现在，先从建立网络图结构开始。建立网络结构图主要是程序包中`qgraph()`函数来实现，具体命令如下：
-```{r q1, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q1, warnings = FALSE, message=FALSE}
 qgraph<-qgraph(cor_auto(data1))#基于相关矩阵的网络结构图（题目没有分组）
 ```
 
@@ -72,7 +70,7 @@ qgraph<-qgraph(cor_auto(data1))#基于相关矩阵的网络结构图（题目没
 
 如图所示，这是一个没有区分分量表的网络图。如果需要区分，可用`groups` 来实现，即把设定不同节点归属于同一分量表或组别。  
 例如，对ICU问卷24个题目定义分组，定义每个题目所测量的内容，具体命令如下：
-```{r q2groups, warnings = FALSE, cache = TRUE}
+```{r q2groups, warnings = FALSE}
 ICU24groups<-c("Unemotional","Callousness","Uncaring","Callousness",
                "Uncaring","Unemotional","Callousness",
                "Callousness","Callousness",
@@ -83,35 +81,35 @@ ICU24groups<-c("Unemotional","Callousness","Uncaring","Callousness",
 ```
 
 使用`groups`定义每个题目所对应的分量表后，即可实现分组情况下的网络结构图，具体命令如下：
-```{r q3qgroup, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q3qgroup, warnings = FALSE, message=FALSE}
 qgraph(cor_auto(data1), groups= ICU24groups)#通过"groups = "设置分组,建立基于相关矩阵的网络图（分组）
 ```
 
 对比两个图，可以发现主要区别在于是否分组，在图中则体现在节点的位置和对应颜色上。如第二个图所示，左边是网络结构图，右边是网络结构图的图例。网络中节点共有3种颜色，从红色开始顺时针分别是红色、绿色、蓝色对应淡漠、冷酷以及无情。  
 除了节点之外，不同节点之间的边线呈现绿色和红色两种颜色。一般来说，绿色边线表示为正相关关系，红色边线表示负相关关系。例如，图中ICU15与ICU23呈现正相关关系。  
 除了可以设置分组之外，还可以通过其他参数设定网络结构图的格式。例如，使用`layout` 来更改网络结构图的形状，具体命令如下：
-```{r q4group1, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q4group1, warnings = FALSE, message=FALSE}
 qgraph(cor_auto(data1), groups=ICU24groups, layout= "spring") #通过"layout = "设定spring格式
 ```
 
-```{r q5group1, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q5group1, warnings = FALSE, message=FALSE}
 qgraph(cor_auto(data1), groups=ICU24groups, layout= "circle")#通过"layout = "设定circle格式
 ```
 
 另外，还可以使用`"palette="`和`"theme="`改变节点的颜色。需要注意的是，`"palette="`需要配合`"groups="`一起使用。具体命令如下所示：
-```{r q6group1, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q6group1, warnings = FALSE, message=FALSE}
 qgraph(cor_auto(data1), groups=ICU24groups,palette="colorblind",layout= "spring")#通过"palette = "设定格式
 ```
 
-```{r q6group2, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q6group2, warnings = FALSE, message=FALSE}
 qgraph(cor_auto(data1), groups=ICU24groups,palette="pastel",layout= "spring")#通过"palette = "设定格式
 ```
 
-```{r q6group3, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q6group3, warnings = FALSE, message=FALSE}
 qgraph(cor_auto(data1), groups=ICU24groups,palette="gray",layout= "spring")#通过"palette = "设定格式
 ```
 
-```{r q6group4, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q6group4, warnings = FALSE, message=FALSE}
 qgraph=qgraph(cor_auto(data1), groups=ICU24groups,layout= "spring",negDashed=TRUE)#通过"negDashed = "设定格式
 makeBW(qgraph)#plot in black and white mode
 ```
@@ -125,25 +123,25 @@ makeBW(qgraph)#plot in black and white mode
 `"legend"`:选择是否呈现图例及其控制图例位置  
 
 当需要对网络结构图进行自定义设定时，可使用上述常见参量进行自定义设定，具体命令如下：
-```{r q7group3, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q7group3, warnings = FALSE, message=FALSE}
 qgraph(cor_auto(data1),groups=ICU24groups, layout= "spring",minimum=0.15,vsize=8,legend=TRUE,borders=TRUE,palette="colorblind")#基于相关矩阵的网络图（自定义格式）
 ```
 
 如有需要在图中加上标题，可用`title`加上标题。  
-```{r q8group3, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q8group3, warnings = FALSE, message=FALSE}
 qgraph(cor_auto(data1),groups=ICU24groups, layout= "spring",minimum=0.15,vsize=8,legend=TRUE,borders=TRUE,palette="colorblind",title="ICU-24 item-level network")#基于相关矩阵的网络图（自定义格式）
 ```
 
 
 除了自定义网络图格式之外，还可以使用`"graph="`设定不同类型的矩阵，具体命令如下：
-```{r q9group4, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r q9group4, warnings = FALSE, message=FALSE}
 qgraph(cor_auto (data1), groups=ICU24groups, layout="spring", minimum=0.15,vsize=8,legend=TRUE,borders=TRUE,palette="colorblind",graph="pcor")#使用graph设定为偏相关矩阵
 ```
 
 根据两图所示，可以明显看到基于两种矩阵所建立的网络结构图在边线密集程度上是不同的，在基于偏相关矩阵网络中呈现的边线更少，表明用相关矩阵建立的网络结构图实际存在一些虚假关系，即一些节点之间的关系是通过第三个节点所建立起来，并非为两两直接相连的边线，因此没有呈现出来。  
 
 除了上述设定以外，为读者了解每个节点对应的题目，可进行设定以展现题目。  
-```{r qlabel1, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r qlabel1, warnings = FALSE, message=FALSE}
 Labels<-colnames(data1)
 Names<-c("Expresses feelings openly","Does not know right from wrong",
          "Concerned about school work","Does not care who is hurt",
@@ -164,7 +162,7 @@ q_cor_auto1<-qgraph(cor_auto(data1),groups=ICU24groups,minimum=0.15,cut=0.4,vsiz
                    labels=Labels,nodeNames=Names, mar=c(4,1,2,2))
 ```
 
-```{r qlabel2, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r qlabel2, warnings = FALSE, message=FALSE}
 q_cor_auto2<-qgraph(cor_auto(data2),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
                    legend=TRUE,borders=TRUE,layout="spring",
                    palette="colorblind",
@@ -173,7 +171,7 @@ q_cor_auto2<-qgraph(cor_auto(data2),groups=ICU24groups,minimum=0.15,cut=0.4,vsiz
 ```
 
 最后，当建立网络结构图后，可以通过设置参数把网络图保存下来，例如`filetype`用于设定文件类型以及文件所在路径，具体命令如下：
-```{r qgroup4c, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r qgroup4c, warnings = FALSE, message=FALSE}
 q_cor_auto1<-qgraph(cor_auto(data1),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
                    legend=TRUE,borders=TRUE,layout="spring",
                    palette="colorblind",
@@ -183,7 +181,7 @@ q_cor_auto1<-qgraph(cor_auto(data1),groups=ICU24groups,minimum=0.15,cut=0.4,vsiz
 #这里使用"filetype= jpg"将文件格式设置为jpg格式图片，filename="q_cor_auto1"将文件命名为q_cor_auto1，而height=5,width=10则是设置图片大小
 ```
 
-```{r qgroup4j, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r qgroup4j, warnings = FALSE, message=FALSE}
 q_cor_auto2<-qgraph(cor_auto(data2),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
                    legend=TRUE,borders=FALSE,layout="spring",
                    palette="colorblind",
@@ -193,9 +191,9 @@ q_cor_auto2<-qgraph(cor_auto(data2),groups=ICU24groups,minimum=0.15,cut=0.4,vsiz
 ```
 
 
-###3.1.2 网络推断分析：计算中心指标
+### 2.1.2 网络推断分析：计算中心指标
 当建立网络结构图后，即可计算网络中节点的中心指标，以便了解网络中节点的重要程度。那么，如何计算中心指标呢？可以通过`centrality_auto`这个函数实现。如果想进一步得到可视化结果，可使用`centralityPlot`这个函数实现。计算中心指标及其可视化结果的具体命令如下所示：
-```{r centrality1, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r centrality1, warnings = FALSE, message=FALSE}
 #centrality_auto(q_cor_auto1)#计算中心指标
 centralityPlot(q_cor_auto1,include=c("Strength","Closeness","Betweenness"),
                scale = "z-scores")#选取3个中心指标进行可视化呈现
@@ -208,7 +206,7 @@ centralityPlot(q_cor_auto2,include=c("Strength","Closeness","Betweenness"),scale
 ```
 
 除此以外，还可以根据需要对纵轴节点顺序进行指定，使用`orderBy`实现。一般默认**按字母排序**，如果需要按节点某项中心指标排列可用`orderBy="Strength"`进行调整。
-```{r centrality3, warnings = FALSE, cache = TRUE}
+```{r centrality3, warnings = FALSE}
 centralityPlot(q_cor_auto1,include=c("Strength","Closeness","Betweenness"),
                scale = "z-scores",orderBy="Strength")#设定节点顺序
 ```
@@ -232,14 +230,14 @@ dev.off()
 ```
 
 
-###3.1.3 网络结构的准确性分析
+### 2.1.3 网络结构的准确性分析
 与其他统计分析方法类似，网络分析的准确性同样会受到样本量的影响。因此，在建立网络图后，需要对网络分析的准确性进行检验。网络分析的准确性检验分析主要是使用`bootnet`程序包(Epskamp, Borsboom & Fried, 2018)来实现，包括三种方法的检验：  
 第一，计算边线的Bootstrap置信区间。  
 第二，检验节点在中心指标的稳定性。  
 第三，检验节点或者边线之间的差异。  
 接下来，将以data1作为例子具体介绍如何使用`bootnet`实现以上三种检验方法。  
 在进行准确性检验前，需要先建立网络。除了`qgraph`包以外，还可以使用`bootnet`包的`estimateNetwork`函数来进行网络分析估计。  
-```{r network, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r network, warnings = FALSE, message=FALSE}
 Network <- estimateNetwork(data1, default = "cor") #data1为数据，这里用default = "cor"来设定矩阵类型为相关矩阵。另外，还可以使用default = "pcor"设定偏相关矩阵和default = "glasso"设定为自适应LASSO算法矩阵"lasso"等。
 plot(Network, layout = 'spring',groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
                    legend=TRUE,borders=TRUE,
@@ -248,8 +246,8 @@ plot(Network, layout = 'spring',groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
                    labels=Labels,nodeNames=Names, mar=c(4,1,2,2))#建立网络图
 ```
 
-####(1) 计算边线的Bootstrap置信区间
-```{r ci, warnings = FALSE, cache = TRUE, message=FALSE,fig.width=10,fig.height=10}
+#### (1) 计算边线的Bootstrap置信区间
+```{r ci, warnings = FALSE, message=FALSE,fig.width=10,fig.height=10}
 Results1 <- bootnet(Network, statistics=c("strength","closeness","betweenness","edge"), nBoots = 1000, nCores = 5) #使用statistics=""设定需要估计的统计量;
 #nBoots:bootstraps的数量
 #nCores:多核计算的数量
@@ -258,15 +256,15 @@ plot(Results1, labels = FALSE, order = "sample")#边线权重的Bootstrapped置�
 
 结果解读：如图所示，纵轴表示网络中的所有边线，横轴表示置信区间。图中包括两条不同颜色的线，对应原样本所估计的均值以及通过bootstrapping方法估计出来的均值，灰色部分则代表两种方法所对应的置信区间。一般来说，与传统的参数估计结果解释类似，不同边线权重的置信区间重叠代表这些边线权重的差异不显著。
 
-####(2) 检验节点或边线之间的差异
+#### (2) 检验节点或边线之间的差异
 
-```{r diff1, warnings = FALSE, cache = TRUE,fig.width=15,fig.height=15}
+```{r diff1, warnings = FALSE,fig.width=15,fig.height=15}
 plot(Results1, "strength", plot = "difference")#分析节点在强度上的差异检验
 plot(Results1, "closeness", plot = "difference")#分析节点在紧密性上的差异检验
 plot(Results1, "betweenness", plot = "difference")#分析节点在中介性上的差异检验
 ```
 
-```{r diff2, warnings = FALSE, cache = TRUE,fig.width=20,fig.height=20}
+```{r diff2, warnings = FALSE,fig.width=20,fig.height=20}
 pdf("Fig_edgeweightdiff.pdf", width=50, height=50)
 plot(Results1, "edge", plot = "difference", onlyNonZero = TRUE, order = "sample")#边线的差异检验；onlyNonZero用于设定不呈现权重为0的情况。
 #估计bootstrapped CI;基于非参数的自助法
@@ -277,7 +275,7 @@ dev.off()
 上述两图分别为网络中所有边线和节点之间的差异检验结果。纵轴和横轴为网络中的边线或者节点。图中黑色方格表示两者之间存在显著性的差异，白色则表示两者之间并不显著，中间斜线表示的是边线或者节点具体值。如图中所示，与其他节点相比，节点ICU21、ICU20与其他节点存在更多显著性的差异。
 
 如仅分析任意某2个节点或者边线，可用`differenceTest()`对`measure`进行设定。
-```{r diff3, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r diff3, warnings = FALSE, message=FALSE}
 #for nodes
 differenceTest(Results1, "CA_ICU2", "CA_ICU12", "strength")
 differenceTest(Results1, "CA_ICU2", "CA_ICU18", "strength")
@@ -286,8 +284,8 @@ differenceTest(Results1, "CA_ICU2--CA_ICU18", "CA_ICU2--CA_ICU12", "edge")
 ```
 
 
-####(3) 检验节点在中心指标的稳定性
-```{r stability, warnings = FALSE, cache = TRUE, message=FALSE,fig.width=5,fig.height=5}
+#### (3) 检验节点在中心指标的稳定性
+```{r stability, warnings = FALSE, message=FALSE,fig.width=5,fig.height=5}
 Results2 <- bootnet(Network, statistics=c("strength","closeness","betweenness"), nBoots = 1000, nCores = 3, type = "case") 
 
 #稳定性：去掉一些样本或节点后，网络结构的中心指标顺序仍然不变
@@ -302,12 +300,12 @@ corStability(Results2)#Compute CS-coefficients
 ```
 结果解读：如图所示，纵轴为原样本与样本量减少所估计结果的关联程度，横轴为样本数量。图中不同颜色的线表示节点在中心指标的具体值，不同颜色范围代表的是对应的置信区间。如图所示，随着样本量减少，中心指标的稳定性在逐步下降，尤其是中介性。
 
-###小结
+### 小结
 综上所述，通过比较分析两样本的网络结构以及各个节点的中心性指标，发现淡漠因子题目位于网络结构的中间位置。另外，无情因子题目则位于网络结构的边缘位置，并呈现与淡漠因子和冷酷因子的题目存在较少的关联。**本研究得出如下结论：淡漠是青少年CU特质的核心特征。本研究发现拓展了国内青少年CU特质核心特征的理解，为干预与治疗青少年CU特质提供了更多的理论意义和临床价值。**
 
 
-##4. 实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究
-###简要介绍
+## 3. 实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究
+### 简要介绍
 以下将以一项儿童精神病态纵向网络分析研究作为例子(Wang et al., unpublished)具体介绍如何进行一项纵向网络分析研究。与上面的例子不同，这一研究在研究设计上使用了**纵向研究方法**，探讨的是网络结构在时间维度上的稳定性问题，即**网络结构是否会随着时间推移而发生变化**。  
 
 除此以外，本研究仅比较单一样本的纵向网络结构。即便存在一些不同，但是这两项研究的研究思路基本是一致的，只是基于不同视角的网络结构比较，上面的例子是基于不同特征的样本进行比较，而**本研究则是基于同一样本在不同时间截点上的比较**。
@@ -322,24 +320,24 @@ corStability(Results2)#Compute CS-coefficients
 
 首先，与上面的实例操作一样，需要先进行程序包的安装与运行以及数据读取和导入。这两部分内容与上文类似，在此不再赘述，直接从网络分析的步骤开始。
 
-####4.0导入数据
-```{r load3, warnings = FALSE, cache = TRUE, message=FALSE}
+#### 3.0导入数据
+```{r load3, warnings = FALSE, message=FALSE}
 Data1<- read_excel("example2_Data1_t1.xlsx")#演示数据
 Data2<- read_excel("example2_Data2_t2.xlsx")#演示数据
 Data3<- read_excel("example2_Data3_t3.xlsx")#演示数据
 Data4<- read_excel("example2_Data4_t4.xlsx")#演示数据
 ```
 
-###4.1.1 建立网络结构图
+### 3.1.1 建立网络结构图
 基本分析思路为先分别对每个时间点所收集的数据进行网络估计，然后再输出网络结构图。具体的分析语句如下所示：
-```{r longnetwork, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r longnetwork, warnings = FALSE, message=FALSE}
 Network1<-bootnet::estimateNetwork(Data1,default = "cor")#Time 1的网络估计
 Network2<-bootnet::estimateNetwork(Data2,default = "cor")#Time 2的网络估计
 Network3<-bootnet::estimateNetwork(Data3,default = "cor")#Time 3的网络估计
 Network4<-bootnet::estimateNetwork(Data4,default = "cor")#Time 4的网络估计
 ```
 
-```{r longnetworkgroup, warnings = FALSE, cache = TRUE}
+```{r longnetworkgroup, warnings = FALSE}
 groups<-c("INS","CU","INS","CU","GD","INS","GD",
           "CU","GD","INS","CU","INS","CU","INS",
           "GD","INS","CU","GD","INS","CU","GD",
@@ -376,12 +374,12 @@ Names<-c("Likes change and that things happen all the time",
 ```
 
 为了方便不同网络结构的比较，这里使用了`qgraph`程序包中的`averageLayout`用于统一格式。
-```{r layout1, warnings = FALSE, cache = TRUE}
+```{r layout1, warnings = FALSE}
 L <- averageLayout(Network1,Network2,Network3,Network4)#将网络设置为统一格式用于比较
 ```
 
 输出统一格式下网络结构图的语句如下所示：
-```{r layout2, warnings = FALSE, cache = TRUE}
+```{r layout2, warnings = FALSE}
 Network1G <- plot(Network1, layout = L,title="Time 1", groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette="colorblind",label.cex=1)#输出Time 1的网络结构图
 Network2G<- plot(Network2, layout = L,title="Time 2", groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette="colorblind",label.cex=1) #输出Time 2的网络结构图
 Network3G <- plot(Network3, layout = L,title="Time 3", groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette="colorblind",label.cex=1) #输出Time 3的网络结构图
@@ -397,7 +395,7 @@ Network4G <- plot(Network4, layout = L,title="Time 4", groups=groups,minimum=0.4
 
 在调整确定好格式后，可使用`pdf()`或`jpg()`直接保存文件。   
 
-```{r layout3, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r layout3, warnings = FALSE, message=FALSE}
 pdf("Fig_averagelayoutgraph_T1-T4.pdf", width=10, height=10)
 par(mfrow=c(2,2))
 Network1G <- plot(Network1, layout = L,title="Time 1", groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette="colorblind",label.cex=1)#输出Time 1的网络结构图
@@ -407,9 +405,9 @@ Network4G <- plot(Network4, layout = L,title="Time 4", groups=groups,minimum=0.4
 dev.off()
 ```
 
-###4.1.2 计算中心指标
+### 3.1.2 计算中心指标
 基本分析思路为先分别计算每个时间点网络结构中节点的中心指标，然后输出中心指标比较的可视化结果。具体的分析语句如下所示：
-```{r longitudinalcentrality1, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r longitudinalcentrality1, warnings = FALSE, message=FALSE}
 centralityPlot(list(Time1=cor_auto(Data1),
                     Time2 = cor_auto(Data2), Time3=cor_auto(Data3),
                     Time4 = cor_auto(Data4)),
@@ -418,7 +416,7 @@ centralityPlot(list(Time1=cor_auto(Data1),
 
 
 
-```{r longitudinalcentrality2, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r longitudinalcentrality2, warnings = FALSE, message=FALSE}
 pdf("Fig_centralityPlot_combined_T1-T4.pdf", width=10, height=10)
 centralityPlot(list(Time1=cor_auto(Data1),
                     Time2 = cor_auto(Data2), Time3=cor_auto(Data3),
@@ -431,10 +429,10 @@ dev.off()
 结果解读：  
 如图所示，发现CPTI题目在四个时间点上的中心指标结果较为一致，其中第15、20、21、25、27题具有较高的中心指标，表明这些题目位于网络结构中较为中心的位置，与上图的网络结构图结果一致。
 
-###4.1.3 网络分析的准确性检验
+### 3.1.3 网络分析的准确性检验
 基本分析思路为分别对使用每个时间点所收集的数据进行估计的网络结构进行准确性分析。具体操作内容与上文例子类似，在此不再赘述。
 
-###小结
+### 小结
 综上所述，通过比较基于不同时间点的网络结构以及各个节点的中心性指标，发现CPTI纵向网络结构具有一定的稳定性，其中一些题目位于较为中心的位置，例如:  
 (1) 第15题“与同龄人相比，他/她更经常撒谎。”  
 (2) 第20题“他/她大多数时候看起来并不在乎别人的感受和想法。”  
@@ -444,61 +442,62 @@ dev.off()
 
 综上这些发现表明**缺乏懊悔感、不关心他人感受以及欺骗位于儿童精神病态网络结构中的核心位置，说明这些特征为儿童精神病态的核心特征**。因此，本研究发现拓展了国内儿童精神病态核心特征及其稳定性的理解，为针对儿童精神病态的干预与治疗提供了更多的理论意义和临床价值。
 
-###4.1.4 网络分析的比较检验(Network Comparison Test)
+### 3.1.4 网络分析的比较检验(Network Comparison Test)
 这部分主要是使用上述演示数据说明使用`NetworkComparisonTest`进行比较检验分析，选取Data1和Data2作为例子进行操作说明。
 
-```{r NCT1, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r NCT1, warnings = FALSE, message=FALSE}
 compare_12 <- NCT(Data1,Data2, binary.data=FALSE, paired = TRUE,test.edges=TRUE, edges='all', progressbar=TRUE,test.centrality = TRUE,centrality = "strength")#paired:TRUE of FALSE to indicate whether the samples are dependent or not
 ```
 
-```{r NCT2, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r NCT2, warnings = FALSE, message=FALSE}
 #compare_12_p.adj <- NCT(Data1,Data2, binary.data=FALSE, paired = TRUE,test.edges=TRUE, edges='all',p.adjust.methods="bonferroni", progressbar=TRUE,test.centrality = TRUE,centrality = "strength")
 ```
 
-####(1) NCT topology: network structure invariance test
-```{r NCT3, warnings = FALSE, cache = TRUE, message=FALSE}
+#### (1) NCT topology: network structure invariance test
+```{r NCT3, warnings = FALSE, message=FALSE}
 compare_12$nwinv.pval#查看整个网络在边线权重是否存在显著性差异：P值
 ```
 
 ####(2) invariant global strength
-```{r NCT5, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r NCT5, warnings = FALSE, message=FALSE}
 compare_12$glstrinv.pval##查看网络在整体强度上是否存在显著性差异：P值
 ```
 
-####(3) global strength value estimation
-```{r NCT6, warnings = FALSE, cache = TRUE, message=FALSE}
+#### (3) global strength value estimation
+```{r NCT6, warnings = FALSE, message=FALSE}
 compare_12$glstrinv.sep #查看两个网络在整体强度上的具体值
 ```
 
 
-####(4) quantification of differences: count significantly different edges 
-```{r NCT7, warnings = FALSE, cache = TRUE, message=FALSE}
+#### (4) quantification of differences: count significantly different edges 
+```{r NCT7, warnings = FALSE, message=FALSE}
 compare_12$einv.pvals###查看网络在边线权重上置换检验是否存在显著性差异：P值
 sum(compare_12$einv.pvals$"p-value" < 0.05) #查看P值小于.05的数量
 ```
 
 
-####(5) differences in centralities: p-value
-```{r NCT8, warnings = FALSE, cache = TRUE, message=FALSE}
+#### (5) differences in centralities: p-value
+```{r NCT8, warnings = FALSE, message=FALSE}
 compare_12$diffcen.pval#查看网络在中心指标强度上置换检验是否存在显著性差异：P值
 sum(compare_12$diffcen.pval< 0.05)#查看P值小于.05的数量
 ```
 结果解读：说明Data1和Data2所构建的网络之间基本一致。
 
-##5. 总结
+## 4. 总结
 综上，通过两项研究实例具体展示如何通过使用R语言进行一项网络分析，具体使用以下R包来实现统计分析：`qgraph`，`bootnet`,`NetworkComparisonTest`,包括网络结构的估计、中心指标的计算、网络分析准确性分析以及网络分析的比较检验。  
 作为一种新取向，网络分析在临床心理学领域为理解精神障碍和症状之间关系提供了新的视角。纵然已有一些研究成果，但目前处于初步发展阶段，需要更多研究对这种方法进行探索与验证以保证其在心理学领域的推广性。  
 
-##6. 学习资源分享
-#####a.CRAN R包 documentation
+## 5. 学习资源分享
+### 5.1 CRAN R包 documentation
 由于开发者会对R包进行更新，具体语句以对应版本的手册说明为准。  
-```{r help, warnings = FALSE, cache = TRUE, message=FALSE}
+```{r help, warnings = FALSE, message=FALSE}
 help(package="qgraph")#查阅手册
 ??qgraph
 ??bootnet
 ??NetworkComparisonTest
 ```
-#####b.参考书籍
+
+### 5.2 参考书籍
 [Isvoranu, A.-M., Epskamp, S., Waldorp, L.J., & Borsboom, D. (Eds.). (2022). *Network Psychometrics with R: A Guide for Behavioral and Social Scientists (1st ed.)*. Routledge.](https://doi.org/10.4324/9781003111238)
 
 
