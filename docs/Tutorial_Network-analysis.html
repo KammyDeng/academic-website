@@ -17,7 +17,7 @@
 <script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -303,64 +303,69 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Network Analysis Workshop</h1>
 <h4 class="author">Jiaxin Deng</h4>
-<h4 class="date">2022/06/19</h4>
+<h4 class="date">2023/03/09</h4>
 
 </div>
 
 
-<p>———- 目录 ——————————————————————————————–<br />
-———- 1. 实例分析与技术实现：R语言 ————————————————————–<br />
-———- 2.
-实例操作1：Deng等人(2021)冷酷无情特质网络分析研究——————————–<br />
-———-实际操作练习1：使用example1演示数据进行练习——————————–<br />
-———- 3.
-实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究————————–<br />
-———-实际操作练习2：使用example2演示数据进行练习——————————–<br />
-———- 4. 总结——————————————————————————————<br />
-———- 5. 学习资源分享——————————————————————————–</p>
-<div id="实例分析与技术实现r语言" class="section level2">
-<h2>1. 实例分析与技术实现：R语言</h2>
-<p>网络分析在心理学领域的应用中，常用R语言作为主要的数据分析软件。</p>
-<p>常用的网络分析R包： <code>qgraph</code> (Epskamp et al., 2012),
-<code>bootnet</code> (Epskamp et al., 2018),
+<p>———- Table of Contents ——————————————————————————————–<br />
+———- 1. Network analysis using R ————————————————————–<br />
+———- 2. Network basic——————————————————————————<br />
+———-Hands-on exercises 1: Practice with example1 data——————————–<br />
+———- 3. Network comparison——————————–<br />
+———-Hands-on exercises 2: Practice with example2 data——————————–<br />
+———- 4. Special issues——————————————————————————————<br />
+———- 5. Take-away message————————–<br />
+———- 6. Resources——————————————————————————–</p>
+<div id="network-analysis-using-r" class="section level2">
+<h2>1. Network analysis using R</h2>
+<p>R programming is commonly used in network psychometrics.<br />
+Several packages for network analysis include: <code>qgraph</code>
+(Epskamp et al., 2012), <code>bootnet</code> (Epskamp et al., 2018),
 <code>Network Comparison Test package</code> (NCT; van Borkulo et al.,
-2017), <code>EstimateGroupNetwork</code> (Costantini &amp; Epskamp,
+2022), <code>EstimateGroupNetwork</code> (Costantini &amp; Epskamp,
 2017)</p>
 </div>
-<div id="实例操作1deng等人2021冷酷无情特质网络分析研究"
-class="section level2">
-<h2>2. 实例操作1：Deng等人(2021)冷酷无情特质网络分析研究</h2>
-<div id="简要介绍" class="section level3">
-<h3>简要介绍</h3>
-<p>以下将以一项冷酷无情特质网络分析研究作为例子(Deng et al.,
-2021)具体介绍如何进行一项网络分析研究。<br />
-该研究以国内609名青少年犯人（样本一）和487名社区儿童（样本二）作为研究对象进行分析，使用了自我报告版冷酷无情特质问卷(the
-Inventory of Callous-Unemotional Traits; Frick, 2004)中文版(Wang et al.,
-2019)评估冷酷无情特质。<br />
-这里以样本一的冷酷无情特质问卷数据（部分截选）作为例子来展示。</p>
-<p>该问卷共24题包含三个分量表，分别是<strong>淡漠(Callousness)</strong>、<strong>冷酷(Uncaring)</strong>以及<strong>无情(Unemotional)</strong>，使用李克特4级计分。</p>
-<p>接下来展示如何使用<code>qgraph</code>和<code>bootnet</code>程序包对数据进行网络分析。</p>
+<div id="network-basic" class="section level2">
+<h2>2. Network basic</h2>
+<div id="brif-introduction" class="section level3">
+<h3>Brif introduction</h3>
+<p>The following is an example of how a network analysis study of
+callous-unemotional traits was conducted (Deng et al., 2021).<br />
+The study analyzed the network structure of the Inventory of
+Callous-Unemotional Traits (Wang et al. 2019) in two samples of 609
+juvenile prisoners (sample 1) and 487 children (sample 2) in
+China.<br />
+The example data here was randomly selected from the data of sample
+2.</p>
+<p>This scale consist of three subscales with 24 items including
+是<strong>Callousness</strong>, <strong>Uncaring</strong> and
+<strong>Unemotional</strong>.</p>
+<p>Next, it will show how to use the <code>qgraph</code> and
+<code>bootnet</code> packages to perform network analysis of the
+data.</p>
 </div>
-<div id="程序包的安装与运行" class="section level3">
-<h3>2.0.1 程序包的安装与运行</h3>
-<p>首先需要先安装与运行程序包，具体命令如下所示：</p>
-<pre class="r"><code>library(readxl)#运行readxl程序包；若没安装，可用install.packages(&quot;readxl&quot;)进行安装
-library(qgraph)#运行qgraph程序包；若没安装，可用install.packages(&quot;qgraph&quot;)进行安装
-library(bootnet)#运行bootnet程序包；若没安装，可用install.packages(&quot;bootnet&quot;)进行安装</code></pre>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre><code>## This is bootnet 1.5</code></pre>
-<pre><code>## For questions and issues, please see github.com/SachaEpskamp/bootnet.</code></pre>
-<pre class="r"><code>library(NetworkComparisonTest)#运行NetworkComparisonTest程序包；若没安装，可用install.packages(&quot;NetworkComparisonTest&quot;)进行安装</code></pre>
+<div id="install-and-load-packages" class="section level3">
+<h3>2.0.1 Install and load packages</h3>
+<p>First, you need to install and load the packages.</p>
+<pre class="r"><code>library(readxl)#install.packages(&quot;readxl&quot;) for installation
+library(qgraph)#install.packages(&quot;qgraph&quot;)
+library(bootnet)#install.packages(&quot;bootnet&quot;)
+library(networktools)</code></pre>
 </div>
-<div id="数据读取与导入" class="section level3">
-<h3>2.0.2 数据读取与导入</h3>
-<p>由于所展示的例子所使用的数据并非来自程序包自带的数据集，因此需要先导入数据。
-由于数据文件为excel格式，因此使用<code>readxl</code>程序包用于数据读取与导入。具体命令如下：
-使用<code>read_excel()</code>函数读取数据，具体命令如下：</p>
-<pre class="r"><code>data1&lt;- read_excel(&quot;example1_data_c.xlsx&quot;)#演示数据
-data2&lt;- read_excel(&quot;example1_data_j.xlsx&quot;)#演示数据
-head(data1)</code></pre>
-<pre><code>## # A tibble: 6 × 24
+<div id="data-import" class="section level3">
+<h3>2.0.2 Data import</h3>
+<p>Since the data used in the example is not from the package, it needs
+to be imported first.<br />
+The <code>readxl</code> package is used to read and import the data in
+the .xlsx format. Use the <code>read_excel()</code> function to read the
+data with the following code:</p>
+<pre class="r"><code>#getwd()#check working directory
+#setwd(&quot;/Users/apple/network analysis workshop&quot;)#set working directory
+#read data
+data1&lt;- read_excel(&quot;example1_data_c.xlsx&quot;)#demo data
+head(data1)[1:5,]</code></pre>
+<pre><code>## # A tibble: 5 × 24
 ##   UE_ICU1 CA_ICU2 UC_ICU3 CA_ICU4 UC_ICU5 UE_ICU6 CA_ICU7 CA_ICU8 CA_ICU9
 ##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 ## 1       2       2       2       2       2       2       1       2       4
@@ -368,67 +373,132 @@ head(data1)</code></pre>
 ## 3       2       2       2       1       2       1       1       2       1
 ## 4       2       3       1       1       1       3       1       2       1
 ## 5       3       1       3       1       2       3       4       4       3
-## 6       2       2       2       1       1       2       2       2       2
 ## # ℹ 15 more variables: CA_ICU10 &lt;dbl&gt;, CA_ICU11 &lt;dbl&gt;, CA_ICU12 &lt;dbl&gt;,
 ## #   UC_ICU13 &lt;dbl&gt;, UE_ICU14 &lt;dbl&gt;, UC_ICU15 &lt;dbl&gt;, UC_ICU16 &lt;dbl&gt;,
 ## #   UC_ICU17 &lt;dbl&gt;, CA_ICU18 &lt;dbl&gt;, UE_ICU19 &lt;dbl&gt;, CA_ICU20 &lt;dbl&gt;,
 ## #   CA_ICU21 &lt;dbl&gt;, UE_ICU22 &lt;dbl&gt;, UC_ICU23 &lt;dbl&gt;, UC_ICU24 &lt;dbl&gt;</code></pre>
+<pre class="r"><code>colnames(data1)</code></pre>
+<pre><code>##  [1] &quot;UE_ICU1&quot;  &quot;CA_ICU2&quot;  &quot;UC_ICU3&quot;  &quot;CA_ICU4&quot;  &quot;UC_ICU5&quot;  &quot;UE_ICU6&quot; 
+##  [7] &quot;CA_ICU7&quot;  &quot;CA_ICU8&quot;  &quot;CA_ICU9&quot;  &quot;CA_ICU10&quot; &quot;CA_ICU11&quot; &quot;CA_ICU12&quot;
+## [13] &quot;UC_ICU13&quot; &quot;UE_ICU14&quot; &quot;UC_ICU15&quot; &quot;UC_ICU16&quot; &quot;UC_ICU17&quot; &quot;CA_ICU18&quot;
+## [19] &quot;UE_ICU19&quot; &quot;CA_ICU20&quot; &quot;CA_ICU21&quot; &quot;UE_ICU22&quot; &quot;UC_ICU23&quot; &quot;UC_ICU24&quot;</code></pre>
+<p>Generally, four steps of analysis were carried out in the following
+sections.<br />
++ Network Estimation + Network Inference: Centrality indices + Network
+Stability + Network Comparison</p>
 </div>
-<div id="建立网络结构图" class="section level3">
-<h3>2.1.1 建立网络结构图</h3>
-<p>当完成数据导入后，即可通过运行<code>qgraph</code>程序包进行网络分析。<br />
-正如上文所提及，可分为两个步骤：建立网络结构图和计算中心指标。<br />
-现在，先从建立网络图结构开始。建立网络结构图主要是程序包中<code>qgraph()</code>函数来实现，具体命令如下：</p>
-<pre class="r"><code>qgraph&lt;-qgraph(cor_auto(data1))#基于相关矩阵的网络结构图（题目没有分组）</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/q1-1.png" width="672" /></p>
-<p>图中白色圆圈表示网络图中的节点，一共24个节点，对应ICU问卷的24个题目。这是一个基于相关矩阵的网络图。需要注意的是，<code>qgraph()</code>里面的参量可以是矩阵或者是边线列表。因此，在使用<code>qgraph()</code>建立网络结构图之前需要事前建立所需类型的矩阵或者列表，例如<code>cor_auto()</code>实现。</p>
-<p>如图所示，这是一个没有区分分量表的网络图。如果需要区分，可用<code>groups</code>
-来实现，即把设定不同节点归属于同一分量表或组别。<br />
-例如，对ICU问卷24个题目定义分组，定义每个题目所测量的内容，具体命令如下：</p>
+<div id="network-estimation" class="section level3">
+<h3>2.1 Network estimation</h3>
+<p>Let’s start with the graph of network structure.</p>
+<div id="basic-graph" class="section level4">
+<h4>2.1.1 Basic graph</h4>
+<p>The graph is estimated and plotted using <code>qgraph()</code>.<br />
+Note that the input in <code>qgraph()</code> can be either a weights
+matrix or an edgelist. Therefore, create a weights matrix or an edgelist
+first, for example <code>cor_auto()</code> to compute a correlation
+matrix.</p>
+<pre class="r"><code>c1=cor_auto(data1)#Compute correlation matrix
+qgraph&lt;-qgraph(c1)#no grouping</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q1-1-1.png" width="672" /></p>
+<pre class="r"><code>qgraph&lt;-qgraph(cor_auto(data1))#</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q1-2-1.png" width="672" /></p>
+<p>The white circles in the figure indicate the nodes in the network,
+with 24 nodes in total, corresponding to the 24 items of the scale. This
+is a network based on the correlation matrix.</p>
+<p>As shown in the figure above, this is a network without defining
+groups. If you need to differentiate the nodes, you can use
+<code>groups</code> to set the grouping of each node.<br />
+For example, define the grouping of the 24 items of the scale.</p>
 <pre class="r"><code>ICU24groups&lt;-c(&quot;Unemotional&quot;,&quot;Callousness&quot;,&quot;Uncaring&quot;,&quot;Callousness&quot;,
                &quot;Uncaring&quot;,&quot;Unemotional&quot;,&quot;Callousness&quot;,
                &quot;Callousness&quot;,&quot;Callousness&quot;,
                &quot;Callousness&quot;,&quot;Callousness&quot;,&quot;Callousness&quot;,&quot;Uncaring&quot;,&quot;Unemotional&quot;,
                &quot;Uncaring&quot;,&quot;Uncaring&quot;,&quot;Uncaring&quot;,&quot;Callousness&quot;,&quot;Unemotional&quot;,&quot;Callousness&quot;,
                &quot;Callousness&quot;,&quot;Unemotional&quot;,&quot;Uncaring&quot;,&quot;Uncaring&quot;)</code></pre>
-<p>使用<code>groups</code>定义每个题目所对应的分量表后，即可实现分组情况下的网络结构图，具体命令如下：</p>
-<pre class="r"><code>qgraph(cor_auto(data1), groups= ICU24groups)#通过&quot;groups = &quot;设置分组,建立基于相关矩阵的网络图（分组）</code></pre>
+<pre class="r"><code>qgraph(cor_auto(data1), groups= ICU24groups)#with groups</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/q3qgroup-1.png" width="672" /></p>
-<p>对比两个图，可以发现主要区别在于是否分组，在图中则体现在节点的位置和对应颜色上。如第二个图所示，左边是网络结构图，右边是网络结构图的图例。网络中节点共有3种颜色，从红色开始顺时针分别是红色、绿色、蓝色对应淡漠、冷酷以及无情。<br />
-除了节点之外，不同节点之间的边线呈现绿色和红色两种颜色。一般来说，绿色边线表示为正相关关系，红色边线表示负相关关系。例如，图中ICU15与ICU23呈现正相关关系。<br />
-除了可以设置分组之外，还可以通过其他参数设定网络结构图的格式。例如，使用<code>layout</code>
-来更改网络结构图的形状，具体命令如下：</p>
-<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups, layout= &quot;spring&quot;) #通过&quot;layout = &quot;设定spring格式</code></pre>
+<p>As shown in the figure, the left side is the graph of network
+structure, and the right side is the legend of the graph. There are
+three colors of nodes in the network, including red, green and blue
+corresponding to callousness, uncaring and unemotional.<br />
+In addition to the nodes, it can be observed that the edges between the
+different nodes showed both green and red lines. Generally, the green
+lines indicate positive correlations and the red lines indicate negative
+correlations. For example, ICU15 and ICU23 showed a positive correlation
+in the figure.</p>
+</div>
+<div id="customized-graph" class="section level4">
+<h4>2.1.2 Customized graph</h4>
+<p>In addition to the grouping, you can also set the format of the graph
+with other parameters.</p>
+<div id="layout" class="section level5">
+<h5>(1) Layout</h5>
+<p>Use <code>layout</code> to change the shape of the graph.</p>
+<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups, layout= &quot;spring&quot;) #spring</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/q4group1-1.png" width="672" /></p>
-<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups, layout= &quot;circle&quot;)#通过&quot;layout = &quot;设定circle格式</code></pre>
+<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups, layout= &quot;circle&quot;)#circle</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/q5group1-1.png" width="672" /></p>
-<p>另外，还可以使用<code>"palette="</code>和<code>"theme="</code>改变节点的颜色。需要注意的是，<code>"palette="</code>需要配合<code>"groups="</code>一起使用。具体命令如下所示：</p>
-<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups,palette=&quot;colorblind&quot;,layout= &quot;spring&quot;)#通过&quot;palette = &quot;设定格式</code></pre>
+<p>Also, you can use <code>"palette="</code> and <code>"theme="</code>
+to change the color of the nodes. Note that <code>"palette="</code>
+needs to be used together with <code>"groups="</code>.</p>
+<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups,palette=&quot;colorblind&quot;,layout= &quot;spring&quot;)#palette=&quot;colorblind&quot;</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/q6group1-1.png" width="672" /></p>
-<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups,palette=&quot;pastel&quot;,layout= &quot;spring&quot;)#通过&quot;palette = &quot;设定格式</code></pre>
+<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups,palette=&quot;pastel&quot;,layout= &quot;spring&quot;)#&quot;palette=&quot;pastel&quot;</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/q6group2-1.png" width="672" /></p>
-<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups,palette=&quot;gray&quot;,layout= &quot;spring&quot;)#通过&quot;palette = &quot;设定格式</code></pre>
+<pre class="r"><code>qgraph(cor_auto(data1), groups=ICU24groups,palette=&quot;gray&quot;,layout= &quot;spring&quot;)#&quot;palette =&quot;gray&quot;</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/q6group3-1.png" width="672" /></p>
-<pre class="r"><code>qgraph=qgraph(cor_auto(data1), groups=ICU24groups,layout= &quot;spring&quot;,negDashed=TRUE)#通过&quot;negDashed = &quot;设定格式</code></pre>
+<p>In addition to change the color, you can also adjust the rendering of
+the result graph for black and white printing. Use the
+<code>makeBW()</code> function to set the graph for black-and-white
+printing mode, which is suitable for black-and-white printing graph, so
+that you can see the differences in the network. The network in BW mode
+can be seted with the following characteristics:<br />
+1) the solid line refers to a positive correlation while the dashed line
+refers to a negative correlation. 2) with the previous colors changing,
+it can also increase the distinction between lines, such as red nodes
+are diagonal lines, green nodes are vertical lines, blue nodes are
+horizontal lines.</p>
+<pre class="r"><code>qgraph=qgraph(cor_auto(data1), groups=ICU24groups,layout= &quot;spring&quot;)#negDashed = TRUE</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/q6group4-1.png" width="672" /></p>
 <pre class="r"><code>makeBW(qgraph)#plot in black and white mode</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/q6group4-2.png" width="672" /></p>
-<p>除了更改网络结构图的整体格式之外，还可以根据需要调整某一方面的呈现内容和方式，例如节点大小、节点边界、边线颜色、根据边线权重决定是否呈现、图例位置及其大小等。这里列举了一些常见的参量可用于网络结构图的自定义设置。<br />
-<code>"minimum"</code>:根据节点之间的关联程度决定呈现的节点数量<br />
-<code>"borders"</code>:是否呈现节点的边线<br />
-<code>"vsize"</code>:改变节点的大小<br />
-<code>"legend"</code>:选择是否呈现图例及其控制图例位置</p>
-<p>当需要对网络结构图进行自定义设定时，可使用上述常见参量进行自定义设定，具体命令如下：</p>
-<pre class="r"><code>qgraph(cor_auto(data1),groups=ICU24groups, layout= &quot;spring&quot;,minimum=0.15,vsize=8,legend=TRUE,borders=TRUE,palette=&quot;colorblind&quot;)#基于相关矩阵的网络图（自定义格式）</code></pre>
+</div>
+<div id="common-arguments" class="section level5">
+<h5>(2) Common arguments</h5>
+<p>In addition to changing the layout of the graph, you can also adjust
+the presentation of a particular aspect and the way it is presented. For
+example, node size, node borders, edge colors, the edge weights,legend
+position and its size, etc.</p>
+<p>Here is a list of some parameters that can be used to customize the
+graph.<br />
++ <code>"minimum"</code>: the number of nodes to be rendered according
+to the degree of association between them<br />
++ <code>"borders"</code>: whether to render the node borders or
+not<br />
++ <code>"vsize"</code>: change the size of the node<br />
++ <code>"legend"</code>: whether to render the legend and define its
+position</p>
+</div>
+<div id="nodes" class="section level5">
+<h5>1) nodes</h5>
+<p>Common parameters involved in nodes include: vsize,
+node.width,node.height,nodeNames,
+borders,border.color,border.width,shape,labels,label.cex, etc.<br />
+The options of shape can be circle, square, triangle, rectangle, which
+can be adjusted according to the actual situation of node content.<br />
+When you need to customize the graph, it can use the above parameters to
+customize the settings. The code is displayed as follows:</p>
+<pre class="r"><code>qgraph(cor_auto(data1),groups=ICU24groups, 
+       layout= &quot;spring&quot;,palette=&quot;colorblind&quot;,
+       vsize=3,borders=TRUE,shape=&quot;rectangle&quot;,node.width=2,node.height=1,
+       legend=TRUE
+       )</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/q7group3-1.png" width="672" /></p>
-<p>如有需要在图中加上标题，可用<code>title</code>加上标题。</p>
-<pre class="r"><code>qgraph(cor_auto(data1),groups=ICU24groups, layout= &quot;spring&quot;,minimum=0.15,vsize=8,legend=TRUE,borders=TRUE,palette=&quot;colorblind&quot;,title=&quot;ICU-24 item-level network&quot;)#基于相关矩阵的网络图（自定义格式）</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/q8group3-1.png" width="672" /></p>
-<p>除了自定义网络图格式之外，还可以使用<code>"graph="</code>设定不同类型的矩阵，具体命令如下：</p>
-<pre class="r"><code>qgraph(cor_auto (data1), groups=ICU24groups, layout=&quot;spring&quot;, minimum=0.15,vsize=8,legend=TRUE,borders=TRUE,palette=&quot;colorblind&quot;,graph=&quot;pcor&quot;)#使用graph设定为偏相关矩阵</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/q9group4-1.png" width="672" /></p>
-<p>根据两图所示，可以明显看到基于两种矩阵所建立的网络结构图在边线密集程度上是不同的，在基于偏相关矩阵网络中呈现的边线更少，表明用相关矩阵建立的网络结构图实际存在一些虚假关系，即一些节点之间的关系是通过第三个节点所建立起来，并非为两两直接相连的边线，因此没有呈现出来。</p>
-<p>除了上述设定以外，为读者了解每个节点对应的题目，可进行设定以展现题目。</p>
+</div>
+<div id="specific-description-of-nodes" class="section level5">
+<h5>Specific description of nodes</h5>
+<p>It can also show a more specific illustrations for the reader to
+understand each node.</p>
 <pre class="r"><code>Labels&lt;-colnames(data1)
 Names&lt;-c(&quot;Expresses feelings openly&quot;,&quot;Does not know right from wrong&quot;,
          &quot;Concerned about school work&quot;,&quot;Does not care who is hurt&quot;,
@@ -442,108 +512,741 @@ Names&lt;-c(&quot;Expresses feelings openly&quot;,&quot;Does not know right from
          &quot;Does not put the time into things&quot;,&quot;Feelings of others unimportant&quot;,
          &quot;Hides feelings from others&quot;,&quot;Work hard on everything&quot;,
          &quot;Does things to make others feel good&quot;)
-q_cor_auto1&lt;-qgraph(cor_auto(data1),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
+q_cor_auto1&lt;-qgraph(cor_auto(data1),groups=ICU24groups,cut=0.4,vsize=6,
                    legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
                    palette=&quot;colorblind&quot;,
-                   legend.cex=0.25,label.cex=1,height=5,width=5,
+                   legend.cex=0.25,label.cex=1,
                    labels=Labels,nodeNames=Names, mar=c(4,1,2,2))</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/qlabel1-1.png" width="672" /></p>
-<pre class="r"><code>q_cor_auto2&lt;-qgraph(cor_auto(data2),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
+</div>
+<div id="edge" class="section level5">
+<h5>2) Edge</h5>
+<p>Common parameters involved in edges include: posCol, negCol,
+negDashed, minimum, etc.</p>
+<pre class="r"><code>qgraph(cor_auto(data1),groups=ICU24groups, 
+       cut=0.4,vsize=6,
                    legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
                    palette=&quot;colorblind&quot;,
-                   legend.cex=0.25,label.cex=1,height=5,width=5,
-                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2))</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/qlabel2-1.png" width="672" /></p>
-<p>最后，当建立网络结构图后，可以通过设置参数把网络图保存下来，例如<code>filetype</code>用于设定文件类型以及文件所在路径，具体命令如下：</p>
+                   legend.cex=0.5,label.cex=1,
+       minimum=0.2,
+       negDashed=TRUE,
+       posCol=&quot;#009900&quot;,negCol=&quot;#BF0000&quot;)#customized color</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q7group-edge-1.png" width="672" /></p>
+</div>
+<div id="options-for-correlationcovariance-matrices"
+class="section level5">
+<h5>3) Options for correlation/covariance matrices</h5>
+<p>Use <code>graph</code> to set the types, including a correlation
+network, a partial correlation network and an optimal sparse estimate of
+the partial correlation matrix.</p>
+<pre class="r"><code>qgraph_cor=qgraph(cor_auto (data1), groups=ICU24groups, layout=&quot;spring&quot;,
+     vsize=6,minimum=0.1,
+                   legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.5,label.cex=1,graph=&quot;cor&quot;)#Plot a correlation network</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q9group4cor1-1.png" width="672" /></p>
+<pre class="r"><code>qgraph_pcor=qgraph(cor_auto (data1), groups=ICU24groups, layout=&quot;spring&quot;,
+     vsize=6,minimum=0.1,
+                   legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.5,label.cex=1,graph=&quot;pcor&quot;)#Plot a partial correlation network</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q9group4-1.png" width="672" /></p>
+<p>Show the significant edges using minimum.</p>
+<pre class="r"><code>qgraph(cor_auto (data1), groups=ICU24groups, layout=&quot;spring&quot;,
+     vsize=6,minimum=&#39;sig&#39;,
+                   legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.5,label.cex=1,graph=&quot;pcor&quot;,sampleSize = nrow(data1))#Plot a partial correlation network</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q9group4cor-1.png" width="672" /></p>
+<p>Define sampleSize when graph = “glasso”.</p>
+<pre class="r"><code>qgraph_glasso=qgraph(cor_auto (data1), groups=ICU24groups, layout=&quot;spring&quot;,vsize=6,minimum=0.1,
+                   legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.5,label.cex=1,
+       graph=&quot;glasso&quot;,sampleSize = nrow(data1))#used sampleSize when graph = &quot;glasso&quot; </code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q9groupglasso-1.png" width="672" /></p>
+<p>According to the above figure, there are some differences between
+types of networks, for example,the network based on partial correlation
+matrix presents fewer edges. The network based on correlation matrix may
+have some spurious relationships, i.e., some associations between nodes
+are established by a third node, not two directly connected edges.</p>
+</div>
+<div id="others" class="section level5">
+<h5>(3) Others</h5>
+<p>Use <code>title</code> to add the title if need.</p>
+<pre class="r"><code>qgraph(cor_auto(data1),groups=ICU24groups, layout= &quot;spring&quot;,minimum=0.15,vsize=5,legend=TRUE,borders=TRUE,palette=&quot;colorblind&quot;,title=&quot;ICU-24 item-level network&quot;)</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/q8group3-1.png" width="672" /></p>
+<p>Finally, the graph can be saved using <code>filetype</code> for
+setting the file type and the path where the file is located.</p>
 <pre class="r"><code>q_cor_auto1&lt;-qgraph(cor_auto(data1),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
                    legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
                    palette=&quot;colorblind&quot;,
-                   legend.cex=0.25,label.cex=1,height=5,width=5,
-                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2),
-                   filetype=&quot;jpg&quot;,filename=&quot;q_cor_auto1&quot;)
-#这里使用&quot;filetype= jpg&quot;将文件格式设置为jpg格式图片，filename=&quot;q_cor_auto1&quot;将文件命名为q_cor_auto1，而height=5,width=10则是设置图片大小</code></pre>
-<pre class="r"><code>q_cor_auto2&lt;-qgraph(cor_auto(data2),groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
-                   legend=TRUE,borders=FALSE,layout=&quot;spring&quot;,
-                   palette=&quot;colorblind&quot;,
-                   legend.cex=0.25,label.cex=1,height=5,width=5,
-                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2),
-                   filetype=&quot;jpg&quot;,filename=&quot;q_cor_auto2&quot;)#这里使用&quot;filetype= jpg&quot;将文件格式设置为jpg格式图片，filename=&quot;q_cor_auto1&quot;将文件命名为q_cor_auto1，而height=5,width=10则是设置图片大小</code></pre>
+                   legend.cex=0.25,label.cex=1,
+                   labels=Labels,nodeNames=Names, 
+                   mar=c(4,1,2,2),#margin：t, r, b, l
+                   height=5,width=5,#size of figure
+                   filetype=&quot;jpg&quot;,filename=&quot;q_cor_auto1&quot;)</code></pre>
 </div>
-<div id="网络推断分析计算中心指标" class="section level3">
-<h3>2.1.2 网络推断分析：计算中心指标</h3>
-<p>当建立网络结构图后，即可计算网络中节点的中心指标，以便了解网络中节点的重要程度。那么，如何计算中心指标呢？可以通过<code>centrality_auto</code>这个函数实现。如果想进一步得到可视化结果，可使用<code>centralityPlot</code>这个函数实现。计算中心指标及其可视化结果的具体命令如下所示：</p>
-<pre class="r"><code>#centrality_auto(q_cor_auto1)#计算中心指标
-centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),
-               scale = &quot;z-scores&quot;)#选取3个中心指标进行可视化呈现</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/centrality1-1.png" width="672" /></p>
-<pre class="r"><code>centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;))#选取3个中心指标进行可视化呈现,默认原始分数呈现</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/centrality1-2.png" width="672" /></p>
-<p><img src="Tutorial_Network-analysis_files/figure-html/centrality2-1.png" width="672" /></p>
-<p>除此以外，还可以根据需要对纵轴节点顺序进行指定，使用<code>orderBy</code>实现。一般默认<strong>按字母排序</strong>，如果需要按节点某项中心指标排列可用<code>orderBy="Strength"</code>进行调整。</p>
-<pre class="r"><code>centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),
-               scale = &quot;z-scores&quot;,orderBy=&quot;Strength&quot;)#设定节点顺序</code></pre>
-<pre><code>## Note: z-scores are shown on x-axis rather than raw centrality indices.</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/centrality3-1.png" width="672" /></p>
-<p>若需要把两样本的中心指标结果整合在一起对比呈现，则可用以下命令：</p>
-<pre class="r"><code>centralityPlot(list(Community= cor_auto(data1), Offender= cor_auto(data2)),
-               include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),scale = &quot;z-scores&quot;)</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/centrality4-1.png" width="672" /></p>
-<p>上图展示了网络中所有节点在<strong>强度</strong>、<strong>紧密性</strong>以及<strong>中介性</strong>三个中心指标的可视化结果。如图所示，纵轴代表的是网络中所有节点，横坐标代表节点在三个中心指标上标准化结果。<br />
-例如，ICU21节点具有较高的强度、紧密性和中介性，表明该节点的中心性较高，即为网络结构中较为核心的节点。</p>
-<p>最后，同样地可以通过<code>pdf()</code>对结果进行保存。</p>
-<pre class="r"><code>pdf(&quot;Fig_centralityPlotcompair2.pdf&quot;, width=10, height=10)
-centralityPlot(list(Community= cor_auto(data1), Offender= cor_auto(data2)),
-               include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),scale = &quot;z-scores&quot;)
-dev.off()</code></pre>
-<pre><code>## quartz_off_screen 
-##                 2</code></pre>
 </div>
-<div id="网络结构的准确性分析" class="section level3">
-<h3>2.1.3 网络结构的准确性分析</h3>
-<p>与其他统计分析方法类似，网络分析的准确性同样会受到样本量的影响。因此，在建立网络图后，需要对网络分析的准确性进行检验。网络分析的准确性检验分析主要是使用<code>bootnet</code>程序包(Epskamp,
-Borsboom &amp; Fried, 2018)来实现，包括三种方法的检验：<br />
-第一，计算边线的Bootstrap置信区间。<br />
-第二，检验节点在中心指标的稳定性。<br />
-第三，检验节点或者边线之间的差异。<br />
-接下来，将以data1作为例子具体介绍如何使用<code>bootnet</code>实现以上三种检验方法。<br />
-在进行准确性检验前，需要先建立网络。除了<code>qgraph</code>包以外，还可以使用<code>bootnet</code>包的<code>estimateNetwork</code>函数来进行网络分析估计。</p>
-<pre class="r"><code>Network &lt;- estimateNetwork(data1, default = &quot;cor&quot;) #data1为数据，这里用default = &quot;cor&quot;来设定矩阵类型为相关矩阵。另外，还可以使用default = &quot;pcor&quot;设定偏相关矩阵和default = &quot;glasso&quot;设定为自适应LASSO算法矩阵&quot;lasso&quot;等。
+<div id="network-estimation-using-estimatenetwork"
+class="section level4">
+<h4>2.1.3 Network estimation using <code>estimateNetwork</code></h4>
+<ul>
+<li>In addition to using <code>qgraph</code> for network estimation, it
+can also use <code>estimateNetwork</code> function in the
+<code>bootnet</code> package with types of networks.</li>
+</ul>
+<div id="correlation-matrix" class="section level5">
+<h5>(0) Correlation matrix</h5>
+<pre class="r"><code>Network &lt;- estimateNetwork(data1, default = &quot;cor&quot;) #default = &quot;cor&quot;-- Correlation matrix
 plot(Network, layout = &#39;spring&#39;,groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
                    legend=TRUE,borders=TRUE,
                    palette=&quot;colorblind&quot;,
                    legend.cex=0.25,label.cex=1,height=5,width=5,
-                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2))#建立网络图</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/network-1.png" width="672" /></p>
-<div id="计算边线的bootstrap置信区间" class="section level4">
-<h4>(1) 计算边线的Bootstrap置信区间</h4>
-<pre class="r"><code>Results1 &lt;- bootnet(Network, statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;,&quot;edge&quot;), nBoots = 1000, nCores = 5) #使用statistics=&quot;&quot;设定需要估计的统计量;
-#nBoots:bootstraps的数量
-#nCores:多核计算的数量
-plot(Results1, labels = FALSE, order = &quot;sample&quot;)#边线权重的Bootstrapped置信区间;order=sample用于设定边线权重从高到低排列(从正相关到负相关)</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/ci-1.png" width="960" /></p>
-<p>结果解读：如图所示，纵轴表示网络中的所有边线，横轴表示置信区间。图中包括两条不同颜色的线，对应原样本所估计的均值以及通过bootstrapping方法估计出来的均值，灰色部分则代表两种方法所对应的置信区间。一般来说，与传统的参数估计结果解释类似，不同边线权重的置信区间重叠代表这些边线权重的差异不显著。</p>
+                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2))</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/network-est-1.png" width="672" /></p>
 </div>
-<div id="检验节点或边线之间的差异" class="section level4">
-<h4>(2) 检验节点或边线之间的差异</h4>
-<pre class="r"><code>plot(Results1, &quot;strength&quot;, plot = &quot;difference&quot;)#分析节点在强度上的差异检验</code></pre>
-<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/diff1-1.png" width="1440" /></p>
-<pre class="r"><code>plot(Results1, &quot;closeness&quot;, plot = &quot;difference&quot;)#分析节点在紧密性上的差异检验</code></pre>
-<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/diff1-2.png" width="1440" /></p>
-<pre class="r"><code>plot(Results1, &quot;betweenness&quot;, plot = &quot;difference&quot;)#分析节点在中介性上的差异检验</code></pre>
-<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
-<p><img src="Tutorial_Network-analysis_files/figure-html/diff1-3.png" width="1440" /></p>
-<pre class="r"><code>pdf(&quot;Fig_edgeweightdiff.pdf&quot;, width=50, height=50)
-plot(Results1, &quot;edge&quot;, plot = &quot;difference&quot;, onlyNonZero = TRUE, order = &quot;sample&quot;)#边线的差异检验；onlyNonZero用于设定不呈现权重为0的情况。</code></pre>
-<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
-<pre class="r"><code>#估计bootstrapped CI;基于非参数的自助法
-#bootstrapped CI越宽泛，越难解释边线的准确性
+<div id="continuous-dataggm" class="section level5">
+<h5>(1) Continuous data：GGM</h5>
+<pre class="r"><code>Network_glasso1 &lt;- estimateNetwork(data1, default=&quot;EBICglasso&quot;) #default
+Network_glasso2 &lt;- estimateNetwork(data1, default = &quot;EBICglasso&quot;,corMethod = &quot;cor_auto&quot;)#glasso using cor_auto
+Network_glasso3 &lt;- estimateNetwork(data1, default=&quot;EBICglasso&quot;,corMethod = &quot;spearman&quot;)#glasso using spearman
+
+### First, how similar are polychoric and Pearson?
+c1 &lt;- cor(data1)#Pearson
+c1b &lt;- cor_auto(data1)#polychoric
+cor(c1[lower.tri(c1)],  c1b[lower.tri(c1b)],    method=&quot;spearman&quot;) #0.9894448</code></pre>
+<pre><code>## [1] 0.9894448</code></pre>
+<pre class="r"><code>cor(c1[lower.tri(c1)],  c1b[lower.tri(c1b)],    method=&quot;pearson&quot;) #0.9893105</code></pre>
+<pre><code>## [1] 0.9893105</code></pre>
+<pre class="r"><code>#plot the graph
+plot(Network_glasso2, layout = &#39;spring&#39;,groups=ICU24groups,vsize=6,
+                   legend=TRUE,borders=TRUE,minimum=0,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.25,label.cex=1,height=5,width=5,
+                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2))</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/network-est-con-1.png" width="672" /></p>
+</div>
+<div id="mixture-datamixed-graphical-model" class="section level5">
+<h5>(2) Mixture data：Mixed graphical model</h5>
+<p>This type is suitable for the case which different types of data are
+combined for the analysis.</p>
+<pre class="r"><code>#Just show the example code here.
+#Network_MGM &lt;- estimateNetwork(data1, default=&quot;mgm&quot;) #Mixed graphical model 
+
+#plot the graph
+#plot(Network_MGM, layout = &#39;spring&#39;,groups=ICU24groups,vsize=6,
+#                   legend=TRUE,borders=TRUE,minimum=0,
+#                   palette=&quot;colorblind&quot;,
+#                   legend.cex=0.25,label.cex=1,height=5,width=5,
+#                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2))</code></pre>
+</div>
+<div id="dichotomous-data-ising-model" class="section level5">
+<h5>(3) Dichotomous data: Ising model</h5>
+<pre class="r"><code>#Just show the example code here.
+#Network_Ising &lt;- estimateNetwork(data, default=&quot;IsingFit&quot;) 
+
+#plot the graph
+#plot(Network_Ising, layout = &#39;spring&#39;,groups=ICU24groups,vsize=6,
+#                   legend=TRUE,borders=TRUE,
+#                   palette=&quot;colorblind&quot;,
+#                   legend.cex=0.25,label.cex=1,height=5,width=5,
+#                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2))</code></pre>
+</div>
+</div>
+</div>
+<div id="network-inference-central-indices" class="section level3">
+<h3>2.2 Network inference: Central indices</h3>
+<div id="common-indices" class="section level4">
+<h4>2.2.1 Common indices</h4>
+<p>Central indices of each node can be calculated to understand the
+importance of the nodes in the network. It can be calculated by the
+function <code>centrality_auto</code>. If you want to visualize the
+results, you can use the function <code>centralityPlot</code> to plot
+the results.</p>
+<pre class="r"><code>centrality_auto(q_cor_auto1)#calculate the centrality indices</code></pre>
+<pre><code>## $node.centrality
+##          Betweenness   Closeness Strength ExpectedInfluence
+## UE_ICU1            4 0.006683500 3.042682         0.6643623
+## CA_ICU2           10 0.007727112 3.258558         0.9178918
+## UC_ICU3            0 0.007837441 4.302024         3.9403335
+## CA_ICU4           23 0.011657392 7.016952         5.8967254
+## UC_ICU5            1 0.008027049 4.383887         3.9680330
+## UE_ICU6            4 0.007824134 3.101818         2.6691180
+## CA_ICU7            0 0.007815890 3.364014         3.2416552
+## CA_ICU8            0 0.008750105 4.719920         4.1064286
+## CA_ICU9            0 0.008841288 4.838225         4.4829329
+## CA_ICU10           1 0.007802806 4.117078        -2.9939996
+## CA_ICU11           0 0.009918160 5.692668         4.9952917
+## CA_ICU12          27 0.011132322 6.058181         5.8453201
+## UC_ICU13           5 0.009544492 5.432379         4.4459960
+## UE_ICU14           1 0.006079279 2.733965         0.9213153
+## UC_ICU15           5 0.011011394 6.554590         5.8080004
+## UC_ICU16           7 0.011033408 6.728737         6.0931172
+## UC_ICU17           0 0.009330451 4.892427         4.4765480
+## CA_ICU18           1 0.008641232 4.640955         3.7278678
+## UE_ICU19           1 0.005629272 2.516168         0.8674521
+## CA_ICU20          17 0.011682962 6.941936         5.6115900
+## CA_ICU21          18 0.011488710 6.757750         5.8420644
+## UE_ICU22           3 0.007466808 3.337019         3.3370194
+## UC_ICU23           3 0.010453762 6.493677         5.2678536
+## UC_ICU24           9 0.010392686 6.280558         5.6678500
+## 
+## $edge.betweenness.centrality
+##         from       to edgebetweenness
+## 15   UE_ICU6 CA_ICU12              20
+## 168  CA_ICU2  CA_ICU4              15
+## 243  CA_ICU4  CA_ICU7              14
+## 113  UE_ICU1 CA_ICU21              12
+## 122 CA_ICU12 UE_ICU22              12
+## 213  CA_ICU2 CA_ICU20              12
+## 212  CA_ICU2 UE_ICU19              10
+## 8    UC_ICU5 UC_ICU24               7
+## 61   CA_ICU8 CA_ICU21               7
+## 84  CA_ICU10 UC_ICU13               7
+## 143 UE_ICU14 CA_ICU20               7
+## 249  CA_ICU4 CA_ICU12               7
+## 90   UE_ICU1 UE_ICU19               6
+## 111 CA_ICU12 UC_ICU13               6
+## 222  UE_ICU1  UE_ICU6               6
+## 43   CA_ICU7 CA_ICU21               5
+## 106 CA_ICU11 CA_ICU20               5
+## 145 UE_ICU14 UE_ICU22               5
+## 161 UC_ICU16 UE_ICU19               5
+## 67   CA_ICU9 CA_ICU12               4
+## 86  CA_ICU10 UC_ICU15               4
+## 97  CA_ICU11 CA_ICU12               4
+## 115 CA_ICU12 UC_ICU15               4
+## 121 CA_ICU12 CA_ICU21               4
+## 128 UC_ICU13 UC_ICU16               4
+## 153 UC_ICU15 CA_ICU20               4
+## 164 UC_ICU16 UE_ICU22               4
+## 189 CA_ICU20 UC_ICU23               4
+## 192 CA_ICU21 UE_ICU22               4
+## 206  CA_ICU2 UE_ICU14               4
+## 240  UC_ICU3 UC_ICU24               4
+## 246  CA_ICU4  CA_ICU9               4
+## 254  CA_ICU4 UC_ICU17               4
+## 28   UE_ICU6 UC_ICU24               3
+## 80   CA_ICU9 UC_ICU23               3
+## 117 CA_ICU12 UC_ICU17               3
+## 118 CA_ICU12 CA_ICU18               3
+## 120 CA_ICU12 CA_ICU20               3
+## 125 CA_ICU12 UC_ICU24               3
+## 137 UC_ICU13 UC_ICU24               3
+## 148 UE_ICU14 UC_ICU24               3
+## 166 UC_ICU16 UC_ICU24               3
+## 171 UC_ICU17 CA_ICU21               3
+## 187 CA_ICU20 CA_ICU21               3
+## 191 CA_ICU20 UC_ICU24               3
+## 194 CA_ICU21 UC_ICU24               3
+## 230  UC_ICU3 UC_ICU15               3
+## 237  UC_ICU3 CA_ICU21               3
+## 256  CA_ICU4 CA_ICU18               3
+## 259  CA_ICU4 CA_ICU21               3
+## 274  UC_ICU5 UC_ICU16               3
+## 276  UC_ICU5 CA_ICU18               3
+## 54   CA_ICU8 UC_ICU15               2
+## 74   CA_ICU9 CA_ICU18               2
+## 76   CA_ICU9 CA_ICU20               2
+## 85  CA_ICU10 UE_ICU14               2
+## 92  CA_ICU10 CA_ICU20               2
+## 95  CA_ICU10 UC_ICU23               2
+## 100 CA_ICU11 UC_ICU15               2
+## 107 CA_ICU11 CA_ICU21               2
+## 116 CA_ICU12 UC_ICU16               2
+## 123 CA_ICU12 UC_ICU23               2
+## 124  UE_ICU1 UE_ICU22               2
+## 127 UC_ICU13 UC_ICU15               2
+## 132 UC_ICU13 CA_ICU20               2
+## 133 UC_ICU13 CA_ICU21               2
+## 136 UC_ICU13 UC_ICU23               2
+## 154 UC_ICU15 CA_ICU21               2
+## 156 UC_ICU15 UC_ICU23               2
+## 159 UC_ICU16 UC_ICU17               2
+## 160 UC_ICU16 CA_ICU18               2
+## 162 UC_ICU16 CA_ICU20               2
+## 163 UC_ICU16 CA_ICU21               2
+## 165 UC_ICU16 UC_ICU23               2
+## 170 UC_ICU17 CA_ICU20               2
+## 176 CA_ICU18 CA_ICU20               2
+## 180 CA_ICU18 UC_ICU23               2
+## 202  CA_ICU2 CA_ICU10               2
+## 219  UC_ICU3  UC_ICU5               2
+## 236  UC_ICU3 CA_ICU20               2
+## 241  CA_ICU4  UC_ICU5               2
+## 245  CA_ICU4  CA_ICU8               2
+## 247  CA_ICU4 CA_ICU10               2
+## 250  CA_ICU4 UC_ICU13               2
+## 252  CA_ICU4 UC_ICU15               2
+## 253  CA_ICU4 UC_ICU16               2
+## 258  CA_ICU4 CA_ICU20               2
+## 262  CA_ICU4 UC_ICU24               2
+## 273  UC_ICU5 UC_ICU15               2
+## 7    UC_ICU5 UC_ICU23               1
+## 17   UE_ICU6 UE_ICU14               1
+## 26   UE_ICU6 UE_ICU22               1
+## 30   CA_ICU7  CA_ICU9               1
+## 35   UE_ICU1 UE_ICU14               1
+## 45   CA_ICU7 UC_ICU23               1
+## 48   CA_ICU8  CA_ICU9               1
+## 50   CA_ICU8 CA_ICU11               1
+## 52   CA_ICU8 UC_ICU13               1
+## 53   CA_ICU8 UE_ICU14               1
+## 55   CA_ICU8 UC_ICU16               1
+## 58   CA_ICU8 CA_ICU18               1
+## 59   CA_ICU8 UE_ICU19               1
+## 62   CA_ICU8 UE_ICU22               1
+## 63   CA_ICU8 UC_ICU23               1
+## 64   CA_ICU8 UC_ICU24               1
+## 65   CA_ICU9 CA_ICU10               1
+## 66   CA_ICU9 CA_ICU11               1
+## 72   CA_ICU9 UC_ICU16               1
+## 77   CA_ICU9 CA_ICU21               1
+## 79   UE_ICU1 CA_ICU18               1
+## 81   CA_ICU9 UC_ICU24               1
+## 88  CA_ICU10 UC_ICU17               1
+## 93  CA_ICU10 CA_ICU21               1
+## 102 CA_ICU11 UC_ICU16               1
+## 103 CA_ICU11 UC_ICU17               1
+## 104 CA_ICU11 CA_ICU18               1
+## 109 CA_ICU11 UC_ICU23               1
+## 110 CA_ICU11 UC_ICU24               1
+## 129 UC_ICU13 UC_ICU17               1
+## 135  UE_ICU1 UC_ICU23               1
+## 142 UE_ICU14 UE_ICU19               1
+## 149 UC_ICU15 UC_ICU16               1
+## 150 UC_ICU15 UC_ICU17               1
+## 151 UC_ICU15 CA_ICU18               1
+## 158 UC_ICU15 UC_ICU24               1
+## 167 UC_ICU17 CA_ICU18               1
+## 173 UC_ICU17 UC_ICU23               1
+## 174 UC_ICU17 UC_ICU24               1
+## 175 CA_ICU18 UE_ICU19               1
+## 177 CA_ICU18 CA_ICU21               1
+## 181 CA_ICU18 UC_ICU24               1
+## 193 CA_ICU21 UC_ICU23               1
+## 197 UC_ICU23 UC_ICU24               1
+## 211  UE_ICU1  UC_ICU5               1
+## 218  UC_ICU3  CA_ICU4               1
+## 221  UC_ICU3  CA_ICU7               1
+## 223  UC_ICU3  CA_ICU8               1
+## 224  UC_ICU3  CA_ICU9               1
+## 226  UC_ICU3 CA_ICU11               1
+## 228  UC_ICU3 UC_ICU13               1
+## 232  UC_ICU3 UC_ICU17               1
+## 235  UC_ICU3 UE_ICU19               1
+## 239  UC_ICU3 UC_ICU23               1
+## 248  CA_ICU4 CA_ICU11               1
+## 261  CA_ICU4 UC_ICU23               1
+## 264  UC_ICU5  CA_ICU7               1
+## 265  UC_ICU5  CA_ICU8               1
+## 266  UE_ICU1 CA_ICU10               1
+## 269  UC_ICU5 CA_ICU11               1
+## 275  UC_ICU5 UC_ICU17               1
+## 1    UE_ICU1  CA_ICU2               0
+## 2    UE_ICU1 CA_ICU11               0
+## 3    UC_ICU5 UE_ICU19               0
+## 4    UC_ICU5 CA_ICU20               0
+## 5    UC_ICU5 CA_ICU21               0
+## 6    UC_ICU5 UE_ICU22               0
+## 9    UE_ICU6  CA_ICU7               0
+## 10   UE_ICU6  CA_ICU8               0
+## 11   UE_ICU6  CA_ICU9               0
+## 12   UE_ICU6 CA_ICU10               0
+## 13   UE_ICU1 CA_ICU12               0
+## 14   UE_ICU6 CA_ICU11               0
+## 16   UE_ICU6 UC_ICU13               0
+## 18   UE_ICU6 UC_ICU15               0
+## 19   UE_ICU6 UC_ICU16               0
+## 20   UE_ICU6 UC_ICU17               0
+## 21   UE_ICU6 CA_ICU18               0
+## 22   UE_ICU6 UE_ICU19               0
+## 23   UE_ICU6 CA_ICU20               0
+## 24   UE_ICU1 UC_ICU13               0
+## 25   UE_ICU6 CA_ICU21               0
+## 27   UE_ICU6 UC_ICU23               0
+## 29   CA_ICU7  CA_ICU8               0
+## 31   CA_ICU7 CA_ICU10               0
+## 32   CA_ICU7 CA_ICU11               0
+## 33   CA_ICU7 CA_ICU12               0
+## 34   CA_ICU7 UC_ICU13               0
+## 36   CA_ICU7 UE_ICU14               0
+## 37   CA_ICU7 UC_ICU15               0
+## 38   CA_ICU7 UC_ICU16               0
+## 39   CA_ICU7 UC_ICU17               0
+## 40   CA_ICU7 CA_ICU18               0
+## 41   CA_ICU7 UE_ICU19               0
+## 42   CA_ICU7 CA_ICU20               0
+## 44   CA_ICU7 UE_ICU22               0
+## 46   UE_ICU1 UC_ICU15               0
+## 47   CA_ICU7 UC_ICU24               0
+## 49   CA_ICU8 CA_ICU10               0
+## 51   CA_ICU8 CA_ICU12               0
+## 56   CA_ICU8 UC_ICU17               0
+## 57   UE_ICU1 UC_ICU16               0
+## 60   CA_ICU8 CA_ICU20               0
+## 68   UE_ICU1 UC_ICU17               0
+## 69   CA_ICU9 UC_ICU13               0
+## 70   CA_ICU9 UE_ICU14               0
+## 71   CA_ICU9 UC_ICU15               0
+## 73   CA_ICU9 UC_ICU17               0
+## 75   CA_ICU9 UE_ICU19               0
+## 78   CA_ICU9 UE_ICU22               0
+## 82  CA_ICU10 CA_ICU11               0
+## 83  CA_ICU10 CA_ICU12               0
+## 87  CA_ICU10 UC_ICU16               0
+## 89  CA_ICU10 CA_ICU18               0
+## 91  CA_ICU10 UE_ICU19               0
+## 94  CA_ICU10 UE_ICU22               0
+## 96  CA_ICU10 UC_ICU24               0
+## 98  CA_ICU11 UC_ICU13               0
+## 99  CA_ICU11 UE_ICU14               0
+## 101  UE_ICU1 CA_ICU20               0
+## 105 CA_ICU11 UE_ICU19               0
+## 108 CA_ICU11 UE_ICU22               0
+## 112  UE_ICU1  UC_ICU3               0
+## 114 CA_ICU12 UE_ICU14               0
+## 119 CA_ICU12 UE_ICU19               0
+## 126 UC_ICU13 UE_ICU14               0
+## 130 UC_ICU13 CA_ICU18               0
+## 131 UC_ICU13 UE_ICU19               0
+## 134 UC_ICU13 UE_ICU22               0
+## 138 UE_ICU14 UC_ICU15               0
+## 139 UE_ICU14 UC_ICU16               0
+## 140 UE_ICU14 UC_ICU17               0
+## 141 UE_ICU14 CA_ICU18               0
+## 144 UE_ICU14 CA_ICU21               0
+## 146  UE_ICU1 UC_ICU24               0
+## 147 UE_ICU14 UC_ICU23               0
+## 152 UC_ICU15 UE_ICU19               0
+## 155 UC_ICU15 UE_ICU22               0
+## 157  CA_ICU2  UC_ICU3               0
+## 169 UC_ICU17 UE_ICU19               0
+## 172 UC_ICU17 UE_ICU22               0
+## 178 CA_ICU18 UE_ICU22               0
+## 179  CA_ICU2  UC_ICU5               0
+## 182 UE_ICU19 CA_ICU20               0
+## 183 UE_ICU19 CA_ICU21               0
+## 184 UE_ICU19 UE_ICU22               0
+## 185 UE_ICU19 UC_ICU23               0
+## 186 UE_ICU19 UC_ICU24               0
+## 188 CA_ICU20 UE_ICU22               0
+## 190  CA_ICU2  UE_ICU6               0
+## 195 UE_ICU22 UC_ICU23               0
+## 196 UE_ICU22 UC_ICU24               0
+## 198  CA_ICU2  CA_ICU7               0
+## 199  CA_ICU2  CA_ICU8               0
+## 200  UE_ICU1  CA_ICU4               0
+## 201  CA_ICU2  CA_ICU9               0
+## 203  CA_ICU2 CA_ICU11               0
+## 204  CA_ICU2 CA_ICU12               0
+## 205  CA_ICU2 UC_ICU13               0
+## 207  CA_ICU2 UC_ICU15               0
+## 208  CA_ICU2 UC_ICU16               0
+## 209  CA_ICU2 UC_ICU17               0
+## 210  CA_ICU2 CA_ICU18               0
+## 214  CA_ICU2 CA_ICU21               0
+## 215  CA_ICU2 UE_ICU22               0
+## 216  CA_ICU2 UC_ICU23               0
+## 217  CA_ICU2 UC_ICU24               0
+## 220  UC_ICU3  UE_ICU6               0
+## 225  UC_ICU3 CA_ICU10               0
+## 227  UC_ICU3 CA_ICU12               0
+## 229  UC_ICU3 UE_ICU14               0
+## 231  UC_ICU3 UC_ICU16               0
+## 233  UE_ICU1  CA_ICU7               0
+## 234  UC_ICU3 CA_ICU18               0
+## 238  UC_ICU3 UE_ICU22               0
+## 242  CA_ICU4  UE_ICU6               0
+## 244  UE_ICU1  CA_ICU8               0
+## 251  CA_ICU4 UE_ICU14               0
+## 255  UE_ICU1  CA_ICU9               0
+## 257  CA_ICU4 UE_ICU19               0
+## 260  CA_ICU4 UE_ICU22               0
+## 263  UC_ICU5  UE_ICU6               0
+## 267  UC_ICU5  CA_ICU9               0
+## 268  UC_ICU5 CA_ICU10               0
+## 270  UC_ICU5 CA_ICU12               0
+## 271  UC_ICU5 UC_ICU13               0
+## 272  UC_ICU5 UE_ICU14               0
+## 
+## $ShortestPathLengths
+##           UE_ICU1  CA_ICU2  UC_ICU3  CA_ICU4   UC_ICU5  UE_ICU6  CA_ICU7
+## UE_ICU1  0.000000 6.558080 9.397831 6.557969  9.234843 2.319575 7.830404
+## CA_ICU2  6.558080 0.000000 6.999663 3.299494  7.514334 7.845910 5.761430
+## UC_ICU3  9.397831 6.999663 0.000000 4.448827  3.546733 8.232967 4.122055
+## CA_ICU4  6.557969 3.299494 4.448827 0.000000  4.214840 4.546416 2.461937
+## UC_ICU5  9.234843 7.514334 3.546733 4.214840  0.000000 7.696026 4.190931
+## UE_ICU6  2.319575 7.845910 8.232967 4.546416  7.696026 0.000000 7.008353
+## CA_ICU7  7.830404 5.761430 4.122055 2.461937  4.190931 7.008353 0.000000
+## CA_ICU8  7.330949 7.039395 3.822751 3.739901  3.956307 7.429961 5.503282
+## CA_ICU9  7.643384 6.042730 3.768576 2.743236  5.891856 5.323809 2.656349
+## CA_ICU10 6.209347 3.694029 6.523051 4.721751  6.352495 8.510333 7.183688
+## CA_ICU11 7.447474 5.338102 4.045920 3.309527  3.618987 5.127899 5.693120
+## CA_ICU12 4.925829 5.239656 5.803200 1.940162  5.393334 2.606254 4.402099
+## UC_ICU13 8.030226 6.011765 4.457349 3.466408  4.403983 5.785822 5.928344
+## UE_ICU14 3.218940 4.041501 9.644139 7.340994  9.107198 5.338928 9.802931
+## UC_ICU15 7.487940 5.325011 3.125417 2.514129  2.954861 5.284037 4.976066
+## UC_ICU16 7.278665 5.530139 5.328474 2.572630  3.666856 5.162746 5.034567
+## UC_ICU17 7.705280 5.753058 4.209285 2.453564  5.095508 5.632962 4.915501
+## CA_ICU18 7.029388 6.381204 6.417921 3.081711  2.871188 5.812198 5.543647
+## UE_ICU19 2.636166 3.921914 9.568552 7.221408 10.694412 4.955741 9.683344
+## CA_ICU20 6.863554 3.337892 3.661771 2.411509  4.614389 5.078243 4.873445
+## CA_ICU21 4.829036 5.028427 4.568795 1.728934  5.177351 4.928048 3.001369
+## UE_ICU22 4.095927 7.998990 8.654693 5.049764  7.702943 1.902461 7.087266
+## UC_ICU23 7.424045 5.238481 4.268740 2.947765  4.240386 6.023981 4.812821
+## UC_ICU24 7.567363 5.513258 2.975964 3.009603  2.439024 5.257002 5.471539
+##           CA_ICU8  CA_ICU9 CA_ICU10 CA_ICU11 CA_ICU12 UC_ICU13 UE_ICU14
+## UE_ICU1  7.330949 7.643384 6.209347 7.447474 4.925829 8.030226 3.218940
+## CA_ICU2  7.039395 6.042730 3.694029 5.338102 5.239656 6.011765 4.041501
+## UC_ICU3  3.822751 3.768576 6.523051 4.045920 5.803200 4.457349 9.644139
+## CA_ICU4  3.739901 2.743236 4.721751 3.309527 1.940162 3.466408 7.340994
+## UC_ICU5  3.956307 5.891856 6.352495 3.618987 5.393334 4.403983 9.107198
+## UE_ICU6  7.429961 5.323809 8.510333 5.127899 2.606254 5.785822 5.338928
+## CA_ICU7  5.503282 2.656349 7.183688 5.693120 4.402099 5.928344 9.802931
+## CA_ICU8  0.000000 4.369469 6.343995 4.608575 4.823707 3.899993 6.587352
+## CA_ICU9  4.369469 0.000000 5.629166 3.352518 2.717555 5.429410 9.511896
+## CA_ICU10 6.343995 5.629166 0.000000 5.505354 5.904079 2.724511 5.340339
+## CA_ICU11 4.608575 3.352518 5.505354 0.000000 2.521645 4.593544 8.041155
+## CA_ICU12 4.823707 2.717555 5.904079 2.521645 0.000000 3.179568 7.067091
+## UC_ICU13 3.899993 5.429410 2.724511 4.593544 3.179568 0.000000 8.064850
+## UE_ICU14 6.587352 9.511896 5.340339 8.041155 7.067091 8.064850 0.000000
+## UC_ICU15 2.946361 4.903325 3.397634 2.199502 2.677783 2.394042 8.028065
+## UC_ICU16 3.380170 3.963647 5.074088 2.860689 2.556492 2.349577 7.993576
+## UC_ICU17 5.378158 5.196800 4.809090 3.113095 3.026708 3.218615 9.130227
+## CA_ICU18 5.410778 3.020668 6.857392 2.918898 3.205944 5.307529 9.874816
+## UE_ICU19 7.645634 9.964644 7.615943 9.260016 7.561995 9.377133 3.707663
+## CA_ICU20 4.536432 3.470950 3.505145 2.000210 2.471989 2.673872 6.040946
+## CA_ICU21 2.501913 2.957031 5.194478 2.691752 2.321794 3.201190 8.043386
+## UE_ICU22 6.456614 5.827157 9.013680 5.631247 3.109602 6.289170 3.957489
+## UC_ICU23 3.726193 3.408796 3.359961 3.554615 3.417727 2.020615 7.941535
+## UC_ICU24 2.846458 5.312724 4.689470 3.391312 2.954310 1.964959 6.668175
+##          UC_ICU15 UC_ICU16 UC_ICU17 CA_ICU18  UE_ICU19 CA_ICU20 CA_ICU21
+## UE_ICU1  7.487940 7.278665 7.705280 7.029388  2.636166 6.863554 4.829036
+## CA_ICU2  5.325011 5.530139 5.753058 6.381204  3.921914 3.337892 5.028427
+## UC_ICU3  3.125417 5.328474 4.209285 6.417921  9.568552 3.661771 4.568795
+## CA_ICU4  2.514129 2.572630 2.453564 3.081711  7.221408 2.411509 1.728934
+## UC_ICU5  2.954861 3.666856 5.095508 2.871188 10.694412 4.614389 5.177351
+## UE_ICU6  5.284037 5.162746 5.632962 5.812198  4.955741 5.078243 4.928048
+## CA_ICU7  4.976066 5.034567 4.915501 5.543647  9.683344 4.873445 3.001369
+## CA_ICU8  2.946361 3.380170 5.378158 5.410778  7.645634 4.536432 2.501913
+## CA_ICU9  4.903325 3.963647 5.196800 3.020668  9.964644 3.470950 2.957031
+## CA_ICU10 3.397634 5.074088 4.809090 6.857392  7.615943 3.505145 5.194478
+## CA_ICU11 2.199502 2.860689 3.113095 2.918898  9.260016 2.000210 2.691752
+## CA_ICU12 2.677783 2.556492 3.026708 3.205944  7.561995 2.471989 2.321794
+## UC_ICU13 2.394042 2.349577 3.218615 5.307529  9.377133 2.673872 3.201190
+## UE_ICU14 8.028065 7.993576 9.130227 9.874816  3.707663 6.040946 8.043386
+## UC_ICU15 0.000000 2.263900 2.813545 3.961738  9.246925 1.987119 2.658905
+## UC_ICU16 2.263900 0.000000 2.227502 2.957952  7.027556 2.192247 2.449630
+## UC_ICU17 2.813545 2.227502 0.000000 4.545599  9.255058 3.089281 2.876244
+## CA_ICU18 3.961738 2.957952 4.545599 0.000000  8.301211 3.833871 3.281713
+## UE_ICU19 9.246925 7.027556 9.255058 8.301211  0.000000 7.259806 7.465201
+## CA_ICU20 1.987119 2.192247 3.089281 3.833871  7.259806 0.000000 2.034519
+## CA_ICU21 2.658905 2.449630 2.876244 3.281713  7.465201 2.034519 0.000000
+## UE_ICU22 5.787385 4.036087 6.136310 6.315545  6.732093 5.581590 4.085897
+## UC_ICU23 1.494529 2.374130 2.992727 3.497431  9.160395 1.900589 3.278032
+## UC_ICU24 2.386808 2.352510 3.601842 5.295890  9.380066 2.175365 2.738328
+##          UE_ICU22 UC_ICU23 UC_ICU24
+## UE_ICU1  4.095927 7.424045 7.567363
+## CA_ICU2  7.998990 5.238481 5.513258
+## UC_ICU3  8.654693 4.268740 2.975964
+## CA_ICU4  5.049764 2.947765 3.009603
+## UC_ICU5  7.702943 4.240386 2.439024
+## UE_ICU6  1.902461 6.023981 5.257002
+## CA_ICU7  7.087266 4.812821 5.471539
+## CA_ICU8  6.456614 3.726193 2.846458
+## CA_ICU9  5.827157 3.408796 5.312724
+## CA_ICU10 9.013680 3.359961 4.689470
+## CA_ICU11 5.631247 3.554615 3.391312
+## CA_ICU12 3.109602 3.417727 2.954310
+## UC_ICU13 6.289170 2.020615 1.964959
+## UE_ICU14 3.957489 7.941535 6.668175
+## UC_ICU15 5.787385 1.494529 2.386808
+## UC_ICU16 4.036087 2.374130 2.352510
+## UC_ICU17 6.136310 2.992727 3.601842
+## CA_ICU18 6.315545 3.497431 5.295890
+## UE_ICU19 6.732093 9.160395 9.380066
+## CA_ICU20 5.581590 1.900589 2.175365
+## CA_ICU21 4.085897 3.278032 2.738328
+## UE_ICU22 0.000000 6.410217 6.063912
+## UC_ICU23 6.410217 0.000000 2.165632
+## UC_ICU24 6.063912 2.165632 0.000000
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;list&quot;            &quot;centrality_auto&quot;</code></pre>
+<pre class="r"><code>centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;))#include three statistics using raw scores</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality1-1.png" width="672" /></p>
+<pre class="r"><code>centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),
+               scale = &quot;z-scores&quot;)#using z scores</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality1-2.png" width="672" /></p>
+<pre class="r"><code>#add Expected influence
+centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;ExpectedInfluence&quot;),
+               scale = &quot;z-scores&quot;)</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality1-3.png" width="672" /></p>
+<p>The above figure shows the visualization of all nodes in the network
+on the central indices of <strong>strength</strong>,
+<strong>closeness</strong>, and <strong>betweenness</strong>. As shown
+in the figure, the vertical axis represents all nodes and the horizontal
+coordinates represent the standardized scores of node centrality.</p>
+<p>In addition to this, the order of the nodes on the vertical axis can
+be specified using <code>orderBy</code>. The default is
+<strong>alphabetical order</strong>, but if you need to order the nodes
+by one central index, you can adjust it with
+<code>orderBy="Strength"</code>.</p>
+<pre class="r"><code>centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;),
+               scale = &quot;z-scores&quot;,orderBy=&quot;Strength&quot;)#node order</code></pre>
+<pre><code>## Note: z-scores are shown on x-axis rather than raw centrality indices.</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality3-1.png" width="672" /></p>
+<p>If you want to compare the the central indices of different network,
+you can use the code like this:</p>
+<pre class="r"><code>centralityPlot(list(cor=qgraph_cor,
+                    pcor = qgraph_pcor, glasso=qgraph_glasso),
+               include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),
+scale = &quot;z-scores&quot;)</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality4-1.png" width="672" /></p>
+<pre class="r"><code>qgraph::centralityPlot(list(correlation_network=Network,EBICglasso_default= Network_glasso1,EBICglasso_corauto= Network_glasso2, EBICglasso_spearman=Network_glasso3),include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;), scale = &quot;z-scores&quot;,labels=Labels)</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/centrality-comparison-1.png" width="672" /></p>
+<p>From the figure, it can be seen that the correlation matrix and
+glasso networks are relatively close, and the pcor network are more
+different. Therefore, it should be paid attention to consider the type
+of networks possibly with variable type and sample size.<br />
+Finally, you can save the results of centrality indices using
+<code>pdf()</code>.</p>
+<pre class="r"><code>pdf(&quot;Fig_centralityPlot.pdf&quot;, width=10, height=10)
+centralityPlot(q_cor_auto1,include=c(&quot;Strength&quot;,&quot;Closeness&quot;,&quot;Betweenness&quot;),
+               scale = &quot;z-scores&quot;)#
 dev.off()</code></pre>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
-<p>上述两图分别为网络中所有边线和节点之间的差异检验结果。纵轴和横轴为网络中的边线或者节点。图中黑色方格表示两者之间存在显著性的差异，白色则表示两者之间并不显著，中间斜线表示的是边线或者节点具体值。如图中所示，与其他节点相比，节点ICU21、ICU20与其他节点存在更多显著性的差异。</p>
-<p>如仅分析任意某2个节点或者边线，可用<code>differenceTest()</code>对<code>measure</code>进行设定。</p>
+</div>
+<div id="bridge-centrality" class="section level4">
+<h4>2.2.2 Bridge centrality</h4>
+<p>Bridge centrality can be analysed using the <code>bridge</code>
+function in <code>networktools</code> package.</p>
+<pre class="r"><code>library(networktools)
+head(depression)</code></pre>
+<pre><code>##   sadness anhedonia weight_change sleep_disturbance psychomotor_retardation
+## 1      48        63            32                58                      33
+## 2      47        53            19                43                      36
+## 3      63        59            25                50                      35
+## 4      86        69            22                37                      33
+## 5      29        34            35                35                      25
+## 6      46        53            30                47                      28
+##   fatigue worthlessness concentration_problems suicidal_ideation
+## 1      49            42                     46                22
+## 2      53            45                     46                19
+## 3      54            45                     52                32
+## 4      60            38                     51                28
+## 5      34            31                     38                15
+## 6      46            39                     49                25</code></pre>
+<pre class="r"><code>graph1 &lt;- qgraph::qgraph(cor(depression))#cor</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/bridge-1.png" width="672" /></p>
+<pre class="r"><code>graph1 &lt;-qgraph(cor_auto(depression), layout=&quot;spring&quot;,vsize=6,minimum=0.1,
+                   borders=TRUE,
+                   palette=&quot;colorblind&quot;,
+                   label.cex=1,
+       graph=&quot;glasso&quot;,sampleSize = nrow(depression))#glasso</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/bridge-2.png" width="672" /></p>
+<pre class="r"><code>bridge &lt;- bridge(graph1, communities=c(&#39;1&#39;,&#39;1&#39;,&#39;2&#39;,&#39;2&#39;,&#39;2&#39;,&#39;2&#39;,&#39;1&#39;,&#39;2&#39;,&#39;1&#39;))
+bridge</code></pre>
+<pre><code>## $`Bridge Strength`
+##       sdn       anh       wg_       sl_       ps_       ftg       wrt       cn_ 
+## 1.7256459 1.9283062 0.8288666 1.2116484 1.1814692 1.7543885 1.6109957 1.6822106 
+##       sc_ 
+## 1.3936355 
+## 
+## $`Bridge Betweenness`
+## sdn anh wg_ sl_ ps_ ftg wrt cn_ sc_ 
+##   3   4   0   0   0   2   0   0   1 
+## 
+## $`Bridge Closeness`
+##       sdn       anh       wg_       sl_       ps_       ftg       wrt       cn_ 
+## 0.2883755 0.2766219 0.2151868 0.2558093 0.2421084 0.3314201 0.2803951 0.3362575 
+##       sc_ 
+## 0.2329276 
+## 
+## $`Bridge Expected Influence (1-step)`
+##        sdn        anh        wg_        sl_        ps_        ftg        wrt 
+##  0.8527351 -0.4450988  0.5874231 -0.3260068  0.2855825  0.6469365  0.9462512 
+##        cn_        sc_ 
+##  0.6577011  0.4977488 
+## 
+## $`Bridge Expected Influence (2-step)`
+##         sdn         anh         wg_         sl_         ps_         ftg 
+## -0.14239723  1.11452700  0.24066454  0.83756211  0.69086322 -0.27504870 
+##         wrt         cn_         sc_ 
+##  0.24509342 -0.01316184  0.26365614 
+## 
+## $communities
+## [1] &quot;1&quot; &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot; &quot;2&quot; &quot;1&quot;</code></pre>
+<pre class="r"><code>#pdf(&quot;Fig_bridge.pdf&quot;, width=10, height=10)
+plot(bridge, order=&quot;value&quot;, zscore=TRUE,include=c(&quot;Bridge Strength&quot;, &quot;Bridge Betweenness&quot;))</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/bridge-3.png" width="672" /></p>
+<pre class="r"><code>plot(bridge, order=&quot;value&quot;, zscore=TRUE,include=c(&quot;Bridge Strength&quot;, &quot;Bridge Betweenness&quot;),color=TRUE)#color for catogory</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/bridge-4.png" width="672" /></p>
+<pre class="r"><code>#dev.off()</code></pre>
+</div>
+</div>
+<div id="网络结构的准确性分析" class="section level3">
+<h3>2.3 网络结构的准确性分析</h3>
+<p>The accuracy and stability of network analysis might be influenced by
+the sample size. Therefore, it needs to analyse the accuracy of network
+after network estimation. The accuracy of network analysis includes
+three ways using <code>bootnet</code> package (Epskamp, Borsboom &amp;
+Fried, 2018).<br />
++ Bootstrapped confidence intervals (CI) of edge–weight + Stability of
+centrality indices + Bootstrapped the paired differences of edge–weights
+and node centrality</p>
+<p>Next, this tutorial will use data1 as an example to introduce how to
+use <code>bootnet</code> for these three ways.</p>
+<p><em>Notes that you need to estimate the network using
+<code>estimateNetwork</code> before the accuracy analysis of
+networks.</em></p>
+<div id="bootstrapped-ci-of-edgeweight" class="section level4">
+<h4>(1) Bootstrapped CI of edge–weight</h4>
+<pre class="r"><code>Results1 &lt;- bootnet(Network, statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;,&quot;edge&quot;), nBoots = 500, nCores = 5) 
+#nBoots: number of bootstraps
+#nCores: number of cores to use
+plot(Results1, labels = FALSE, order = &quot;sample&quot;)#orders the edge-weights from the most positive to the most negative edge-weight in the sample network.</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/ci-1.png" width="960" /></p>
+<p>As shown in the figure, the red line indicates the sample values and
+the gray area the bootstrapped CIs. Each horizontal line represents one
+edge of the network. The overlapping confidence intervals of the edge
+weights represent non-significant differences in the edge-weights.</p>
+</div>
+<div
+id="bootstrapped-the-paired-differences-of-edgeweights-and-node-centrality"
+class="section level4">
+<h4>(2) Bootstrapped the paired differences of edge–weights and node
+centrality</h4>
+<pre class="r"><code>plot(Results1, &quot;strength&quot;, plot = &quot;difference&quot;)#strength differences</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/diff1-1.png" width="1440" /></p>
+<pre class="r"><code>plot(Results1, &quot;closeness&quot;, plot = &quot;difference&quot;)#closeness differences</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/diff1-2.png" width="1440" /></p>
+<pre class="r"><code>plot(Results1, &quot;betweenness&quot;, plot = &quot;difference&quot;)#betweenness differences</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/diff1-3.png" width="1440" /></p>
+<pre class="r"><code>pdf(&quot;Fig_edgeweightdiff.pdf&quot;, width=50, height=50)
+plot(Results1, &quot;edge&quot;, plot = &quot;difference&quot;, onlyNonZero = TRUE, order = &quot;sample&quot;)#edge differences</code></pre>
+<pre><code>## Expected significance level given number of bootstrap samples is approximately: 0.05</code></pre>
+<pre class="r"><code>#onlyNonZero sets that only edges are shown that are nonzero in the estimated network
+dev.off()</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>These two figures show the results of the difference test between
+paired edges and nodes in the network. The vertical and horizontal axes
+are the edges or nodes in the network.<br />
+The black boxes indicate that there is a significant difference between
+them, while the white boxes indicate that it is non-significant between
+them, and the middle diagonal line indicates the specific value of the
+edge or node.<br />
+As shown in the figure, ICU21 and ICU20 had a greater number of
+significant differences from each other than other nodes.</p>
+<p>Use <code>differenceTest()</code> to set <code>measure</code> if need
+to compare any two nodes or edges.</p>
 <pre class="r"><code>#for nodes
 differenceTest(Results1, &quot;CA_ICU2&quot;, &quot;CA_ICU12&quot;, &quot;strength&quot;)</code></pre>
 <pre><code>## Warning: `select_()` was deprecated in dplyr 0.7.0.
@@ -553,40 +1256,37 @@ differenceTest(Results1, &quot;CA_ICU2&quot;, &quot;CA_ICU12&quot;, &quot;streng
 ## This warning is displayed once every 8 hours.
 ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 ## generated.</code></pre>
-<pre><code>##       id1      id2  measure     lower  upper significant
-## 1 CA_ICU2 CA_ICU12 strength 0.3741022 3.2734        TRUE</code></pre>
+<pre><code>##       id1      id2  measure     lower    upper significant
+## 1 CA_ICU2 CA_ICU12 strength 0.3148676 3.164951        TRUE</code></pre>
 <pre class="r"><code>differenceTest(Results1, &quot;CA_ICU2&quot;, &quot;CA_ICU18&quot;, &quot;strength&quot;)</code></pre>
 <pre><code>##       id1      id2  measure      lower    upper significant
-## 1 CA_ICU2 CA_ICU18 strength -0.8873372 1.618412       FALSE</code></pre>
+## 1 CA_ICU2 CA_ICU18 strength -0.9523769 1.640938       FALSE</code></pre>
 <pre class="r"><code>#for edges
 differenceTest(Results1, &quot;CA_ICU2--CA_ICU18&quot;, &quot;CA_ICU2--CA_ICU12&quot;, &quot;edge&quot;)</code></pre>
 <pre><code>##                 id1               id2 measure      lower     upper significant
-## 1 CA_ICU2--CA_ICU18 CA_ICU2--CA_ICU12    edge -0.2070838 0.1347403       FALSE</code></pre>
+## 1 CA_ICU2--CA_ICU18 CA_ICU2--CA_ICU12    edge -0.1966856 0.1244137       FALSE</code></pre>
 </div>
-<div id="检验节点在中心指标的稳定性" class="section level4">
-<h4>(3) 检验节点在中心指标的稳定性</h4>
-<pre class="r"><code>Results2 &lt;- bootnet(Network, statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;), nBoots = 1000, nCores = 3, type = &quot;case&quot;) 
+<div id="stability-of-centrality-indices" class="section level4">
+<h4>(3) Stability of centrality indices</h4>
+<pre class="r"><code>Results2 &lt;- bootnet(Network, statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;), nBoots = 500, nCores = 3, type = &quot;case&quot;) 
 
-#稳定性：去掉一些样本或节点后，网络结构的中心指标顺序仍然不变
-#type = &quot;case&quot;用于设定基于case-dropping subset 自助法
-
-plot(Results2 ,statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;))#节点在中心指标的稳定性</code></pre>
+plot(Results2 ,statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;betweenness&quot;))#</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/stability-1.png" width="480" /></p>
 <pre class="r"><code>corStability(Results2)#Compute CS-coefficients</code></pre>
 <pre><code>## === Correlation Stability Analysis === 
 ## 
 ## Sampling levels tested:
-##    nPerson Drop%   n
-## 1       61  74.9 105
-## 2       80  67.1  93
-## 3       99  59.3  91
-## 4      117  51.9 106
-## 5      136  44.0 105
-## 6      155  36.2  86
-## 7      174  28.4  95
-## 8      193  20.6 104
-## 9      212  12.8 123
-## 10     231   4.9  92
+##    nPerson Drop%  n
+## 1       61  74.9 45
+## 2       80  67.1 45
+## 3       99  59.3 49
+## 4      117  51.9 47
+## 5      136  44.0 32
+## 6      155  36.2 53
+## 7      174  28.4 65
+## 8      193  20.6 54
+## 9      212  12.8 59
+## 10     231   4.9 51
 ## 
 ## Maximum drop proportions to retain correlation of 0.7 in at least 95% of the samples:
 ## 
@@ -596,53 +1296,90 @@ plot(Results2 ,statistics=c(&quot;strength&quot;,&quot;closeness&quot;,&quot;bet
 ## closeness: 0.593 
 ##   - For more accuracy, run bootnet(..., caseMin = 0.519, caseMax = 0.671) 
 ## 
-## strength: 0.671 
-##   - For more accuracy, run bootnet(..., caseMin = 0.593, caseMax = 0.749) 
+## strength: 0.593 
+##   - For more accuracy, run bootnet(..., caseMin = 0.519, caseMax = 0.671) 
 ## 
 ## Accuracy can also be increased by increasing both &#39;nBoots&#39; and &#39;caseN&#39;.</code></pre>
-<pre class="r"><code>#CS(cor = 0.7) 表示在去掉最大比例时，在95%概率下原始中心指标和基于子集的网络中心指标之间的相关性为 0.7 或更高。
-#CS值不应低于0.25，在0.5以上较佳。</code></pre>
-<p>结果解读：如图所示，纵轴为原样本与样本量减少所估计结果的关联程度，横轴为样本数量。图中不同颜色的线表示节点在中心指标的具体值，不同颜色范围代表的是对应的置信区间。如图所示，随着样本量减少，中心指标的稳定性在逐步下降，尤其是中介性。</p>
+<pre class="r"><code>#CS-coefficient should not be below 0.25, and preferably above 0.5.</code></pre>
+<p>As shown in the figure, the vertical axis is the degree of
+correlation between the original sample and the estimated results from
+the reduced sample size, and the horizontal axis is the number of
+samples. The different colored lines in the figure indicate the specific
+values of nodes centrality, and the different colored ranges represent
+the corresponding confidence intervals.<br />
+The stability of the centrality indices is gradually decreasing as the
+sample size decreases especially the betweenness.</p>
 </div>
 </div>
-<div id="小结" class="section level3">
-<h3>小结</h3>
-<p>综上所述，通过比较分析两样本的网络结构以及各个节点的中心性指标，发现淡漠因子题目位于网络结构的中间位置。另外，无情因子题目则位于网络结构的边缘位置，并呈现与淡漠因子和冷酷因子的题目存在较少的关联。<strong>本研究得出如下结论：淡漠是青少年CU特质的核心特征。本研究发现拓展了国内青少年CU特质核心特征的理解，为干预与治疗青少年CU特质提供了更多的理论意义和临床价值。</strong></p>
+</div>
+<div id="network-comparison" class="section level2">
+<h2>3. Network comparison</h2>
+<p>Longitudinal networks or multigroup networks are basically the
+comparisons between networks, including:<br />
+(1) Comparison across time: node comparisons at different times, such
+as:<br />
++ Does the centrality of nodes change from time-point 1 to time-point
+4?<br />
++ If it changes, how does it change?</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Cross-sample comparison: comparison between sample characteristics,
+such as gender, cultural background, sample type, etc.<br />
+</li>
+</ol>
+<ul>
+<li>Gender differences<br />
+</li>
+<li>Cultural differences<br />
+</li>
+<li>Sample type differences</li>
+</ul>
+<div id="brif-introduction-1" class="section level3">
+<h3>Brif introduction</h3>
+<p>The following is an example of child psychopathy network to present
+how to analysis a longitudinal network analysis study (Zhang et al.,
+2022). This study used <strong>longitudinal design</strong> to collect
+data and explored the stability of the network structure in the temporal
+period, i.e., <strong>whether the network structure changes over
+time</strong>.</p>
+<p>Compared with the previous cross-sectional study, <strong>this study
+was based on the comparison of the sample at different
+time-points</strong>.</p>
+<p>This study used 268 students from an elementary school in Guangdong
+Province and used the Chinese version of the Child Problematic Traits
+Inventory (Wang et al., 2018) to assess child psychopathy.</p>
+<p>The 28-item consist of three subscales, <strong>Callous-unemotional
+(CU) traits</strong>, <strong>Grandiose-deceitful (GD)</strong>,
+<strong>Impulsive-Need for Stimulation (INS)</strong>. Items are scored
+on a 4-point Likert.</p>
+<p>Data in this study were collected at one-year intervals from 2016 to
+2019, for a total of <strong>four waves data collections</strong>.
+Basically, data analysis was to analyze the data at each time point
+separately and then compare the results of the network structure at each
+time-point.</p>
+<p>Next, the following shows how to perform network analysis using the
+demo data.</p>
+</div>
+<div id="installation-and-load-packages" class="section level3">
+<h3>3.0.1 Installation and load packages</h3>
+<p>Load another package named <code>NetworkComparisonTest</code> for
+network comparison.</p>
+<pre class="r"><code>library(NetworkComparisonTest)#install.packages(&quot;NetworkComparisonTest&quot;)</code></pre>
+<div id="data-import-1" class="section level4">
+<h4>3.0.2 Data import</h4>
+<pre class="r"><code>Data1&lt;- read_excel(&quot;example2_Data1_t1.xlsx&quot;)#demo data1
+Data2&lt;- read_excel(&quot;example2_Data2_t2.xlsx&quot;)#demo data2
+Data3&lt;- read_excel(&quot;example2_Data3_t3.xlsx&quot;)#demo data3
+Data4&lt;- read_excel(&quot;example2_Data4_t4.xlsx&quot;)#demo data4</code></pre>
 </div>
 </div>
-<div id="实例操作2wang等人2022儿童精神病态纵向网络分析研究"
-class="section level2">
-<h2>3. 实例操作2：Wang等人(2022)儿童精神病态纵向网络分析研究</h2>
-<div id="简要介绍-1" class="section level3">
-<h3>简要介绍</h3>
-<p>以下将以一项儿童精神病态纵向网络分析研究作为例子(Wang et al.,
-unpublished)具体介绍如何进行一项纵向网络分析研究。与上面的例子不同，这一研究在研究设计上使用了<strong>纵向研究方法</strong>，探讨的是网络结构在时间维度上的稳定性问题，即<strong>网络结构是否会随着时间推移而发生变化</strong>。</p>
-<p>除此以外，本研究仅比较单一样本的纵向网络结构。即便存在一些不同，但是这两项研究的研究思路基本是一致的，只是基于不同视角的网络结构比较，上面的例子是基于不同特征的样本进行比较，而<strong>本研究则是基于同一样本在不同时间截点上的比较</strong>。</p>
-<p>这一研究以<strong>广东省某小学268名学生为被试</strong>，使用儿童问题行为问卷(the
-Child Problematic Traits Inventory)中文版(Wang et al.,
-2018)为测量工具探索儿童精神病态的网络结构。</p>
-<p>该测量工具共28题包含三个分量表，分别是<strong>冷酷无情(Callous-unemotional,
-CU)</strong>、<strong>夸大欺骗(Grandiose-deceitful,
-GD)</strong>、<strong>冲动和刺激寻求(Impulsive-Need for Stimulation,
-INS)</strong>，题目均采用李克特4级计分方式。</p>
-<p>本研究在2016年至2019年每间隔一年收集一次数据，共收集<strong>4次数据</strong>，数据分析的基本思路是分别对每个时间点的数据进行分析，然后再对比每个时间点上的网络结构结果进行分析。</p>
-<p>接下来展示如何使用程序包对数据进行网络分析(选取部分数据）。</p>
-<p>首先，与上面的实例操作一样，需要先进行程序包的安装与运行以及数据读取和导入。这两部分内容与上文类似，在此不再赘述，直接从网络分析的步骤开始。</p>
-<div id="导入数据" class="section level4">
-<h4>3.0导入数据</h4>
-<pre class="r"><code>Data1&lt;- read_excel(&quot;example2_Data1_t1.xlsx&quot;)#演示数据
-Data2&lt;- read_excel(&quot;example2_Data2_t2.xlsx&quot;)#演示数据
-Data3&lt;- read_excel(&quot;example2_Data3_t3.xlsx&quot;)#演示数据
-Data4&lt;- read_excel(&quot;example2_Data4_t4.xlsx&quot;)#演示数据</code></pre>
-</div>
-</div>
-<div id="建立网络结构图-1" class="section level3">
-<h3>3.1.1 建立网络结构图</h3>
-<p>基本分析思路为先分别对每个时间点所收集的数据进行网络估计，然后再输出网络结构图。具体的分析语句如下所示：</p>
-<pre class="r"><code>Network1&lt;-bootnet::estimateNetwork(Data1,default = &quot;cor&quot;)#Time 1的网络估计
-Network2&lt;-bootnet::estimateNetwork(Data2,default = &quot;cor&quot;)#Time 2的网络估计
-Network3&lt;-bootnet::estimateNetwork(Data3,default = &quot;cor&quot;)#Time 3的网络估计
-Network4&lt;-bootnet::estimateNetwork(Data4,default = &quot;cor&quot;)#Time 4的网络估计</code></pre>
+<div id="network-estimation-1" class="section level3">
+<h3>3.1 Network estimation</h3>
+<p>The basic analysis idea is to first estimate the network for the data
+collected at each time point separately and plot the graph.</p>
+<pre class="r"><code>Network1&lt;-bootnet::estimateNetwork(Data1,default = &quot;cor&quot;)#Time 1
+Network2&lt;-bootnet::estimateNetwork(Data2,default = &quot;cor&quot;)#Time 2
+Network3&lt;-bootnet::estimateNetwork(Data3,default = &quot;cor&quot;)#Time 3
+Network4&lt;-bootnet::estimateNetwork(Data4,default = &quot;cor&quot;)#Time 4</code></pre>
 <pre class="r"><code>groups&lt;-c(&quot;INS&quot;,&quot;CU&quot;,&quot;INS&quot;,&quot;CU&quot;,&quot;GD&quot;,&quot;INS&quot;,&quot;GD&quot;,
           &quot;CU&quot;,&quot;GD&quot;,&quot;INS&quot;,&quot;CU&quot;,&quot;INS&quot;,&quot;CU&quot;,&quot;INS&quot;,
           &quot;GD&quot;,&quot;INS&quot;,&quot;CU&quot;,&quot;GD&quot;,&quot;INS&quot;,&quot;CU&quot;,&quot;GD&quot;,
@@ -676,36 +1413,43 @@ Names&lt;-c(&quot;Likes change and that things happen all the time&quot;,
          &quot;To frequently lie seems to be completely normal for him/her&quot;,
          &quot;Does not express guilt and remorse to the same extent as other children of the same age&quot;,
          &quot;Quickly gets tired of things and wants new things to happen all the time&quot;)</code></pre>
-<p>为了方便不同网络结构的比较，这里使用了<code>qgraph</code>程序包中的<code>averageLayout</code>用于统一格式。</p>
-<pre class="r"><code>L &lt;- averageLayout(Network1,Network2,Network3,Network4)#将网络设置为统一格式用于比较</code></pre>
-<p>输出统一格式下网络结构图的语句如下所示：</p>
-<pre class="r"><code>Network1G &lt;- plot(Network1, layout = L,title=&quot;Time 1&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1)#输出Time 1的网络结构图</code></pre>
+<p>For the comparison of different network structures, use
+<code>averageLayout</code> from <code>qgraph</code> package to compute
+an average layout over several graphs.</p>
+<pre class="r"><code>L &lt;- averageLayout(Network1,Network2,Network3,Network4)#average layout</code></pre>
+<pre class="r"><code>Network1G &lt;- plot(Network1, layout = L,title=&quot;Time 1&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1)#Time 1</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/layout2-1.png" width="672" /></p>
-<pre class="r"><code>Network2G&lt;- plot(Network2, layout = L,title=&quot;Time 2&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 2的网络结构图</code></pre>
+<pre class="r"><code>Network2G&lt;- plot(Network2, layout = L,title=&quot;Time 2&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #Time 2</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/layout2-2.png" width="672" /></p>
-<pre class="r"><code>Network3G &lt;- plot(Network3, layout = L,title=&quot;Time 3&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 3的网络结构图</code></pre>
+<pre class="r"><code>Network3G &lt;- plot(Network3, layout = L,title=&quot;Time 3&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #Time 3</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/layout2-3.png" width="672" /></p>
-<pre class="r"><code>Network4G &lt;- plot(Network4, layout = L,title=&quot;Time 4&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 4的网络结构图</code></pre>
+<pre class="r"><code>Network4G &lt;- plot(Network4, layout = L,title=&quot;Time 4&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #Time 4</code></pre>
 <p><img src="Tutorial_Network-analysis_files/figure-html/layout2-4.png" width="672" /></p>
-<p>结果解读:<br />
-1.橙色节点为CU特质题目，蓝色节点为夸大欺骗题目，绿色节点为冲动和刺激寻求题目。<br />
-2.据图所示，发现CPTI网络结构在四个时间点的结果比较一致，表明该网络结构具有一定的稳定性。<br />
-3.CPTI网络结构具有这样的特点：<br />
-部分题目在网络中的位置具有明显区别，例如第20、25和27题位于CU特质题目聚类中较为中心的位置，第15和21题位于夸大欺骗题目聚类中较为中心的位置，而第1、7和24题则位于整个网络结构中较为外围的位置。</p>
-<p>在调整确定好格式后，可使用<code>pdf()</code>或<code>jpg()</code>直接保存文件。</p>
+<p>As seen in the figures, it can be found that:</p>
+<ul>
+<li>The orange nodes are items assessed CU traits, the blue nodes are
+items assessed Grandiose-deceitful, and the green nodes are items
+assessed Impulsive-Need for Stimulation.<br />
+</li>
+<li>The results of the CPTI network structures were found to be
+relatively consistent at the four time points, indicating that the
+network structure was relatively stable.</li>
+</ul>
 <pre class="r"><code>pdf(&quot;Fig_averagelayoutgraph_T1-T4.pdf&quot;, width=10, height=10)
 par(mfrow=c(2,2))
-Network1G &lt;- plot(Network1, layout = L,title=&quot;Time 1&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1)#输出Time 1的网络结构图
-Network2G&lt;- plot(Network2, layout = L,title=&quot;Time 2&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 2的网络结构图
-Network3G &lt;- plot(Network3, layout = L,title=&quot;Time 3&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 3的网络结构图
-Network4G &lt;- plot(Network4, layout = L,title=&quot;Time 4&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) #输出Time 4的网络结构图
+Network1G &lt;- plot(Network1, layout = L,title=&quot;Time 1&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1)
+Network2G&lt;- plot(Network2, layout = L,title=&quot;Time 2&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) 
+Network3G &lt;- plot(Network3, layout = L,title=&quot;Time 3&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) 
+Network4G &lt;- plot(Network4, layout = L,title=&quot;Time 4&quot;, groups=groups,minimum=0.4,cut=0.4,vsize=8, legend=FALSE,borders=TRUE, palette=&quot;colorblind&quot;,label.cex=1) 
 dev.off()</code></pre>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
 </div>
-<div id="计算中心指标" class="section level3">
-<h3>3.1.2 计算中心指标</h3>
-<p>基本分析思路为先分别计算每个时间点网络结构中节点的中心指标，然后输出中心指标比较的可视化结果。具体的分析语句如下所示：</p>
+<div id="network-inference-centrality-indices" class="section level3">
+<h3>3.2 Network inference: Centrality indices</h3>
+<p>The basic idea is to first calculate the centrality indices of each
+nodes in the networks at each time point separately, and then output the
+visualization results of the centrality indices for comparisons.</p>
 <pre class="r"><code>centralityPlot(list(Time1=cor_auto(Data1),
                     Time2 = cor_auto(Data2), Time3=cor_auto(Data3),
                     Time4 = cor_auto(Data4)),
@@ -719,27 +1463,49 @@ centralityPlot(list(Time1=cor_auto(Data1),
 dev.off()</code></pre>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
-<p>结果解读：<br />
-如图所示，发现CPTI题目在四个时间点上的中心指标结果较为一致，其中第15、20、21、25、27题具有较高的中心指标，表明这些题目位于网络结构中较为中心的位置，与上图的网络结构图结果一致。</p>
+<p>As shown in the figure, the centrality indices at four time-points
+were similar. Several items had a greater level of centrality values
+such as item 15, 20, 21, 25, and 27. It indicated that these items were
+located in a more central position in the networks.</p>
 </div>
-<div id="网络分析的准确性检验" class="section level3">
-<h3>3.1.3 网络分析的准确性检验</h3>
-<p>基本分析思路为分别对使用每个时间点所收集的数据进行估计的网络结构进行准确性分析。具体操作内容与上文例子类似，在此不再赘述。</p>
+<div id="the-accuracy-of-networks" class="section level3">
+<h3>3.3 The accuracy of networks</h3>
+<p>The basic idea of this section is to separately analyze the accuracy
+of the estimated network structure using the data collected at each time
+point. More details can be found in the example 1.</p>
 </div>
-<div id="小结-1" class="section level3">
-<h3>小结</h3>
-<p>综上所述，通过比较基于不同时间点的网络结构以及各个节点的中心性指标，发现CPTI纵向网络结构具有一定的稳定性，其中一些题目位于较为中心的位置，例如:<br />
-(1) 第15题“与同龄人相比，他/她更经常撒谎。”<br />
-(2) 第20题“他/她大多数时候看起来并不在乎别人的感受和想法。”<br />
-(3) 第21题“他/她认为通过欺骗他人来达到目的是有效的。”<br />
-(4) 第25题“他/她做了不被允许的事时并没有表现出内疚。”<br />
-(5) 第27题“他/她不会表现出和同龄人同样程度的内疚。”</p>
-<p>综上这些发现表明<strong>缺乏懊悔感、不关心他人感受以及欺骗位于儿童精神病态网络结构中的核心位置，说明这些特征为儿童精神病态的核心特征</strong>。因此，本研究发现拓展了国内儿童精神病态核心特征及其稳定性的理解，为针对儿童精神病态的干预与治疗提供了更多的理论意义和临床价值。</p>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<ul>
+<li>Items assessing a lack of remorse, being unconcerned about others’
+feelings, and deceitfulness were positioned centrally with higher
+centrality indices at each time-point.</li>
+<li>The network structure of psychopathy was relatively stable over
+time.</li>
+<li>Our findings extend the knowledge about the core features of child
+psychopathy and the tendencies of those central characteristics
+throughout child development.</li>
+<li>These findings can help the development of targeted interventions
+and treatment of child psychopathy in clinical practice.</li>
+</ul>
 </div>
-<div id="网络分析的比较检验network-comparison-test"
-class="section level3">
-<h3>3.1.4 网络分析的比较检验(Network Comparison Test)</h3>
-<p>这部分主要是使用上述演示数据说明使用<code>NetworkComparisonTest</code>进行比较检验分析，选取Data1和Data2作为例子进行操作说明。</p>
+<div id="network-comparison-test" class="section level3">
+<h3>3.4 Network Comparison Test</h3>
+<p>Besides, we can also assess the difference between two networks based
+on several invariance measures.<br />
++ Cross-time comparison: comparison between different time points, e.g.,
+time point 1 vs. time point 2.<br />
++ Cross-sample comparison: Comparison between sample characteristics,
+such as gender, cultural background, sample type, etc.<br />
+- Male network vs. female network<br />
+- Non-Western samples vs. Western samples<br />
+- General sample vs. clinical sample</p>
+<div id="comparison-across-time-points" class="section level4">
+<h4>3.4.1 Comparison across time-points</h4>
+<p>This section mainly uses the above demo data to illustrate how to
+compare network using <code>NetworkComparisonTest</code>. Data1 and
+Data2 are selected as examples to show the network comparison between
+time 1 and time 2.</p>
 <pre class="r"><code>compare_12 &lt;- NCT(Data1,Data2, binary.data=FALSE, paired = TRUE,test.edges=TRUE, edges=&#39;all&#39;, progressbar=TRUE,test.centrality = TRUE,centrality = &quot;strength&quot;)#paired:TRUE of FALSE to indicate whether the samples are dependent or not</code></pre>
 <pre><code>## 
   |                                                                            
@@ -944,19 +1710,23 @@ class="section level3">
   |===================================================================== |  99%
   |                                                                            
   |======================================================================| 100%</code></pre>
+<pre class="r"><code>#centrality：can include multiple centrality indices</code></pre>
 <pre class="r"><code>#compare_12_p.adj &lt;- NCT(Data1,Data2, binary.data=FALSE, paired = TRUE,test.edges=TRUE, edges=&#39;all&#39;,p.adjust.methods=&quot;bonferroni&quot;, progressbar=TRUE,test.centrality = TRUE,centrality = &quot;strength&quot;)</code></pre>
+</div>
 <div id="nct-topology-network-structure-invariance-test"
 class="section level4">
 <h4>(1) NCT topology: network structure invariance test</h4>
-<pre class="r"><code>compare_12$nwinv.pval#查看整个网络在边线权重是否存在显著性差异：P值</code></pre>
-<pre><code>## [1] 0.81</code></pre>
-<p>####(2) invariant global strength</p>
-<pre class="r"><code>compare_12$glstrinv.pval##查看网络在整体强度上是否存在显著性差异：P值</code></pre>
-<pre><code>## [1] 0.68</code></pre>
+<pre class="r"><code>compare_12$nwinv.pval#p value of the difference in the maximum difference in edge weights</code></pre>
+<pre><code>## [1] 0.76</code></pre>
+</div>
+<div id="invariant-global-strength" class="section level4">
+<h4>(2) invariant global strength</h4>
+<pre class="r"><code>compare_12$glstrinv.pval##p value of the difference in global strength</code></pre>
+<pre><code>## [1] 0.7</code></pre>
 </div>
 <div id="global-strength-value-estimation" class="section level4">
 <h4>(3) global strength value estimation</h4>
-<pre class="r"><code>compare_12$glstrinv.sep #查看两个网络在整体强度上的具体值</code></pre>
+<pre class="r"><code>compare_12$glstrinv.sep #value of global strength</code></pre>
 <pre><code>## [1] 12.56604 12.71591</code></pre>
 </div>
 <div
@@ -964,55 +1734,55 @@ id="quantification-of-differences-count-significantly-different-edges"
 class="section level4">
 <h4>(4) quantification of differences: count significantly different
 edges</h4>
-<pre class="r"><code>compare_12$einv.pvals###查看网络在边线权重上置换检验是否存在显著性差异：P值</code></pre>
+<pre class="r"><code>compare_12$einv.pvals###p value of the difference in edge weights</code></pre>
 <pre><code>##       Var1   Var2 p-value
 ## 29  CPTI01 CPTI02    1.00
-## 57  CPTI01 CPTI03    0.64
-## 58  CPTI02 CPTI03    0.16
+## 57  CPTI01 CPTI03    0.67
+## 58  CPTI02 CPTI03    0.10
 ## 85  CPTI01 CPTI04    1.00
-## 86  CPTI02 CPTI04    0.18
-## 87  CPTI03 CPTI04    0.01
-## 113 CPTI01 CPTI05    0.31
+## 86  CPTI02 CPTI04    0.15
+## 87  CPTI03 CPTI04    0.02
+## 113 CPTI01 CPTI05    0.30
 ## 114 CPTI02 CPTI05    1.00
-## 115 CPTI03 CPTI05    0.37
+## 115 CPTI03 CPTI05    0.42
 ## 116 CPTI04 CPTI05    1.00
-## 141 CPTI01 CPTI06    0.92
+## 141 CPTI01 CPTI06    0.94
 ## 142 CPTI02 CPTI06    1.00
-## 143 CPTI03 CPTI06    0.56
+## 143 CPTI03 CPTI06    0.68
 ## 144 CPTI04 CPTI06    1.00
 ## 145 CPTI05 CPTI06    1.00
-## 169 CPTI01 CPTI07    0.86
+## 169 CPTI01 CPTI07    0.93
 ## 170 CPTI02 CPTI07    1.00
 ## 171 CPTI03 CPTI07    1.00
-## 172 CPTI04 CPTI07    0.04
+## 172 CPTI04 CPTI07    0.03
 ## 173 CPTI05 CPTI07    1.00
-## 174 CPTI06 CPTI07    0.14
+## 174 CPTI06 CPTI07    0.13
 ## 197 CPTI01 CPTI08    1.00
-## 198 CPTI02 CPTI08    0.35
-## 199 CPTI03 CPTI08    0.74
-## 200 CPTI04 CPTI08    0.89
-## 201 CPTI05 CPTI08    0.23
-## 202 CPTI06 CPTI08    0.21
-## 203 CPTI07 CPTI08    0.67
+## 198 CPTI02 CPTI08    0.28
+## 199 CPTI03 CPTI08    0.66
+## 200 CPTI04 CPTI08    0.91
+## 201 CPTI05 CPTI08    0.31
+## 202 CPTI06 CPTI08    0.13
+## 203 CPTI07 CPTI08    0.75
 ## 225 CPTI01 CPTI09    0.53
 ## 226 CPTI02 CPTI09    1.00
 ## 227 CPTI03 CPTI09    1.00
 ## 228 CPTI04 CPTI09    1.00
-## 229 CPTI05 CPTI09    0.72
-## 230 CPTI06 CPTI09    0.16
-## 231 CPTI07 CPTI09    0.01
-## 232 CPTI08 CPTI09    0.00
-## 253 CPTI01 CPTI10    0.62
-## 254 CPTI02 CPTI10    0.08
-## 255 CPTI03 CPTI10    0.80
+## 229 CPTI05 CPTI09    0.75
+## 230 CPTI06 CPTI09    0.13
+## 231 CPTI07 CPTI09    0.00
+## 232 CPTI08 CPTI09    0.01
+## 253 CPTI01 CPTI10    0.63
+## 254 CPTI02 CPTI10    0.02
+## 255 CPTI03 CPTI10    0.77
 ## 256 CPTI04 CPTI10    1.00
 ## 257 CPTI05 CPTI10    1.00
-## 258 CPTI06 CPTI10    0.57
-## 259 CPTI07 CPTI10    0.45
+## 258 CPTI06 CPTI10    0.50
+## 259 CPTI07 CPTI10    0.33
 ## 260 CPTI08 CPTI10    1.00
-## 261 CPTI09 CPTI10    0.08
+## 261 CPTI09 CPTI10    0.09
 ## 281 CPTI01 CPTI11    1.00
-## 282 CPTI02 CPTI11    0.64
+## 282 CPTI02 CPTI11    0.45
 ## 283 CPTI03 CPTI11    1.00
 ## 284 CPTI04 CPTI11    1.00
 ## 285 CPTI05 CPTI11    1.00
@@ -1023,389 +1793,565 @@ edges</h4>
 ## 290 CPTI10 CPTI11    1.00
 ## 309 CPTI01 CPTI12    1.00
 ## 310 CPTI02 CPTI12    1.00
-## 311 CPTI03 CPTI12    0.14
-## 312 CPTI04 CPTI12    0.89
+## 311 CPTI03 CPTI12    0.07
+## 312 CPTI04 CPTI12    0.81
 ## 313 CPTI05 CPTI12    0.36
 ## 314 CPTI06 CPTI12    0.31
 ## 315 CPTI07 CPTI12    1.00
-## 316 CPTI08 CPTI12    0.26
-## 317 CPTI09 CPTI12    0.63
-## 318 CPTI10 CPTI12    0.07
-## 319 CPTI11 CPTI12    0.43
+## 316 CPTI08 CPTI12    0.14
+## 317 CPTI09 CPTI12    0.58
+## 318 CPTI10 CPTI12    0.03
+## 319 CPTI11 CPTI12    0.45
 ## 337 CPTI01 CPTI13    1.00
-## 338 CPTI02 CPTI13    0.22
+## 338 CPTI02 CPTI13    0.20
 ## 339 CPTI03 CPTI13    1.00
 ## 340 CPTI04 CPTI13    0.00
 ## 341 CPTI05 CPTI13    1.00
 ## 342 CPTI06 CPTI13    1.00
 ## 343 CPTI07 CPTI13    1.00
-## 344 CPTI08 CPTI13    0.04
+## 344 CPTI08 CPTI13    0.09
 ## 345 CPTI09 CPTI13    1.00
 ## 346 CPTI10 CPTI13    1.00
 ## 347 CPTI11 CPTI13    0.32
-## 348 CPTI12 CPTI13    0.98
+## 348 CPTI12 CPTI13    0.99
 ## 365 CPTI01 CPTI14    1.00
 ## 366 CPTI02 CPTI14    1.00
 ## 367 CPTI03 CPTI14    1.00
 ## 368 CPTI04 CPTI14    1.00
 ## 369 CPTI05 CPTI14    1.00
-## 370 CPTI06 CPTI14    0.32
+## 370 CPTI06 CPTI14    0.29
 ## 371 CPTI07 CPTI14    1.00
 ## 372 CPTI08 CPTI14    1.00
 ## 373 CPTI09 CPTI14    1.00
-## 374 CPTI10 CPTI14    0.75
+## 374 CPTI10 CPTI14    0.76
 ## 375 CPTI11 CPTI14    1.00
-## 376 CPTI12 CPTI14    0.89
+## 376 CPTI12 CPTI14    0.90
 ## 377 CPTI13 CPTI14    1.00
 ## 393 CPTI01 CPTI15    1.00
 ## 394 CPTI02 CPTI15    1.00
 ## 395 CPTI03 CPTI15    1.00
 ## 396 CPTI04 CPTI15    1.00
-## 397 CPTI05 CPTI15    0.41
+## 397 CPTI05 CPTI15    0.44
 ## 398 CPTI06 CPTI15    1.00
-## 399 CPTI07 CPTI15    0.04
-## 400 CPTI08 CPTI15    0.89
-## 401 CPTI09 CPTI15    0.20
-## 402 CPTI10 CPTI15    0.34
+## 399 CPTI07 CPTI15    0.09
+## 400 CPTI08 CPTI15    0.80
+## 401 CPTI09 CPTI15    0.24
+## 402 CPTI10 CPTI15    0.30
 ## 403 CPTI11 CPTI15    0.00
-## 404 CPTI12 CPTI15    0.27
+## 404 CPTI12 CPTI15    0.19
 ## 405 CPTI13 CPTI15    1.00
-## 406 CPTI14 CPTI15    0.47
+## 406 CPTI14 CPTI15    0.54
 ## 421 CPTI01 CPTI16    0.02
 ## 422 CPTI02 CPTI16    1.00
 ## 423 CPTI03 CPTI16    1.00
 ## 424 CPTI04 CPTI16    1.00
 ## 425 CPTI05 CPTI16    1.00
-## 426 CPTI06 CPTI16    0.49
-## 427 CPTI07 CPTI16    0.55
+## 426 CPTI06 CPTI16    0.37
+## 427 CPTI07 CPTI16    0.59
 ## 428 CPTI08 CPTI16    1.00
 ## 429 CPTI09 CPTI16    0.01
-## 430 CPTI10 CPTI16    0.20
-## 431 CPTI11 CPTI16    0.22
-## 432 CPTI12 CPTI16    0.58
+## 430 CPTI10 CPTI16    0.29
+## 431 CPTI11 CPTI16    0.16
+## 432 CPTI12 CPTI16    0.64
 ## 433 CPTI13 CPTI16    1.00
-## 434 CPTI14 CPTI16    0.96
-## 435 CPTI15 CPTI16    0.25
+## 434 CPTI14 CPTI16    0.85
+## 435 CPTI15 CPTI16    0.33
 ## 449 CPTI01 CPTI17    1.00
-## 450 CPTI02 CPTI17    0.02
+## 450 CPTI02 CPTI17    0.10
 ## 451 CPTI03 CPTI17    1.00
-## 452 CPTI04 CPTI17    0.40
-## 453 CPTI05 CPTI17    0.79
-## 454 CPTI06 CPTI17    0.53
+## 452 CPTI04 CPTI17    0.38
+## 453 CPTI05 CPTI17    0.80
+## 454 CPTI06 CPTI17    0.51
 ## 455 CPTI07 CPTI17    1.00
-## 456 CPTI08 CPTI17    0.87
-## 457 CPTI09 CPTI17    0.00
-## 458 CPTI10 CPTI17    0.11
+## 456 CPTI08 CPTI17    0.92
+## 457 CPTI09 CPTI17    0.04
+## 458 CPTI10 CPTI17    0.15
 ## 459 CPTI11 CPTI17    1.00
-## 460 CPTI12 CPTI17    0.19
-## 461 CPTI13 CPTI17    0.95
-## 462 CPTI14 CPTI17    0.99
-## 463 CPTI15 CPTI17    0.39
-## 464 CPTI16 CPTI17    0.41
-## 477 CPTI01 CPTI18    0.78
-## 478 CPTI02 CPTI18    0.66
+## 460 CPTI12 CPTI17    0.20
+## 461 CPTI13 CPTI17    0.94
+## 462 CPTI14 CPTI17    0.97
+## 463 CPTI15 CPTI17    0.33
+## 464 CPTI16 CPTI17    0.46
+## 477 CPTI01 CPTI18    0.84
+## 478 CPTI02 CPTI18    0.68
 ## 479 CPTI03 CPTI18    1.00
-## 480 CPTI04 CPTI18    0.53
+## 480 CPTI04 CPTI18    0.45
 ## 481 CPTI05 CPTI18    1.00
 ## 482 CPTI06 CPTI18    1.00
-## 483 CPTI07 CPTI18    0.05
+## 483 CPTI07 CPTI18    0.01
 ## 484 CPTI08 CPTI18    0.79
 ## 485 CPTI09 CPTI18    1.00
 ## 486 CPTI10 CPTI18    1.00
-## 487 CPTI11 CPTI18    0.43
-## 488 CPTI12 CPTI18    0.21
-## 489 CPTI13 CPTI18    0.38
+## 487 CPTI11 CPTI18    0.37
+## 488 CPTI12 CPTI18    0.15
+## 489 CPTI13 CPTI18    0.17
 ## 490 CPTI14 CPTI18    1.00
-## 491 CPTI15 CPTI18    0.40
-## 492 CPTI16 CPTI18    0.13
-## 493 CPTI17 CPTI18    0.44
+## 491 CPTI15 CPTI18    0.35
+## 492 CPTI16 CPTI18    0.04
+## 493 CPTI17 CPTI18    0.49
 ## 505 CPTI01 CPTI19    1.00
 ## 506 CPTI02 CPTI19    1.00
-## 507 CPTI03 CPTI19    0.25
-## 508 CPTI04 CPTI19    0.44
+## 507 CPTI03 CPTI19    0.22
+## 508 CPTI04 CPTI19    0.29
 ## 509 CPTI05 CPTI19    1.00
-## 510 CPTI06 CPTI19    0.90
+## 510 CPTI06 CPTI19    0.87
 ## 511 CPTI07 CPTI19    1.00
-## 512 CPTI08 CPTI19    0.02
+## 512 CPTI08 CPTI19    0.01
 ## 513 CPTI09 CPTI19    1.00
-## 514 CPTI10 CPTI19    0.34
+## 514 CPTI10 CPTI19    0.29
 ## 515 CPTI11 CPTI19    1.00
-## 516 CPTI12 CPTI19    0.56
+## 516 CPTI12 CPTI19    0.57
 ## 517 CPTI13 CPTI19    1.00
 ## 518 CPTI14 CPTI19    0.14
 ## 519 CPTI15 CPTI19    1.00
-## 520 CPTI16 CPTI19    0.87
+## 520 CPTI16 CPTI19    0.90
 ## 521 CPTI17 CPTI19    0.59
 ## 522 CPTI18 CPTI19    1.00
 ## 533 CPTI01 CPTI20    1.00
-## 534 CPTI02 CPTI20    0.00
-## 535 CPTI03 CPTI20    0.26
-## 536 CPTI04 CPTI20    0.52
+## 534 CPTI02 CPTI20    0.02
+## 535 CPTI03 CPTI20    0.23
+## 536 CPTI04 CPTI20    0.47
 ## 537 CPTI05 CPTI20    1.00
 ## 538 CPTI06 CPTI20    1.00
 ## 539 CPTI07 CPTI20    1.00
 ## 540 CPTI08 CPTI20    1.00
 ## 541 CPTI09 CPTI20    1.00
-## 542 CPTI10 CPTI20    0.04
-## 543 CPTI11 CPTI20    0.59
-## 544 CPTI12 CPTI20    0.57
+## 542 CPTI10 CPTI20    0.05
+## 543 CPTI11 CPTI20    0.67
+## 544 CPTI12 CPTI20    0.55
 ## 545 CPTI13 CPTI20    1.00
-## 546 CPTI14 CPTI20    0.68
+## 546 CPTI14 CPTI20    0.65
 ## 547 CPTI15 CPTI20    1.00
-## 548 CPTI16 CPTI20    0.56
-## 549 CPTI17 CPTI20    0.32
-## 550 CPTI18 CPTI20    0.67
-## 551 CPTI19 CPTI20    0.91
+## 548 CPTI16 CPTI20    0.63
+## 549 CPTI17 CPTI20    0.33
+## 550 CPTI18 CPTI20    0.64
+## 551 CPTI19 CPTI20    0.83
 ## 561 CPTI01 CPTI21    1.00
 ## 562 CPTI02 CPTI21    1.00
 ## 563 CPTI03 CPTI21    1.00
-## 564 CPTI04 CPTI21    0.50
-## 565 CPTI05 CPTI21    0.34
+## 564 CPTI04 CPTI21    0.56
+## 565 CPTI05 CPTI21    0.29
 ## 566 CPTI06 CPTI21    1.00
 ## 567 CPTI07 CPTI21    1.00
-## 568 CPTI08 CPTI21    0.23
-## 569 CPTI09 CPTI21    0.33
+## 568 CPTI08 CPTI21    0.27
+## 569 CPTI09 CPTI21    0.19
 ## 570 CPTI10 CPTI21    0.17
 ## 571 CPTI11 CPTI21    1.00
-## 572 CPTI12 CPTI21    0.93
-## 573 CPTI13 CPTI21    0.33
+## 572 CPTI12 CPTI21    0.92
+## 573 CPTI13 CPTI21    0.36
 ## 574 CPTI14 CPTI21    1.00
-## 575 CPTI15 CPTI21    0.09
-## 576 CPTI16 CPTI21    0.06
+## 575 CPTI15 CPTI21    0.14
+## 576 CPTI16 CPTI21    0.11
 ## 577 CPTI17 CPTI21    1.00
-## 578 CPTI18 CPTI21    0.45
+## 578 CPTI18 CPTI21    0.52
 ## 579 CPTI19 CPTI21    1.00
 ## 580 CPTI20 CPTI21    0.00
 ## 589 CPTI01 CPTI22    1.00
 ## 590 CPTI02 CPTI22    1.00
 ## 591 CPTI03 CPTI22    1.00
-## 592 CPTI04 CPTI22    0.37
+## 592 CPTI04 CPTI22    0.38
 ## 593 CPTI05 CPTI22    1.00
 ## 594 CPTI06 CPTI22    1.00
 ## 595 CPTI07 CPTI22    1.00
-## 596 CPTI08 CPTI22    0.14
+## 596 CPTI08 CPTI22    0.10
 ## 597 CPTI09 CPTI22    1.00
 ## 598 CPTI10 CPTI22    1.00
 ## 599 CPTI11 CPTI22    1.00
-## 600 CPTI12 CPTI22    0.76
-## 601 CPTI13 CPTI22    0.46
+## 600 CPTI12 CPTI22    0.81
+## 601 CPTI13 CPTI22    0.38
 ## 602 CPTI14 CPTI22    1.00
 ## 603 CPTI15 CPTI22    0.13
-## 604 CPTI16 CPTI22    0.22
+## 604 CPTI16 CPTI22    0.29
 ## 605 CPTI17 CPTI22    0.24
-## 606 CPTI18 CPTI22    0.48
+## 606 CPTI18 CPTI22    0.57
 ## 607 CPTI19 CPTI22    1.00
-## 608 CPTI20 CPTI22    0.26
-## 609 CPTI21 CPTI22    0.08
+## 608 CPTI20 CPTI22    0.31
+## 609 CPTI21 CPTI22    0.04
 ## 617 CPTI01 CPTI23    1.00
-## 618 CPTI02 CPTI23    0.29
-## 619 CPTI03 CPTI23    0.53
-## 620 CPTI04 CPTI23    0.51
-## 621 CPTI05 CPTI23    0.42
-## 622 CPTI06 CPTI23    0.04
-## 623 CPTI07 CPTI23    0.84
+## 618 CPTI02 CPTI23    0.31
+## 619 CPTI03 CPTI23    0.37
+## 620 CPTI04 CPTI23    0.60
+## 621 CPTI05 CPTI23    0.44
+## 622 CPTI06 CPTI23    0.02
+## 623 CPTI07 CPTI23    0.85
 ## 624 CPTI08 CPTI23    0.09
 ## 625 CPTI09 CPTI23    1.00
-## 626 CPTI10 CPTI23    0.32
-## 627 CPTI11 CPTI23    0.09
-## 628 CPTI12 CPTI23    0.54
-## 629 CPTI13 CPTI23    0.33
+## 626 CPTI10 CPTI23    0.38
+## 627 CPTI11 CPTI23    0.05
+## 628 CPTI12 CPTI23    0.62
+## 629 CPTI13 CPTI23    0.32
 ## 630 CPTI14 CPTI23    0.00
 ## 631 CPTI15 CPTI23    1.00
 ## 632 CPTI16 CPTI23    1.00
-## 633 CPTI17 CPTI23    0.03
+## 633 CPTI17 CPTI23    0.08
 ## 634 CPTI18 CPTI23    1.00
 ## 635 CPTI19 CPTI23    0.03
-## 636 CPTI20 CPTI23    0.97
-## 637 CPTI21 CPTI23    0.21
+## 636 CPTI20 CPTI23    0.94
+## 637 CPTI21 CPTI23    0.37
 ## 638 CPTI22 CPTI23    0.81
 ## 645 CPTI01 CPTI24    1.00
 ## 646 CPTI02 CPTI24    1.00
 ## 647 CPTI03 CPTI24    1.00
 ## 648 CPTI04 CPTI24    1.00
-## 649 CPTI05 CPTI24    0.02
+## 649 CPTI05 CPTI24    0.01
 ## 650 CPTI06 CPTI24    1.00
-## 651 CPTI07 CPTI24    0.95
+## 651 CPTI07 CPTI24    0.85
 ## 652 CPTI08 CPTI24    0.68
 ## 653 CPTI09 CPTI24    1.00
-## 654 CPTI10 CPTI24    0.73
-## 655 CPTI11 CPTI24    0.25
+## 654 CPTI10 CPTI24    0.78
+## 655 CPTI11 CPTI24    0.11
 ## 656 CPTI12 CPTI24    1.00
 ## 657 CPTI13 CPTI24    1.00
 ## 658 CPTI14 CPTI24    1.00
 ## 659 CPTI15 CPTI24    1.00
 ## 660 CPTI16 CPTI24    1.00
 ## 661 CPTI17 CPTI24    1.00
-## 662 CPTI18 CPTI24    0.74
-## 663 CPTI19 CPTI24    0.93
+## 662 CPTI18 CPTI24    0.72
+## 663 CPTI19 CPTI24    0.92
 ## 664 CPTI20 CPTI24    1.00
-## 665 CPTI21 CPTI24    0.11
-## 666 CPTI22 CPTI24    0.17
-## 667 CPTI23 CPTI24    0.18
+## 665 CPTI21 CPTI24    0.16
+## 666 CPTI22 CPTI24    0.19
+## 667 CPTI23 CPTI24    0.17
 ## 673 CPTI01 CPTI25    0.02
 ## 674 CPTI02 CPTI25    1.00
-## 675 CPTI03 CPTI25    0.05
-## 676 CPTI04 CPTI25    0.88
-## 677 CPTI05 CPTI25    0.02
-## 678 CPTI06 CPTI25    0.17
+## 675 CPTI03 CPTI25    0.02
+## 676 CPTI04 CPTI25    0.87
+## 677 CPTI05 CPTI25    0.05
+## 678 CPTI06 CPTI25    0.19
 ## 679 CPTI07 CPTI25    1.00
-## 680 CPTI08 CPTI25    0.56
+## 680 CPTI08 CPTI25    0.60
 ## 681 CPTI09 CPTI25    1.00
 ## 682 CPTI10 CPTI25    1.00
 ## 683 CPTI11 CPTI25    1.00
 ## 684 CPTI12 CPTI25    1.00
-## 685 CPTI13 CPTI25    0.04
-## 686 CPTI14 CPTI25    0.83
-## 687 CPTI15 CPTI25    0.87
-## 688 CPTI16 CPTI25    0.12
-## 689 CPTI17 CPTI25    0.48
+## 685 CPTI13 CPTI25    0.05
+## 686 CPTI14 CPTI25    0.88
+## 687 CPTI15 CPTI25    0.78
+## 688 CPTI16 CPTI25    0.09
+## 689 CPTI17 CPTI25    0.58
 ## 690 CPTI18 CPTI25    1.00
 ## 691 CPTI19 CPTI25    1.00
-## 692 CPTI20 CPTI25    0.34
-## 693 CPTI21 CPTI25    0.36
-## 694 CPTI22 CPTI25    0.76
-## 695 CPTI23 CPTI25    0.60
-## 696 CPTI24 CPTI25    0.12
+## 692 CPTI20 CPTI25    0.46
+## 693 CPTI21 CPTI25    0.46
+## 694 CPTI22 CPTI25    0.62
+## 695 CPTI23 CPTI25    0.52
+## 696 CPTI24 CPTI25    0.13
 ## 701 CPTI01 CPTI26    1.00
 ## 702 CPTI02 CPTI26    1.00
 ## 703 CPTI03 CPTI26    1.00
-## 704 CPTI04 CPTI26    0.28
+## 704 CPTI04 CPTI26    0.26
 ## 705 CPTI05 CPTI26    0.97
 ## 706 CPTI06 CPTI26    1.00
 ## 707 CPTI07 CPTI26    1.00
 ## 708 CPTI08 CPTI26    0.02
-## 709 CPTI09 CPTI26    0.05
+## 709 CPTI09 CPTI26    0.02
 ## 710 CPTI10 CPTI26    1.00
 ## 711 CPTI11 CPTI26    1.00
 ## 712 CPTI12 CPTI26    1.00
 ## 713 CPTI13 CPTI26    1.00
 ## 714 CPTI14 CPTI26    1.00
-## 715 CPTI15 CPTI26    0.26
+## 715 CPTI15 CPTI26    0.28
 ## 716 CPTI16 CPTI26    1.00
 ## 717 CPTI17 CPTI26    1.00
 ## 718 CPTI18 CPTI26    0.10
 ## 719 CPTI19 CPTI26    1.00
 ## 720 CPTI20 CPTI26    1.00
-## 721 CPTI21 CPTI26    0.22
+## 721 CPTI21 CPTI26    0.18
 ## 722 CPTI22 CPTI26    1.00
-## 723 CPTI23 CPTI26    0.40
+## 723 CPTI23 CPTI26    0.28
 ## 724 CPTI24 CPTI26    1.00
-## 725 CPTI25 CPTI26    0.15
+## 725 CPTI25 CPTI26    0.19
 ## 729 CPTI01 CPTI27    1.00
 ## 730 CPTI02 CPTI27    1.00
 ## 731 CPTI03 CPTI27    1.00
 ## 732 CPTI04 CPTI27    0.00
 ## 733 CPTI05 CPTI27    1.00
 ## 734 CPTI06 CPTI27    1.00
-## 735 CPTI07 CPTI27    0.11
-## 736 CPTI08 CPTI27    0.28
+## 735 CPTI07 CPTI27    0.07
+## 736 CPTI08 CPTI27    0.40
 ## 737 CPTI09 CPTI27    1.00
 ## 738 CPTI10 CPTI27    1.00
-## 739 CPTI11 CPTI27    0.25
+## 739 CPTI11 CPTI27    0.35
 ## 740 CPTI12 CPTI27    1.00
 ## 741 CPTI13 CPTI27    0.51
-## 742 CPTI14 CPTI27    0.54
-## 743 CPTI15 CPTI27    0.32
+## 742 CPTI14 CPTI27    0.41
+## 743 CPTI15 CPTI27    0.35
 ## 744 CPTI16 CPTI27    1.00
-## 745 CPTI17 CPTI27    0.69
-## 746 CPTI18 CPTI27    0.66
+## 745 CPTI17 CPTI27    0.72
+## 746 CPTI18 CPTI27    0.56
 ## 747 CPTI19 CPTI27    1.00
-## 748 CPTI20 CPTI27    0.75
-## 749 CPTI21 CPTI27    0.60
-## 750 CPTI22 CPTI27    0.56
-## 751 CPTI23 CPTI27    0.83
-## 752 CPTI24 CPTI27    0.22
+## 748 CPTI20 CPTI27    0.74
+## 749 CPTI21 CPTI27    0.55
+## 750 CPTI22 CPTI27    0.55
+## 751 CPTI23 CPTI27    0.78
+## 752 CPTI24 CPTI27    0.25
 ## 753 CPTI25 CPTI27    0.11
-## 754 CPTI26 CPTI27    0.91
-## 757 CPTI01 CPTI28    0.31
+## 754 CPTI26 CPTI27    0.94
+## 757 CPTI01 CPTI28    0.29
 ## 758 CPTI02 CPTI28    1.00
-## 759 CPTI03 CPTI28    0.22
+## 759 CPTI03 CPTI28    0.13
 ## 760 CPTI04 CPTI28    1.00
 ## 761 CPTI05 CPTI28    1.00
-## 762 CPTI06 CPTI28    0.66
+## 762 CPTI06 CPTI28    0.65
 ## 763 CPTI07 CPTI28    1.00
-## 764 CPTI08 CPTI28    0.08
-## 765 CPTI09 CPTI28    0.04
-## 766 CPTI10 CPTI28    0.85
-## 767 CPTI11 CPTI28    0.12
-## 768 CPTI12 CPTI28    0.61
+## 764 CPTI08 CPTI28    0.09
+## 765 CPTI09 CPTI28    0.06
+## 766 CPTI10 CPTI28    0.82
+## 767 CPTI11 CPTI28    0.08
+## 768 CPTI12 CPTI28    0.66
 ## 769 CPTI13 CPTI28    1.00
-## 770 CPTI14 CPTI28    0.83
+## 770 CPTI14 CPTI28    0.73
 ## 771 CPTI15 CPTI28    1.00
-## 772 CPTI16 CPTI28    0.71
+## 772 CPTI16 CPTI28    0.67
 ## 773 CPTI17 CPTI28    1.00
 ## 774 CPTI18 CPTI28    0.00
-## 775 CPTI19 CPTI28    0.18
-## 776 CPTI20 CPTI28    0.35
+## 775 CPTI19 CPTI28    0.23
+## 776 CPTI20 CPTI28    0.40
 ## 777 CPTI21 CPTI28    1.00
 ## 778 CPTI22 CPTI28    1.00
-## 779 CPTI23 CPTI28    0.20
-## 780 CPTI24 CPTI28    0.30
-## 781 CPTI25 CPTI28    0.78
+## 779 CPTI23 CPTI28    0.26
+## 780 CPTI24 CPTI28    0.29
+## 781 CPTI25 CPTI28    0.76
 ## 782 CPTI26 CPTI28    1.00
-## 783 CPTI27 CPTI28    0.24</code></pre>
-<pre class="r"><code>sum(compare_12$einv.pvals$&quot;p-value&quot; &lt; 0.05) #查看P值小于.05的数量</code></pre>
-<pre><code>## [1] 28</code></pre>
+## 783 CPTI27 CPTI28    0.26</code></pre>
+<pre class="r"><code>sum(compare_12$einv.pvals$&quot;p-value&quot; &lt; 0.05)</code></pre>
+<pre><code>## [1] 27</code></pre>
 </div>
 <div id="differences-in-centralities-p-value" class="section level4">
 <h4>(5) differences in centralities: p-value</h4>
-<pre class="r"><code>compare_12$diffcen.pval#查看网络在中心指标强度上置换检验是否存在显著性差异：P值</code></pre>
+<pre class="r"><code>compare_12$diffcen.pval#p value of the differences in centralities.</code></pre>
 <pre><code>##        strength
-## CPTI01     0.93
-## CPTI02     0.55
-## CPTI03     0.79
-## CPTI04     0.39
-## CPTI05     0.86
-## CPTI06     0.46
-## CPTI07     0.49
-## CPTI08     0.97
-## CPTI09     0.96
-## CPTI10     0.57
-## CPTI11     0.62
-## CPTI12     0.61
-## CPTI13     0.30
-## CPTI14     0.54
-## CPTI15     0.97
-## CPTI16     0.55
-## CPTI17     0.31
-## CPTI18     0.21
-## CPTI19     0.38
-## CPTI20     0.06
-## CPTI21     0.12
-## CPTI22     0.21
-## CPTI23     0.82
-## CPTI24     0.78
-## CPTI25     0.01
-## CPTI26     0.85
-## CPTI27     0.16
-## CPTI28     0.58</code></pre>
-<pre class="r"><code>sum(compare_12$diffcen.pval&lt; 0.05)#查看P值小于.05的数量</code></pre>
-<pre><code>## [1] 1</code></pre>
-<p>结果解读：说明Data1和Data2所构建的网络之间基本一致。</p>
+## CPTI01     0.89
+## CPTI02     0.60
+## CPTI03     0.86
+## CPTI04     0.43
+## CPTI05     0.75
+## CPTI06     0.47
+## CPTI07     0.53
+## CPTI08     0.94
+## CPTI09     0.94
+## CPTI10     0.51
+## CPTI11     0.64
+## CPTI12     0.58
+## CPTI13     0.23
+## CPTI14     0.60
+## CPTI15     0.93
+## CPTI16     0.58
+## CPTI17     0.30
+## CPTI18     0.12
+## CPTI19     0.35
+## CPTI20     0.09
+## CPTI21     0.09
+## CPTI22     0.23
+## CPTI23     0.81
+## CPTI24     0.80
+## CPTI25     0.05
+## CPTI26     0.86
+## CPTI27     0.20
+## CPTI28     0.55</code></pre>
+<pre class="r"><code>sum(compare_12$diffcen.pval&lt; 0.05)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>It shows that the networks between Data1 and Data2 were similar.</p>
 </div>
 </div>
 </div>
-<div id="总结" class="section level2">
-<h2>4. 总结</h2>
-<p>综上，通过两项研究实例具体展示如何通过使用R语言进行一项网络分析，具体使用以下R包来实现统计分析：<code>qgraph</code>，<code>bootnet</code>,<code>NetworkComparisonTest</code>,包括网络结构的估计、中心指标的计算、网络分析准确性分析以及网络分析的比较检验。<br />
-作为一种新取向，网络分析在临床心理学领域为理解精神障碍和症状之间关系提供了新的视角。纵然已有一些研究成果，但目前处于初步发展阶段，需要更多研究对这种方法进行探索与验证以保证其在心理学领域的推广性。</p>
+<div id="special-issues" class="section level2">
+<h2>4. Special issues</h2>
+<div id="missing-value" class="section level3">
+<h3>4.1 Missing value</h3>
+<p>Question 1: Is it possible to handle missing values directly in the
+packages?<br />
+Question 2: What are the functions to deal with the missing values?</p>
+<div id="cor_auto" class="section level4">
+<h4>1. cor_auto()</h4>
+<p>Add missing parameter for dealing with missing values.</p>
+<pre class="r"><code>library(car)
+data1[5,]=car::recode(data1[5,],&quot;1=NA;2=3;3=NA;4=1;else=NA&quot;)
+sum(is.na(data1))</code></pre>
+<pre><code>## [1] 15</code></pre>
+<pre class="r"><code>c1=cor_auto(data1, missing = &quot;pairwise&quot;)#using pairwise
+q_cor_auto1&lt;-qgraph(c1,groups=ICU24groups,minimum=0.15,cut=0.4,vsize=6,
+                   legend=TRUE,borders=TRUE,layout=&quot;spring&quot;,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.15,label.cex=1,
+                   labels=Labels,nodeNames=Names, 
+                   mar=c(4,1,2,2))</code></pre>
+<pre><code>## Warning in mapply(strwidth, s = labels, cex = ones): longer argument not a
+## multiple of length of shorter</code></pre>
+<pre><code>## Warning in pmax(sapply(ones, function(x) strwidth(label.norm, cex = x)), : an
+## argument will be fractionally recycled</code></pre>
+<pre><code>## Warning in mapply(strheight, s = labels, cex = ones): longer argument not a
+## multiple of length of shorter</code></pre>
+<pre><code>## Warning in pmax(sapply(ones, function(x) strheight(label.norm, cex = x)), : an
+## argument will be fractionally recycled</code></pre>
+<pre><code>## Warning in (VWidths * label.fill.horizontal)/LWidths: longer object length is
+## not a multiple of shorter object length</code></pre>
+<pre><code>## Warning in (VHeights * label.fill.vertical)/LHeights: longer object length is
+## not a multiple of shorter object length</code></pre>
+<pre><code>## Warning in label.cex * label.prop * pmin((VWidths *
+## label.fill.horizontal)/LWidths, : longer object length is not a multiple of
+## shorter object length</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/missing1-1.png" width="672" /></p>
 </div>
-<div id="学习资源分享" class="section level2">
-<h2>5. 学习资源分享</h2>
-<div id="cran-r包-documentation" class="section level3">
-<h3>5.1 CRAN R包 documentation</h3>
-<p>由于开发者会对R包进行更新，具体语句以对应版本的手册说明为准。</p>
-<pre class="r"><code>help(package=&quot;qgraph&quot;)#查阅手册
+<div id="estimatenetwork" class="section level4">
+<h4>2. estimateNetwork()</h4>
+<pre class="r"><code>Network_glasso &lt;- estimateNetwork(data1, default = &quot;EBICglasso&quot;,corMethod = &quot;cor_auto&quot;,missing=&quot;pairwise&quot;) # missing include：&quot;pairwise&quot;, &quot;listwise&quot;, &quot;fiml&quot;, &quot;stop&quot;
+plot(Network_glasso, layout = &#39;spring&#39;,groups=ICU24groups,vsize=6,
+                   legend=TRUE,borders=TRUE,
+                   palette=&quot;colorblind&quot;,
+                   legend.cex=0.15,label.cex=1,height=5,width=5,
+                   labels=Labels,nodeNames=Names, mar=c(4,1,2,2))#建立网络图</code></pre>
+<pre><code>## Warning in mapply(strwidth, s = labels, cex = ones): longer argument not a
+## multiple of length of shorter</code></pre>
+<pre><code>## Warning in pmax(sapply(ones, function(x) strwidth(label.norm, cex = x)), : an
+## argument will be fractionally recycled</code></pre>
+<pre><code>## Warning in mapply(strheight, s = labels, cex = ones): longer argument not a
+## multiple of length of shorter</code></pre>
+<pre><code>## Warning in pmax(sapply(ones, function(x) strheight(label.norm, cex = x)), : an
+## argument will be fractionally recycled</code></pre>
+<pre><code>## Warning in (VWidths * label.fill.horizontal)/LWidths: longer object length is
+## not a multiple of shorter object length</code></pre>
+<pre><code>## Warning in (VHeights * label.fill.vertical)/LHeights: longer object length is
+## not a multiple of shorter object length</code></pre>
+<pre><code>## Warning in label.cex * label.prop * pmin((VWidths *
+## label.fill.horizontal)/LWidths, : longer object length is not a multiple of
+## shorter object length</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/missing2-1.png" width="672" /></p>
+</div>
+</div>
+<div id="types-of-correlation" class="section level3">
+<h3>4.2 Types of correlation</h3>
+<ul>
+<li>Determine the corresponding correlation matrix according to the
+variable type<br />
+</li>
+<li>Automatically calculate the appropriate correlation matrix by using
+the function <code>cor_auto</code>:
+<ul>
+<li>continuous variables: Pearson correlation<br />
+</li>
+<li>ordinal variables: polychoric correlation</li>
+</ul></li>
+</ul>
+<p>From the figure below, it showed that there is little difference
+between the two types of correlation matrices.</p>
+<pre class="r"><code>library(&quot;lavaan&quot;)
+data(HolzingerSwineford1939)#load data
+head(HolzingerSwineford1939)</code></pre>
+<pre><code>##   id sex ageyr agemo  school grade       x1   x2    x3       x4   x5        x6
+## 1  1   1    13     1 Pasteur     7 3.333333 7.75 0.375 2.333333 5.75 1.2857143
+## 2  2   2    13     7 Pasteur     7 5.333333 5.25 2.125 1.666667 3.00 1.2857143
+## 3  3   2    13     1 Pasteur     7 4.500000 5.25 1.875 1.000000 1.75 0.4285714
+## 4  4   1    13     2 Pasteur     7 5.333333 7.75 3.000 2.666667 4.50 2.4285714
+## 5  5   2    12     2 Pasteur     7 4.833333 4.75 0.875 2.666667 4.00 2.5714286
+## 6  6   2    14     1 Pasteur     7 5.333333 5.00 2.250 1.000000 3.00 0.8571429
+##         x7   x8       x9
+## 1 3.391304 5.75 6.361111
+## 2 3.782609 6.25 7.916667
+## 3 3.260870 3.90 4.416667
+## 4 3.000000 5.30 4.861111
+## 5 3.695652 6.30 5.916667
+## 6 4.347826 6.65 7.500000</code></pre>
+<pre class="r"><code># Holzinger and Swineford (1939) example 
+HS9 &lt;- HolzingerSwineford1939[,c(&quot;x1&quot;,&quot;x2&quot;,&quot;x3&quot;,&quot;x4&quot;,&quot;x5&quot;, &quot;x6&quot;,&quot;x7&quot;,&quot;x8&quot;,&quot;x9&quot;)]
+
+# Pearson correlations 
+qgraph_HS9_pearson&lt;-qgraph(cor_auto(HS9))</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/cor_auto-1.png" width="672" /></p>
+<pre class="r"><code># ordinal version, with three categories 
+HS9ord &lt;- as.data.frame( lapply(HS9, cut, 3, labels=FALSE) )
+
+# polychoric correlations, two-stage estimation 
+cor_auto(HS9ord)</code></pre>
+<pre><code>##           x1          x2         x3        x4        x5         x6          x7
+## x1 1.0000000  0.31737868 0.50800042 0.3731572 0.3081058 0.31921472  0.11331568
+## x2 0.3173787  1.00000000 0.30390796 0.2733728 0.2256354 0.27383198 -0.09673879
+## x3 0.5080004  0.30390796 1.00000000 0.1364252 0.1249657 0.21455081  0.05765444
+## x4 0.3731572  0.27337284 0.13642522 1.0000000 0.8005849 0.68345761  0.16911211
+## x5 0.3081058  0.22563537 0.12496565 0.8005849 1.0000000 0.78341256  0.13591655
+## x6 0.3192147  0.27383198 0.21455081 0.6834576 0.7834126 1.00000000  0.07088066
+## x7 0.1133157 -0.09673879 0.05765444 0.1691121 0.1359165 0.07088066  1.00000000
+## x8 0.1473459  0.09448710 0.09093286 0.1116222 0.1602241 0.18470480  0.55223398
+## x9 0.4589304  0.20433004 0.28625221 0.2581729 0.2648756 0.25540008  0.36540712
+##            x8        x9
+## x1 0.14734591 0.4589304
+## x2 0.09448710 0.2043300
+## x3 0.09093286 0.2862522
+## x4 0.11162216 0.2581729
+## x5 0.16022406 0.2648756
+## x6 0.18470480 0.2554001
+## x7 0.55223398 0.3654071
+## x8 1.00000000 0.4539193
+## x9 0.45391934 1.0000000</code></pre>
+<pre class="r"><code>qgraph_HS9_ord&lt;-qgraph(cor_auto(HS9ord))</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/cor_auto-2.png" width="672" /></p>
+<pre class="r"><code>centralityPlot(list(Pearson=cor_auto(HS9),
+                    Ordinal =cor_auto(HS9ord)), 
+               include=c(&quot;Strength&quot;,&quot;Closeness&quot;))</code></pre>
+<p><img src="Tutorial_Network-analysis_files/figure-html/cor_auto-3.png" width="672" /></p>
+</div>
+</div>
+<div id="take-away-message" class="section level2">
+<h2>5.Take-away message</h2>
+<ul>
+<li><p>This tutorial presents how to conduct network analysis, from the
+basic network to the network comparison across time-points using
+multiple packages (<code>qgraph</code>, <code>bootnet</code> and
+<code>NetworkComparisonTest</code>), inclduing network estimation,
+network inference, network stability and network comparison.</p></li>
+<li><p>Network analysis has been considered as an alternative approach
+to investigate the data. It also has some similarites on other
+statistical techniques, such as how to deal with missing values,
+outliners and the case of small sample size. Therefore, the analysis
+might consider the actual situation and research purposes.</p></li>
+<li><p>Network analysis provides a new perspective in psychopathology
+for understanding the relationship between mental disorders and
+symptoms. Future studies might consider this approach in various
+research areas.</p></li>
+</ul>
+</div>
+<div id="resources" class="section level2">
+<h2>6. Resources</h2>
+<div id="cran-r-package-documentation" class="section level5">
+<h5>6.1 CRAN R package documentation</h5>
+<p>As the developer might update the R package, the specific code are
+subject to the manual with corresponding version.</p>
+<pre class="r"><code>help(package=&quot;qgraph&quot;)#manual
 ??qgraph
 ??bootnet
 ??NetworkComparisonTest</code></pre>
 </div>
-<div id="参考书籍" class="section level3">
-<h3>5.2 参考书籍</h3>
-<p><a href="https://doi.org/10.4324/9781003111238">Isvoranu, A.-M.,
+<div id="references" class="section level5">
+<h5>6.2 References</h5>
+<p><em>Book</em><br />
+<a href="https://doi.org/10.4324/9781003111238">Isvoranu, A.-M.,
 Epskamp, S., Waldorp, L.J., &amp; Borsboom, D. (Eds.). (2022).
 <em>Network Psychometrics with R: A Guide for Behavioral and Social
 Scientists (1st ed.)</em>. Routledge.</a></p>
+<p><em>Journal</em><br />
+[1] Costantini, G., &amp; Epskamp, S. (2017). EstimateGroupNetwork:
+Perform the joint graphical lasso and selects tuning parameters. R
+package (Version 0.1.2) [Computer software]. <a
+href="https://cran.r-project.org/web/packages/"
+class="uri">https://cran.r-project.org/web/packages/</a>
+EstimateGroupNetwork/index.html<br />
+[2] Epskamp, S., Borsboom, D., &amp; Fried, E. I. (2018). Estimating
+psychological networks and their accuracy: A tutorial paper.
+<em>Behavior Research Methods</em>, <em>50</em>, 195–212. <a
+href="https://" class="uri">https://</a> doi:
+10.3758/s13428-017-0862-1<br />
+[3] Epskamp, S., Cramer, A. O. J., Waldorp, L. J., Schmittmann, V. D.,
+&amp; Borsboom, D. (2012). qgraph: Network visualizations of
+relationships in psychometric data. <em>Journal of Statistical
+Software</em>, <em>48</em>, 1–18. <a
+href="https://doi.org/10.18637/jss.v048.i04"
+class="uri">https://doi.org/10.18637/jss.v048.i04</a><br />
+[4] van Borkulo, C. D., van Bork, R., Boschloo, L., Kossakowski, J. J.,
+Tio, P., Schoevers, R. A., Borsboom, D., &amp; Waldorp, L. J. (2022).
+Comparing network structures on three aspects: A permutation test.
+<em>Psychological Methods</em>. Advance online publication. <a
+href="https://doi.org/10.1037/met0000476"
+class="uri">https://doi.org/10.1037/met0000476</a></p>
 </div>
 </div>
 
