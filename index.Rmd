@@ -19,15 +19,16 @@ output: html_document
 
 #### Welcome to my website!
 ***
-I graduated from the department of psychology at Guangzhou University in China with my Master of Education in Applied Psychology and Bachelor of Science. Currently, I’ve been working as a research fellow at the Centre for Psychometrics and Latent Variable Modeling at Guangzhou University in China.  
-My research interests are focused on understanding the development of psychopathic traits and antisocial behaviors in youth. I am also interested in using multiple methods and statistical techniques, such as meta-analysis and network analysis. Additionally, I am interested in interdisciplinary research, particularly using novel approaches such as machine learning and data mining.  
+Jiaxin has been awarded a studentship funded by the Economic and Social Research Council (ESRC) South West Doctoral Training Partnership ([SWDTP](https://www.swdtp.ac.uk/)) in 2024 and will begin her first year as a doctoral student in September, focusing on [the co-occurrence of antisocial behaviour and substance use](https://researchportal.bath.ac.uk/en/projects/co-occurrence-of-antisocial-behaviour-and-substance-use-from-adol) in the Department of Psychology at the University of Bath.  
+Her research interests focus on understanding the development of psychopathy and antisocial behaviour using multiple quantitative methods and statistical techniques. She is also interested in interdisciplinary research to discover the application of data science in clinical psychology and personality assessment.  
 
 
 ##### Contact
 * Jiaxin Deng
-* E-mail: kammy-tang@hotmail.com
-* [ResearchGate profile](https://www.researchgate.net/profile/Jiaxin_Deng3)
-
+* E-mail: jd2769@bath.ac.uk
+* [Institutional Profile](https://researchportal.bath.ac.uk/en/persons/jiaxin-deng)
+* [ResearchGate Profile](https://www.researchgate.net/profile/Jiaxin_Deng3)
+* [ORCID ID](https://orcid.org/0000-0002-6783-3563)
 
 
 
@@ -38,6 +39,6 @@ My research interests are focused on understanding the development of psychopath
 
 
 
-![](images/pic 1.jpg){width=80%}
+![](images/Jiaxin Deng_profile photo.jpg){width=60%}
 </a>
 </div>
