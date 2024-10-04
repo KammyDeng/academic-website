@@ -17,19 +17,25 @@ knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 
 ### Education
 
+#### Ph.D. Student
+* University of Bath, Sep 2024-present
+* Area of research: [Co-occurrence of antisocial behaviour and substance use from adolescence to early adulthood](https://researchportal.bath.ac.uk/en/projects/co-occurrence-of-antisocial-behaviour-and-substance-use-from-adol) (funded by the ESRC SWDTP, Advanced Quantitative Methods interdisciplinary pathway)
+* Supervisor(s): [Dr Jennifer Allen](https://researchportal.bath.ac.uk/en/persons/jennifer-allen) and [Dr Tom Freeman](https://researchportal.bath.ac.uk/en/persons/tom-freeman) and Dr Gemma Hammerton (University of Bristol) 
+
 #### Master of Education
 * Guangzhou University, 2016 Sep-2020 Jun
 * Specialization: Applied Psychology
 * Master thesis: Developmental trajectories of callous-unemotional traits: Longitudinal associations with parenting stress and parenting behaviours in Chinese community children
-* Supervisor: Dr. Mengcheng Wang 
+* Supervisor: Dr Mengcheng Wang 
 
 #### Bachelor of Science
 * Guangzhou University, 2012 Sep-2016 Jun
 * Specialization: Psychology
 * Bachelor thesis: The relationship between psychopathy and the five-factor model
-* Supervisor: Dr. Mengcheng Wang
+* Supervisor: Dr Mengcheng Wang
 
 ### Honors and Academic Awards
+* Economic and Social Research Council (ESRC)-funded studentship (Mar 2024)
 * Outstanding student of Guangdong Province in 2020 (Apr 2020)
 * Outstanding graduates of Guangzhou University in 2020 (May 2020)
 * The National Scholarship in 2019 (Nov 2019)
@@ -41,25 +47,25 @@ knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 * Second prize of essay activity of Psychology Sub-forum of Graduate Academic Forum of Guangzhou University (Dec 2016)
 
 ### Research Experience
-#### Research fellow, Jul 2022-current 
+#### Research fellow, Jul 2022-Jul 2024 
 * The Centre for Psychometric and Latent Variable modeling, Guangzhou University, Guangzhou, China
-* Principle Investigator: Dr. Mengcheng Wang  
-* Participation in data analysis and report writing about risk assessment in recidivism
-  + Applying machine learning algorithms (e.g., random forest, support vector machines) and network analysis
-* Working on manuscript drafting and revision
+* Principle Investigator: Dr Mengcheng Wang  
+* Main Contributed Projects
+  + Developing risk assessment tools using ML in offenders
+  + Online assessments platform management
 
 #### Visiting student, Dec 2018-Dec 2019
 * Psychophysiology Lab at Brooklyn College, CUNY, New York, NY, USA.  
-* Principle Investigator: Dr. Yu Gao  
+* Principle Investigator: Dr Yu Gao  
 
-#### Research assistant, May 2015- Apr 2021
+#### Research assistant, May 2015-Apr 2021
 * The Centre for Psychometric and Latent Variable Modeling, Guangzhou University, Guangzhou, China
-* Principle Investigator: Dr. Mengcheng Wang
+* Principle Investigator: Dr Mengcheng Wang
 * Responsibilities: Data collection and analysis, Manuscript and research report writing.
 * Main Contributed Projects
-  + July 2020-Mar 2021: Risk assessment in psychiatric prisoners, Guangdong, China.
-  + May 2015-Nov 2020: A follow-up study on the influence of parenting behaviours on callous unemotional traits in community children, Guangdong, China.
-  + Apr 2016-Apr 2017: Development assessment tools about study burden and physical-mental development of comprehensive evaluation of primary and middle school education quality in Chongqing, China. 
+  + Risk assessment in psychiatric prisoners, Guangdong, China.
+  + A longitudinal study in schoolchildren using multi-informant approach, Guangdong, China.
+  + Developing measure for burden and physical-mental facets in youth, Chongqing, China.
 
 ### Conferences and Presentations
 1.	**Deng, J.**, Wang, M., Shou, Y., Gao, Y., Allen, J. & Hawes, D. (Apr 2023). Cross-cultural Network Analysis of Callous-Unemotional Traits in Four International Youth Samples. Oral presentation at the meeting of Guangzhou Psychological Association. Guangzhou University, Guangzhou, China.
@@ -85,5 +91,19 @@ knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 
 #### Social worker (Internship), May 2015-Aug 2015
 * Guangzhou QiChuang Social Work Service Centre, Guangzhou, China.
+* Supporting services for social reintegration for drug users, preventive education & anti-drug publicity
 * Supervisor: Wang Jing, B.S. (Senior social worker)
+
+### Qualifications and Skills
+#### Statistical and programming skills
+  + R programming (as primary tools for analysis), Mplus, SPSS, E-prime, SQL (Basic)
+  + Data cleaning and wrangling, data visualisation. 
+  + Structural Equation Modelling
+  + Psychometrics (e.g., Item analysis, Factor Analysis)
+  + Network Analysis in R (e.g., qgraph, bootnet, NetworkComparisonTest)
+  + Meta-Analysis (e.g., reliability generalization using metafor)
+  + Machine Learning and prediction (e.g., Random Forests, Neural Network, ROC curve).
+
+#### Language Acquisition
+  + English/Mandarin/Cantonese
 

@@ -7,6 +7,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-If you feel interests of my personal profile, please clink the link below for details.  
+If you would like to know more about my personal profile, please click the link below for details.  
 
-[Curriculum Vitae](https://drive.google.com/file/d/13SLuWVT0u_evl_FuYsOcFgsw-dV4Hwnw/view?usp=sharing)
+[Curriculum Vitae](https://drive.google.com/file/d/1hMlXxojKKB_x2PLA5JuDUn6rWMcUJrsb/view?usp=sharing)

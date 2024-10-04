@@ -11,7 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 #### Network analysis
 Wang, M-C. & **Deng, J.** (2023). Reliability Generalization. In Wang, M-C. & Liu, T (Eds.), *Quantitative Research Method in Psychological and Behavioural Science*(in Chinese) (pp. 171-176). Chongqing University Press.  
 Wang, M-C. & **Deng, J.** (2023). Network analysis. In Wang, M-C. & Liu, T (Eds.), *Quantitative Research Method in Psychological and Behavioural Science*(in Chinese) (pp. 198-208). Chongqing University Press.  
-Li, J., **Deng, J.**, Xu, J. (2023). Which Well-Being Elements Are Fundamental for Early Childhood Educators in the Chinese Context? A Network Analysis. *Journal of School Psychology*. Manuscript submitted for publication    
+
+**Deng, J.**, Shou, Y., Wang, M.-C., Allen, J., Gao, Y. & Hawes, D. J. (2024). Core features of Callous-Unemotional Traits: A Cross-Cultural Comparison of Youth in Four Countries. *European Child & Adolescent Psychiatry*. Advance online publication. https://doi.org/10.1007/s00787-023-02357-8  
+Li, J., **Deng, J.**, Xu, J. (2023). Which Well-Being Elements Are Fundamental for Early Childhood Educators in the Chinese Context? A Network Analysis. *Applied Research in Quality of Life*. Advance online publication. https://doi.org/10.1007/s11482-023-10233-5    
 Liu, H., **Deng, J.**, He, J., Zhao, L., Zhang, X. & Wang, M-C. (2023). A Network Analysis of Depression and Anxiety and Their Associations with Resilience and Self-Esteem During the Late Stage of the COVID-19 Pandemic in China. *Journal of Affective Disorders*. Manuscript submitted for publication    
 Zhang, X., **Deng, J.**, Shou, Y., & Wang, M. C. (2022). Longitudinal network structure of child psychopathy across development in chinese community children. *Current Psychology*. https://doi.org/10.1007/s12144-022-03799-0  
 Wang, M.-C., **Deng, J.**, Shou, Y., & Sellbom, M. (2022). Cross-cultural examination of psychopathy network in Chinese and U.S. Prisoners. *Journal of Psychopathology and Behavioral Assessment*. Advance online publication. https://doi.org/10.1007/s10862-022-09960-0  
@@ -23,6 +25,7 @@ Liang, J., Shou, Y., Wang, M-C., **Deng, J.**, & Luo, J. (2021). A reliability g
 **Deng, J.**, Wang, M.-C., Zhang, X., Shou, Y., Gao, Y., & Luo, J. (2019). The Inventory of Callous Unemotional Traits: A reliability generalization meta-analysis. *Psychological Assessment*, *31*, 765–780. http://dx.doi.org/10.1037/pas0000698.  
 
 #### Latent variables modeling
+He, J., Gao, Y., **Deng, J.**. & Wang, M.-C. (2023). Resting Heart Rate Moderates the Relationship between Parental Emotion Socialization and Callous-Unemotional Traits in Children. *European Child & Adolescent Psychiatry*. Advance online publication. https://doi.org/10.1007/s00787-023-02338-x  
 Wang, M.-C., Zhang, X., Gong, J., **Deng, J.**, Luo, J., Gao, Y., & Salekin, R. T. (2022). Variants of Psychopathy in Chinese Juvenile Offenders: A Latent Profile Analysis. *Criminal Justice and Behavior*, *49*, 530–549. https://doi.org/10.1177/00938548211043149   
 **Deng, J.**, Wang, M., Shou, Y., Lai, H., Zeng, H., & Gao, Y. (2020). Parenting Behaviors and Child Psychopathy: A Regression Mixture Analysis. *Current Psychology*.*41*, 3585–3596. https://doi.org/10.1007/s12144-020-00810-4  
 Zhong, C., Wang, M-C., Shou, Y., Zhang, X., & **Deng, J.** (2020). Maternal Parenting Mediate the Relationship between Maternal Psychopathic Traits and 8 to 11-year-old Child Callous-Unemotional Traits: A Longitudinal Multiple Mediation Model. *Journal of Child and Family Studies*, *29*, 3142–3152. https://doi.org/10.1007/s10826-020-01814-1  
